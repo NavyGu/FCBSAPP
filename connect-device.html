@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>连接设备 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">首次连接设备</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="p-6 h-full flex flex-col">
+                        <!-- 顶部标题 -->
+                        <div class="text-center mb-6">
+                            <h1 class="text-2xl font-bold mb-2">连接您的设备</h1>
+                            <p class="text-gray-500 text-sm">首次使用需要连接您的智能设备</p>
+                        </div>
+
+                        <!-- 设备搜索区域 -->
+                        <div class="flex-1 flex flex-col items-center justify-center">
+                            <!-- 搜索动画 -->
+                            <div class="relative w-40 h-40 mb-6">
+                                <!-- 脉冲动画圆环 -->
+                                <div class="absolute inset-0 border-4 border-purple-200 rounded-full animate-ping opacity-25"></div>
+                                <div class="absolute inset-0 border-4 border-purple-300 rounded-full animate-ping opacity-50" style="animation-delay: 0.5s"></div>
+                                <div class="absolute inset-0 border-4 border-purple-400 rounded-full animate-ping opacity-75" style="animation-delay: 1s"></div>
+                                
+                                <!-- 中心图标 - 使用标准蓝牙图标 -->
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="bg-white p-4 rounded-full shadow-lg">
+                                        <svg class="w-8 h-8 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm1-9h3l-4-4-4 4h3v6h-3l4 4 4-4h-3V11z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 搜索状态文本 -->
+                            <p class="text-gray-600 mb-4">正在搜索附近的设备...</p>
+                            
+                            <!-- 设备列表 - 修复横向滚动问题 -->
+                            <div class="w-full max-w-md space-y-3">
+                                <!-- 找到的设备 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm border border-purple-100">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-mobile-alt text-purple-500"></i>
+                                        </div>
+                                        <div class="ml-4 flex-1 min-w-0">
+                                            <h3 class="font-medium truncate">盆底紧致修复仪</h3>
+                                            <p class="text-xs text-gray-500 truncate">型号：FCB-2024</p>
+                                        </div>
+                                        <button id="connectButton" class="bg-purple-500 text-white px-4 py-2 rounded-full text-sm hover:bg-purple-600 transition-colors flex-shrink-0 ml-2">
+                                            连接
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- 搜索中的设备 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 opacity-60">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-spinner fa-spin text-gray-400"></i>
+                                        </div>
+                                        <div class="ml-4 flex-1 min-w-0">
+                                            <div class="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+                                            <div class="h-3 bg-gray-100 rounded w-24 mt-2 animate-pulse"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 底部提示 -->
+                        <div class="mt-6">
+                            <div class="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-3">
+                                <i class="fas fa-info-circle"></i>
+                                <span>请确保设备已开机且在有效范围内</span>
+                            </div>
+                            <button class="w-full bg-gray-100 text-gray-600 py-3 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                                手动添加设备
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取连接按钮
+            const connectButton = document.getElementById('connectButton');
+            
+            // 添加点击事件
+            if (connectButton) {
+                connectButton.addEventListener('click', function() {
+                    // 修改按钮状态，显示连接中
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> 连接中';
+                    this.disabled = true;
+                    this.classList.add('opacity-75');
+                    
+                    // 1.5秒后跳转到设备管理页面
+                    setTimeout(function() {
+                        window.location.href = 'device-management.html';
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

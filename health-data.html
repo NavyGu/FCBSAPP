@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>健康数据 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">健康数据</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航栏 -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                        <div class="flex-1">
+                            <h1 class="text-lg font-bold">健康数据</h1>
+                        </div>
+                        <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class="fas fa-bell text-gray-500"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4">
+                        <!-- 用户健康卡片 -->
+                        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像" class="w-full h-full object-cover">
+                                </div>
+                                <div class="ml-3">
+                                    <h2 class="text-white font-bold">王小明</h2>
+                                    <p class="text-white/80 text-sm">健康状态: 良好</p>
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="bg-white/20 text-white px-3 py-1 rounded-full text-sm">
+                                        <i class="fas fa-award mr-1"></i> 黄金会员
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-3 gap-4 mb-2">
+                                <div class="bg-white/10 rounded-lg p-2">
+                                    <p class="text-white/70 text-xs mb-1 text-center">训练天数</p>
+                                    <p class="text-white font-bold text-center">28天</p>
+                                </div>
+                                <div class="bg-white/10 rounded-lg p-2">
+                                    <p class="text-white/70 text-xs mb-1 text-center">总训练时长</p>
+                                    <p class="text-white font-bold text-center">12小时</p>
+                                </div>
+                                <div class="bg-white/10 rounded-lg p-2">
+                                    <p class="text-white/70 text-xs mb-1 text-center">康复进度</p>
+                                    <p class="text-white font-bold text-center">68%</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 健康指标 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">健康指标</h3>
+                                <span class="text-xs text-blue-500">查看详情</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <!-- 肌肉健康指数 -->
+                                <div class="bg-gray-50 rounded-xl p-3">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs text-gray-500">肌肉健康指数</span>
+                                        <i class="fas fa-dumbbell text-purple-500"></i>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <span class="text-xl font-bold">78</span>
+                                        <span class="text-xs text-gray-500 ml-1 mb-1">/ 100</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                        <div class="bg-purple-500 h-1.5 rounded-full" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 盆底功能评分 -->
+                                <div class="bg-gray-50 rounded-xl p-3">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs text-gray-500">盆底功能评分</span>
+                                        <i class="fas fa-heartbeat text-red-500"></i>
+                                    </div>
+                                    <div class="flex items-end">
+                                        <span class="text-xl font-bold">82</span>
+                                        <span class="text-xs text-gray-500 ml-1 mb-1">/ 100</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                        <div class="bg-red-500 h-1.5 rounded-full" style="width: 82%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 健康评估 -->
+                            <div class="bg-blue-50 border border-blue-100 rounded-lg p-3">
+                                <div class="flex items-start">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <i class="fas fa-stethoscope text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-blue-700">健康评估</h4>
+                                        <p class="text-sm text-blue-600 mt-1">
+                                            您的盆底肌肉功能正在稳步恢复中，目前处于良好状态。建议继续保持规律训练，注意休息，避免过度劳累。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 训练历史 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">训练历史</h3>
+                                <div class="flex items-center space-x-2">
+                                    <button class="px-2 py-1 bg-blue-500 text-white text-xs rounded-md">周</button>
+                                    <button class="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-md">月</button>
+                                    <button class="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-md">年</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 训练频率图表 -->
+                            <div class="bg-gray-50 rounded-xl p-3 mb-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium">训练频率</span>
+                                    <span class="text-xs text-blue-500">本周</span>
+                                </div>
+                                <div class="h-40 w-full relative">
+                                    <!-- 柱状图 -->
+                                    <div class="absolute inset-0 flex items-end justify-between px-2">
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-blue-500 w-6 rounded-t-md" style="height: 60%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">一</span>
+                                        </div>
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-blue-500 w-6 rounded-t-md" style="height: 80%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">二</span>
+                                        </div>
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-gray-300 w-6 rounded-t-md" style="height: 0%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">三</span>
+                                        </div>
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-blue-500 w-6 rounded-t-md" style="height: 70%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">四</span>
+                                        </div>
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-blue-500 w-6 rounded-t-md" style="height: 90%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">五</span>
+                                        </div>
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-blue-500 w-6 rounded-t-md" style="height: 50%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">六</span>
+                                        </div>
+                                        <div class="flex flex-col items-center w-8">
+                                            <div class="bg-blue-500 w-6 rounded-t-md" style="height: 75%"></div>
+                                            <span class="text-xs text-gray-500 mt-1">日</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 网格线 -->
+                                    <div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+                                        <div class="border-b border-gray-200 relative h-0">
+                                            <span class="absolute -top-2 -left-2 text-xs text-gray-400">100%</span>
+                                        </div>
+                                        <div class="border-b border-gray-200 relative h-0">
+                                            <span class="absolute -top-2 -left-2 text-xs text-gray-400">75%</span>
+                                        </div>
+                                        <div class="border-b border-gray-200 relative h-0">
+                                            <span class="absolute -top-2 -left-2 text-xs text-gray-400">50%</span>
+                                        </div>
+                                        <div class="border-b border-gray-200 relative h-0">
+                                            <span class="absolute -top-2 -left-2 text-xs text-gray-400">25%</span>
+                                        </div>
+                                        <div class="relative h-0">
+                                            <span class="absolute -top-2 -left-2 text-xs text-gray-400">0%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 训练强度趋势 -->
+                            <div class="bg-gray-50 rounded-xl p-3 mb-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-sm font-medium">训练强度趋势</span>
+                                    <span class="text-xs text-blue-500">近7天</span>
+                                </div>
+                                <div class="h-40 w-full relative">
+                                    <!-- 趋势线 -->
+                                    <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+                                        <!-- 网格线 -->
+                                        <line x1="0" y1="25" x2="300" y2="25" stroke="#e5e7eb" stroke-width="1" />
+                                        <line x1="0" y1="50" x2="300" y2="50" stroke="#e5e7eb" stroke-width="1" />
+                                        <line x1="0" y1="75" x2="300" y2="75" stroke="#e5e7eb" stroke-width="1" />
+                                        
+                                        <!-- 趋势线 -->
+                                        <polyline 
+                                            points="0,60 50,50 100,55 150,40 200,35 250,30 300,25" 
+                                            fill="none" 
+                                            stroke="#3b82f6" 
+                                            stroke-width="2" />
+                                        
+                                        <!-- 填充区域 -->
+                                        <path 
+                                            d="M0,60 50,50 100,55 150,40 200,35 250,30 300,25 L300,100 L0,100 Z" 
+                                            fill="url(#gradient-blue)" 
+                                            fill-opacity="0.2" />
+                                        
+                                        <!-- 数据点 -->
+                                        <circle cx="0" cy="60" r="3" fill="#3b82f6" />
+                                        <circle cx="50" cy="50" r="3" fill="#3b82f6" />
+                                        <circle cx="100" cy="55" r="3" fill="#3b82f6" />
+                                        <circle cx="150" cy="40" r="3" fill="#3b82f6" />
+                                        <circle cx="200" cy="35" r="3" fill="#3b82f6" />
+                                        <circle cx="250" cy="30" r="3" fill="#3b82f6" />
+                                        <circle cx="300" cy="25" r="3" fill="#3b82f6" />
+                                        
+                                        <!-- 渐变定义 -->
+                                        <defs>
+                                            <linearGradient id="gradient-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" stop-color="#3b82f6" />
+                                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="flex justify-between mt-2 text-xs text-gray-500">
+                                    <span>3/14</span>
+                                    <span>3/15</span>
+                                    <span>3/16</span>
+                                    <span>3/17</span>
+                                    <span>3/18</span>
+                                    <span>3/19</span>
+                                    <span>3/20</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 最近训练记录 -->
+                            <div>
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-medium">最近训练记录</span>
+                                    <span class="text-xs text-blue-500">查看全部</span>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <!-- 训练记录1 -->
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-xl">
+                                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-dumbbell text-blue-500"></i>
+                                        </div>
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <h4 class="text-sm font-medium">初级训练</h4>
+                                                <span class="text-xs text-gray-500">今天</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">完成度: 100%</p>
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star-half-alt text-yellow-400 text-xs ml-0.5"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 训练记录2 -->
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-xl">
+                                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-dumbbell text-blue-500"></i>
+                                        </div>
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <h4 class="text-sm font-medium">初级训练</h4>
+                                                <span class="text-xs text-gray-500">昨天</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">完成度: 95%</p>
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-gray-300 text-xs ml-0.5"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 训练记录3 -->
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-xl">
+                                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-dumbbell text-blue-500"></i>
+                                        </div>
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <h4 class="text-sm font-medium">初级训练</h4>
+                                                <span class="text-xs text-gray-500">3/18</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">完成度: 90%</p>
+                                                <div class="flex items-center">
+                                                    <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star-half-alt text-yellow-400 text-xs ml-0.5"></i>
+                                                    <i class="fas fa-star text-gray-300 text-xs ml-0.5"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 健康建议 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">健康建议</h3>
+                                <span class="text-xs text-blue-500">更多建议</span>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start p-3 bg-green-50 rounded-xl">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <i class="fas fa-leaf text-green-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-green-700">饮食建议</h4>
+                                        <p class="text-xs text-green-600 mt-1">
+                                            增加富含蛋白质和维生素的食物摄入，如鱼类、豆制品、新鲜蔬果等，有助于肌肉恢复和增强免疫力。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start p-3 bg-blue-50 rounded-xl">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <i class="fas fa-walking text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-blue-700">生活习惯</h4>
+                                        <p class="text-xs text-blue-600 mt-1">
+                                            保持规律作息，每天保证7-8小时睡眠。避免长时间久坐，每小时起身活动5-10分钟，有助于盆底肌肉健康。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start p-3 bg-purple-50 rounded-xl">
+                                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <i class="fas fa-brain text-purple-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h4 class="text-sm font-medium text-purple-700">心理健康</h4>
+                                        <p class="text-xs text-purple-600 mt-1">
+                                            保持积极乐观的心态，尝试冥想或深呼吸等放松技巧，减轻压力和焦虑，有助于整体康复进程。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 健康目标 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">健康目标</h3>
+                                <button class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-plus text-blue-500"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="p-3 bg-gray-50 rounded-xl">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h4 class="text-sm font-medium">每周训练5次</h4>
+                                        <span class="text-xs text-blue-500">5/7</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-blue-500 h-1.5 rounded-full" style="width: 71%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-gray-50 rounded-xl">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h4 class="text-sm font-medium">提升肌肉力量至85%</h4>
+                                        <span class="text-xs text-green-500">75/85</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 88%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-gray-50 rounded-xl">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h4 class="text-sm font-medium">完成康复计划</h4>
+                                        <span class="text-xs text-purple-500">68%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                        <div class="bg-purple-500 h-1.5 rounded-full" style="width: 68%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 健康资讯 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">健康资讯</h3>
+                                <span class="text-xs text-blue-500">查看全部</span>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-20 h-20 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="健康资讯" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <h4 class="text-sm font-medium line-clamp-2">盆底肌肉训练：恢复产后健康的关键</h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">
+                                            产后盆底肌肉训练对于恢复女性健康至关重要，本文将详细介绍科学有效的训练方法...
+                                        </p>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs text-gray-400">2024-03-18</span>
+                                            <span class="text-xs text-gray-400 mx-2">•</span>
+                                            <span class="text-xs text-gray-400">阅读: 1.2k</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-20 h-20 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="健康资讯" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <h4 class="text-sm font-medium line-clamp-2">饮食与盆底健康：你需要知道的营养知识</h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">
+                                            合理的饮食结构对盆底肌肉健康有着重要影响，本文介绍适合盆底康复期的饮食建议和营养搭配...
+                                        </p>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs text-gray-400">2024-03-15</span>
+                                            <span class="text-xs text-gray-400 mx-2">•</span>
+                                            <span class="text-xs text-gray-400">阅读: 985</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-20 h-20 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="健康资讯" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <h4 class="text-sm font-medium line-clamp-2">科学训练：如何避免盆底肌肉训练误区</h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">
+                                            很多人在盆底肌肉训练中存在错误认知，本文将帮助你识别常见误区，掌握科学训练方法...
+                                        </p>
+                                        <div class="flex items-center mt-1">
+                                            <span class="text-xs text-gray-400">2024-03-10</span>
+                                            <span class="text-xs text-gray-400 mx-2">•</span>
+                                            <span class="text-xs text-gray-400">阅读: 1.5k</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 底部间距 -->
+                        <div class="h-20"></div>
+                    </div>
+                    
+                    <!-- 底部导航栏 -->
+                    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 flex items-center justify-between z-10" style="max-width: 390px; margin: 0 auto;">
+                        <a href="index.html" class="flex flex-col items-center">
+                            <i class="fas fa-home text-gray-400"></i>
+                            <span class="text-xs text-gray-400 mt-1">首页</span>
+                        </a>
+                        <a href="device-list.html" class="flex flex-col items-center">
+                            <i class="fas fa-laptop-medical text-gray-400"></i>
+                            <span class="text-xs text-gray-400 mt-1">设备</span>
+                        </a>
+                        <a href="training.html" class="flex flex-col items-center">
+                            <i class="fas fa-dumbbell text-gray-400"></i>
+                            <span class="text-xs text-gray-400 mt-1">训练</span>
+                        </a>
+                        <a href="health-data.html" class="flex flex-col items-center">
+                            <i class="fas fa-chart-line text-blue-500"></i>
+                            <span class="text-xs text-blue-500 mt-1">数据</span>
+                        </a>
+                        <a href="profile.html" class="flex flex-col items-center">
+                            <i class="fas fa-user text-gray-400"></i>
+                            <span class="text-xs text-gray-400 mt-1">我的</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 可以在这里添加交互功能，如图表动画、数据加载等
+        document.addEventListener('DOMContentLoaded', function() {
+            // 示例：点击切换时间范围按钮
+            const timeButtons = document.querySelectorAll('.flex.items-center.space-x-2 button');
+            timeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的活跃状态
+                    timeButtons.forEach(btn => {
+                        btn.classList.remove('bg-blue-500', 'text-white');
+                        btn.classList.add('bg-gray-100', 'text-gray-500');
+                    });
+                    
+                    // 设置当前按钮为活跃状态
+                    this.classList.remove('bg-gray-100', 'text-gray-500');
+                    this.classList.add('bg-blue-500', 'text-white');
+                    
+                    // 这里可以添加加载不同时间范围数据的逻辑
+                });
+            });
+            
+            // 示例：健康资讯点击事件
+            const newsItems = document.querySelectorAll('.space-y-4 > div');
+            newsItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 点击后跳转到详情页面
+                    // window.location.href = 'news-detail.html?id=' + someId;
+                    console.log('查看资讯详情');
+                });
+            });
+            
+            // 示例：健康建议点击事件
+            const adviceItems = document.querySelectorAll('.space-y-3 > div');
+            adviceItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    console.log('查看建议详情');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
