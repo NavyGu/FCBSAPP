@@ -367,7 +367,7 @@
                             <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <h2 class="text-lg font-semibold">健康报告</h2>
-                                    <span class="text-xs text-purple-500">查看详情</span>
+                                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/report.html" class="text-xs text-purple-500">查看详情</a>
                                 </div>
                                 
                                 <div class="bg-gray-50 rounded-xl p-3 mb-4">
@@ -379,9 +379,9 @@
                                             <h3 class="text-sm font-medium">最新康复评估报告</h3>
                                             <p class="text-xs text-gray-500 mt-0.5">2024年3月15日生成</p>
                                         </div>
-                                        <button class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs">
+                                        <a href="/Users/gunavy/Project/TRAE/FCBSAPP/report.html" class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs">
                                             查看
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                                 
@@ -421,41 +421,42 @@
                         <!-- 社区分享内容 -->
                         <div id="communityContent" class="hidden">
                             <!-- 社区热门话题 -->
-                            <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h2 class="text-lg font-semibold">热门话题</h2>
+                            <div class="bg-white rounded-xl p-3 shadow-sm mb-3">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h2 class="text-sm font-semibold">热门话题</h2>
                                     <span class="text-xs text-purple-500">更多话题</span>
                                 </div>
                                 
-                                <div class="flex overflow-x-auto space-x-3 pb-2 mb-4">
-                                    <div class="flex-shrink-0 w-28 h-28 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex flex-col items-center justify-center text-white p-2">
-                                        <i class="fas fa-hashtag text-xl mb-1"></i>
-                                        <p class="text-sm font-medium text-center">产后康复</p>
-                                        <p class="text-xs mt-1">2.5k人讨论</p>
+                                <!-- 修改网格布局的间距和内边距 -->
+                                <div class="grid grid-cols-2 gap-1.5 mb-2">
+                                    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
+                                        <i class="fas fa-hashtag"></i>
+                                        <p class="text-[10px] font-medium text-center mt-0.5">产后康复</p>
+                                        <p class="text-[10px] opacity-80">2.5k人讨论</p>
                                     </div>
                                     
-                                    <div class="flex-shrink-0 w-28 h-28 bg-gradient-to-br from-pink-500 to-red-500 rounded-xl flex flex-col items-center justify-center text-white p-2">
-                                        <i class="fas fa-hashtag text-xl mb-1"></i>
-                                        <p class="text-sm font-medium text-center">盆底训练</p>
-                                        <p class="text-xs mt-1">1.8k人讨论</p>
+                                    <div class="bg-gradient-to-br from-pink-500 to-red-500 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
+                                        <i class="fas fa-hashtag"></i>
+                                        <p class="text-[10px] font-medium text-center mt-0.5">盆底训练</p>
+                                        <p class="text-[10px] opacity-80">1.8k人讨论</p>
                                     </div>
                                     
-                                    <div class="flex-shrink-0 w-28 h-28 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex flex-col items-center justify-center text-white p-2">
-                                        <i class="fas fa-hashtag text-xl mb-1"></i>
-                                        <p class="text-sm font-medium text-center">健康生活</p>
-                                        <p class="text-xs mt-1">3.2k人讨论</p>
+                                    <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
+                                        <i class="fas fa-hashtag"></i>
+                                        <p class="text-[10px] font-medium text-center mt-0.5">健康生活</p>
+                                        <p class="text-[10px] opacity-80">3.2k人讨论</p>
                                     </div>
                                     
-                                    <div class="flex-shrink-0 w-28 h-28 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex flex-col items-center justify-center text-white p-2">
-                                        <i class="fas fa-hashtag text-xl mb-1"></i>
-                                        <p class="text-sm font-medium text-center">康复经验</p>
-                                        <p class="text-xs mt-1">1.5k人讨论</p>
+                                    <div class="bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
+                                        <i class="fas fa-hashtag"></i>
+                                        <p class="text-[10px] font-medium text-center mt-0.5">康复经验</p>
+                                        <p class="text-[10px] opacity-80">1.5k人讨论</p>
                                     </div>
                                 </div>
                                 
                                 <!-- 发布动态按钮 -->
-                                <button class="w-full bg-purple-500 text-white py-2.5 rounded-full text-sm font-medium flex items-center justify-center">
-                                    <i class="fas fa-edit mr-2"></i>
+                                <button class="w-full bg-purple-500 text-white py-1.5 rounded-full text-xs font-medium flex items-center justify-center">
+                                    <i class="fas fa-edit mr-1"></i>
                                     发布我的康复动态
                                 </button>
                             </div>
@@ -649,3 +650,62 @@
     </script>
 </body>
 </html>
+
+<!-- 热门话题区域 - 修改显示形式，避免滚动条 -->
+<div class="mt-4">
+    <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-medium">热门话题</h3>
+        <a href="#" class="text-xs text-purple-500">查看全部</a>
+    </div>
+    
+    <!-- 修改为网格布局，避免滚动条 -->
+    <div class="grid grid-cols-2 gap-2">
+        <div class="bg-gray-50 rounded-lg p-3">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-venus text-pink-500 text-xs"></i>
+                </div>
+                <div class="ml-2">
+                    <p class="text-xs font-medium">产后恢复</p>
+                    <p class="text-xs text-gray-500">2.3k人参与</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-3">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-running text-blue-500 text-xs"></i>
+                </div>
+                <div class="ml-2">
+                    <p class="text-xs font-medium">盆底训练</p>
+                    <p class="text-xs text-gray-500">1.8k人参与</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-3">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-utensils text-green-500 text-xs"></i>
+                </div>
+                <div class="ml-2">
+                    <p class="text-xs font-medium">健康饮食</p>
+                    <p class="text-xs text-gray-500">3.5k人参与</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-3">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-brain text-purple-500 text-xs"></i>
+                </div>
+                <div class="ml-2">
+                    <p class="text-xs font-medium">心理健康</p>
+                    <p class="text-xs text-gray-500">1.2k人参与</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
