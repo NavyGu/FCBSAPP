@@ -33,7 +33,7 @@
                         <div class="mb-6">
                             <div class="flex items-center justify-between">
                                 <h1 class="text-2xl font-bold">盆底紧致修复仪</h1>
-                                <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                <button id="settingsButton" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
                                     <i class="fas fa-cog text-gray-500"></i>
                                 </button>
                             </div>
@@ -647,17 +647,306 @@
                 });
             }
             
+            // 删除这段重复的代码，使用上面已经实现的带自定义弹窗的停止训练按钮事件处理
+            // if (stopButton) {
+            //     stopButton.addEventListener('click', function() {
+            //         // 这里可以添加停止训练的逻辑
+            //         console.log('停止训练');
+                    
+            //         // 确认是否要停止当前训练
+            //         if (confirm('确定要停止当前训练吗？')) {
+            //             // 停止训练后返回上一页，而不是直接跳转
+            //             history.back();
+            //         }
+            //     });
+            // }
+        });
+    </script>
+</body>
+</html>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取设置按钮并添加点击事件
+            const settingsButton = document.getElementById('settingsButton');
+            if (settingsButton) {
+                settingsButton.addEventListener('click', function() {
+                    window.location.href = 'device-detail.html';
+                });
+            }
+            
+            // 获取训练模式按钮
+            const basicTrainingButton = document.getElementById('basicTrainingButton');
+            const advancedTrainingButton = document.getElementById('advancedTrainingButton');
+            const proTrainingButton = document.getElementById('proTrainingButton');
+            const trainingModeText = document.querySelector('.flex.items-center.justify-between.mb-2 .text-sm.font-medium');
+            
+            // 获取训练模式内容区域
+            const basicTrainingContent = document.getElementById('basicTrainingContent');
+            const advancedTrainingContent = document.getElementById('advancedTrainingContent');
+            const proTrainingContent = document.getElementById('proTrainingContent');
+            
+            // 添加训练模式按钮点击事件
+            if (basicTrainingButton && advancedTrainingButton && proTrainingButton) {
+                // 基础训练按钮点击事件
+                basicTrainingButton.addEventListener('click', function() {
+                    // 更新按钮样式
+                    basicTrainingButton.classList.remove('bg-gray-100', 'text-gray-600');
+                    basicTrainingButton.classList.add('bg-purple-500', 'text-white');
+                    
+                    advancedTrainingButton.classList.remove('bg-purple-500', 'text-white');
+                    advancedTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
+                    
+                    proTrainingButton.classList.remove('bg-purple-500', 'text-white');
+                    proTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
+                    
+                    // 更新显示的训练模式文本
+                    if (trainingModeText) {
+                        trainingModeText.textContent = '基础训练';
+                    }
+                    
+                    // 切换内容显示
+                    basicTrainingContent.classList.remove('hidden');
+                    advancedTrainingContent.classList.add('hidden');
+                    proTrainingContent.classList.add('hidden');
+                    
+                    // 更新训练参数
+                    updateTrainingParameters('基础训练');
+                    
+                    // 这里可以添加切换到基础训练模式的逻辑
+                    console.log('切换到基础训练模式');
+                });
+                
+                // 进阶训练按钮点击事件
+                advancedTrainingButton.addEventListener('click', function() {
+                    // 更新按钮样式
+                    advancedTrainingButton.classList.remove('bg-gray-100', 'text-gray-600');
+                    advancedTrainingButton.classList.add('bg-purple-500', 'text-white');
+                    
+                    basicTrainingButton.classList.remove('bg-purple-500', 'text-white');
+                    basicTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
+                    
+                    proTrainingButton.classList.remove('bg-purple-500', 'text-white');
+                    proTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
+                    
+                    // 更新显示的训练模式文本
+                    if (trainingModeText) {
+                        trainingModeText.textContent = '进阶训练';
+                    }
+                    
+                    // 切换内容显示
+                    basicTrainingContent.classList.add('hidden');
+                    advancedTrainingContent.classList.remove('hidden');
+                    proTrainingContent.classList.add('hidden');
+                    
+                    // 更新训练参数
+                    updateTrainingParameters('进阶训练');
+                    
+                    // 这里可以添加切换到进阶训练模式的逻辑
+                    console.log('切换到进阶训练模式');
+                });
+                
+                // 专业训练按钮点击事件
+                proTrainingButton.addEventListener('click', function() {
+                    // 更新按钮样式
+                    proTrainingButton.classList.remove('bg-gray-100', 'text-gray-600');
+                    proTrainingButton.classList.add('bg-purple-500', 'text-white');
+                    
+                    basicTrainingButton.classList.remove('bg-purple-500', 'text-white');
+                    basicTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
+                    
+                    advancedTrainingButton.classList.remove('bg-purple-500', 'text-white');
+                    advancedTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
+                    
+                    // 更新显示的训练模式文本
+                    if (trainingModeText) {
+                        trainingModeText.textContent = '专业训练';
+                    }
+                    
+                    // 切换内容显示
+                    basicTrainingContent.classList.add('hidden');
+                    advancedTrainingContent.classList.add('hidden');
+                    proTrainingContent.classList.remove('hidden');
+                    
+                    // 更新训练参数
+                    updateTrainingParameters('专业训练');
+                    
+                    // 这里可以添加切换到专业训练模式的逻辑
+                    console.log('切换到专业训练模式');
+                });
+            }
+            
+            // 更新训练参数函数
+            function updateTrainingParameters(mode) {
+                // 获取波形图指标元素
+                const frequencyElement = document.querySelector('.grid.grid-cols-3.gap-4 div:nth-child(1) p.text-lg.font-bold');
+                const intensityElement = document.querySelector('.grid.grid-cols-3.gap-4 div:nth-child(2) p.text-lg.font-bold');
+                
+                // 根据不同模式更新参数
+                switch(mode) {
+                    case '基础训练':
+                        // 更新波形图指标
+                        if (frequencyElement) frequencyElement.innerHTML = '45<span class="text-xs font-normal">bpm</span>';
+                        if (intensityElement) intensityElement.innerHTML = '60<span class="text-xs font-normal">%</span>';
+                        
+                        // 更新波形图振幅和频率
+                        updateWaveform(0.7, 1.5);
+                        break;
+                        
+                    case '进阶训练':
+                        // 更新波形图指标
+                        if (frequencyElement) frequencyElement.innerHTML = '68<span class="text-xs font-normal">bpm</span>';
+                        if (intensityElement) intensityElement.innerHTML = '85<span class="text-xs font-normal">%</span>';
+                        
+                        // 更新波形图振幅和频率
+                        updateWaveform(1, 1);
+                        break;
+                        
+                    case '专业训练':
+                        // 更新波形图指标
+                        if (frequencyElement) frequencyElement.innerHTML = '85<span class="text-xs font-normal">bpm</span>';
+                        if (intensityElement) intensityElement.innerHTML = '95<span class="text-xs font-normal">%</span>';
+                        
+                        // 更新波形图振幅和频率
+                        updateWaveform(1.3, 0.7);
+                        break;
+                }
+            }
+            
+            // 更新波形图函数
+            function updateWaveform(amplitude, duration) {
+                // 获取波形图SVG元素
+                const waveformPath = document.querySelector('svg path.animate-pulse');
+                const animateElement = document.querySelector('svg circle animate');
+                
+                if (waveformPath) {
+                    // 根据振幅调整波形图高度
+                    const baseHeight = 75;
+                    const variation = 10 * amplitude;
+                    
+                    // 生成新的波形路径
+                    let newPath = `M0,${baseHeight} `;
+                    for (let i = 0; i < 10; i++) {
+                        newPath += `C${i*30+10},${baseHeight-variation} ${i*30+20},${baseHeight+variation} ${i*30+30},${baseHeight} `;
+                    }
+                    
+                    // 应用新路径
+                    waveformPath.setAttribute('d', newPath);
+                }
+                
+                if (animateElement) {
+                    // 调整动画速度
+                    animateElement.setAttribute('dur', `${3 * duration}s`);
+                }
+            }
+            
+            // 获取训练控制按钮
+            const startButton = document.getElementById('startTrainingButton');
+            const pauseButton = document.getElementById('pauseTrainingButton');
+            const stopButton = document.getElementById('stopTrainingButton');
+            
+            // 添加暂停训练按钮点击事件
+            if (pauseButton) {
+                pauseButton.addEventListener('click', function() {
+                    // 这里可以添加暂停训练的逻辑
+                    console.log('暂停训练');
+                    
+                    // 切换按钮显示
+                    pauseButton.classList.add('hidden');
+                    startButton.classList.remove('hidden');
+                    
+                    // 更新UI状态，例如暂停波形动画等
+                    document.querySelectorAll('.animate-pulse').forEach(el => {
+                        el.classList.remove('animate-pulse');
+                    });
+                    document.querySelectorAll('.animate-ping').forEach(el => {
+                        el.classList.remove('animate-ping');
+                    });
+                });
+            }
+            
+            // 添加开始训练按钮点击事件
+            if (startButton) {
+                startButton.addEventListener('click', function() {
+                    // 这里可以添加开始训练的逻辑
+                    console.log('开始训练');
+                    
+                    // 切换按钮显示
+                    startButton.classList.add('hidden');
+                    pauseButton.classList.remove('hidden');
+                    
+                    // 更新UI状态，例如显示波形动画等
+                    document.querySelectorAll('.animate-pulse').forEach(el => {
+                        el.classList.add('animate-pulse');
+                    });
+                    document.querySelectorAll('.animate-ping').forEach(el => {
+                        el.classList.add('animate-ping');
+                    });
+                });
+            }
+            
             // 添加停止训练按钮点击事件
             if (stopButton) {
                 stopButton.addEventListener('click', function() {
-                    // 这里可以添加停止训练的逻辑
-                    console.log('停止训练');
-                    
-                    // 确认是否要停止当前训练
-                    if (confirm('确定要停止当前训练吗？')) {
-                        // 停止训练后返回上一页，而不是直接跳转
-                        history.back();
-                    }
+                    // 创建自定义弹窗内容
+                    const modalHTML = `
+                        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" style="top: 44px; bottom: 90px;">
+                            <div class="bg-white rounded-2xl p-6 w-[85%] max-w-sm mx-4">
+                                <div class="text-center mb-4">
+                                    <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-stop text-red-500 text-xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-semibold">确认终止训练？</h3>
+                                </div>
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
+                                        <span class="text-gray-500">训练时长</span>
+                                        <span class="font-medium text-gray-700">15分钟</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
+                                        <span class="text-gray-500">平均收缩强度</span>
+                                        <span class="font-medium text-gray-700">85%</span>
+                                    </div>
+                                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg">
+                                        <span class="text-gray-500">完成度</span>
+                                        <span class="font-medium text-gray-700">50%</span>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <button class="flex-1 py-3 rounded-xl bg-gray-100 text-gray-600 font-medium" id="cancelStop">继续训练</button>
+                                    <button class="flex-1 py-3 rounded-xl bg-red-500 text-white font-medium" id="confirmStop">终止训练</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // 添加弹窗到content-area内
+                    const contentArea = document.querySelector('.content-area');
+                    contentArea.insertAdjacentHTML('beforeend', modalHTML);
+
+                    // 获取弹窗元素和按钮
+                    const modal = contentArea.lastElementChild;
+                    const cancelButton = document.getElementById('cancelStop');
+                    const confirmButton = document.getElementById('confirmStop');
+
+                    // 防止事件冒泡
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.remove();
+                        }
+                    });
+
+                    // 添加按钮点击事件
+                    cancelButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        modal.remove();
+                    });
+
+                    confirmButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.location.href = 'training-result.html';
+                    });
                 });
             }
         });

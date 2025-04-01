@@ -30,7 +30,7 @@
                 <div class="content-area">
                     <!-- 顶部导航栏 -->
                     <div class="flex items-center justify-between p-4 border-b border-gray-100">
-                        <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                        <button id="backButton" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
                             <i class="fas fa-arrow-left text-gray-500"></i>
                         </button>
                         <h1 class="text-lg font-bold">设备详情</h1>
@@ -49,7 +49,11 @@
                                 <div class="ml-4 flex-1">
                                     <div class="flex items-center justify-between">
                                         <h2 class="text-xl font-bold">盆底紧致修复仪Pro</h2>
-                                        <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">已连接</span>
+                                        <div class="flex items-center space-x-1 bg-green-50 px-2 py-1 rounded-full">
+                                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                                            <div class="w-2 h-2 bg-green-300 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                                        </div>
                                     </div>
                                     <p class="text-sm text-gray-500 mt-1">设备ID: FBS-2024-0012345</p>
                                     <div class="flex items-center mt-2">
@@ -63,198 +67,101 @@
 
                         <!-- 设备状态 -->
                         <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-                            <h3 class="font-semibold mb-4">设备状态</h3>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold">设备状态</h3>
+                                <span class="px-2 py-1 bg-green-50 text-green-600 text-xs rounded-full flex items-center">
+                                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-1"></span>
+                                    实时监测中
+                                </span>
+                            </div>
                             <div class="grid grid-cols-3 gap-4">
-                                <!-- 电量 -->
-                                <div class="bg-gray-50 rounded-xl p-3">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="text-xs text-gray-500">电量</span>
-                                        <i class="fas fa-battery-three-quarters text-green-500"></i>
+                                <!-- 电量状态 -->
+                                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 relative overflow-hidden">
+                                    <div class="relative z-10">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-xs text-gray-500">电量状态</span>
+                                            <i class="fas fa-battery-three-quarters text-green-500"></i>
+                                        </div>
+                                        <div class="flex items-baseline">
+                                            <span class="text-2xl font-bold text-green-600">85</span>
+                                            <span class="text-sm text-green-500 ml-1">%</span>
+                                        </div>
+                                        <div class="mt-2">
+                                            <div class="w-full h-1.5 bg-green-100 rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-green-400 to-green-500 rounded-full transition-all duration-500" style="width: 85%"></div>
+                                            </div>
+                                            <p class="text-xs text-green-600 mt-1">预计可用12小时</p>
+                                        </div>
                                     </div>
-                                    <div class="flex items-end">
-                                        <span class="text-xl font-bold">85</span>
-                                        <span class="text-xs text-gray-500 ml-1 mb-1">%</span>
-                                    </div>
-                                    <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 85%"></div>
-                                    </div>
+                                    <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-green-100 rounded-full opacity-20"></div>
                                 </div>
                                 
                                 <!-- 信号强度 -->
-                                <div class="bg-gray-50 rounded-xl p-3">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <span class="text-xs text-gray-500">信号强度</span>
-                                        <i class="fas fa-signal text-blue-500"></i>
+                                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 relative overflow-hidden">
+                                    <div class="relative z-10">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-xs text-gray-500">信号强度</span>
+                                            <i class="fas fa-signal text-blue-500"></i>
+                                        </div>
+                                        <div class="flex items-baseline mb-2">
+                                            <span class="text-2xl font-bold text-blue-600">优</span>
+                                            <span class="text-sm text-blue-500 ml-2">-45dBm</span>
+                                        </div>
+                                        <div class="flex items-end space-x-1">
+                                            <div class="w-1.5 h-2 bg-blue-500 rounded-t"></div>
+                                            <div class="w-1.5 h-3 bg-blue-500 rounded-t"></div>
+                                            <div class="w-1.5 h-4 bg-blue-500 rounded-t"></div>
+                                            <div class="w-1.5 h-5 bg-blue-500 rounded-t"></div>
+                                            <div class="w-1.5 h-6 bg-blue-500 rounded-t animate-pulse"></div>
+                                        </div>
                                     </div>
-                                    <div class="flex items-end">
-                                        <span class="text-xl font-bold">优</span>
-                                        <span class="text-xs text-gray-500 ml-1 mb-1">良好</span>
-                                    </div>
-                                    <div class="flex items-center space-x-1 mt-2">
-                                        <div class="h-1.5 w-2 bg-blue-500 rounded-sm"></div>
-                                        <div class="h-3 w-2 bg-blue-500 rounded-sm"></div>
-                                        <div class="h-4.5 w-2 bg-blue-500 rounded-sm"></div>
-                                        <div class="h-6 w-2 bg-blue-500 rounded-sm"></div>
-                                    </div>
+                                    <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-blue-100 rounded-full opacity-20"></div>
                                 </div>
                                 
                                 <!-- 固件版本 -->
+                                <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl p-4 relative overflow-hidden">
+                                    <div class="relative z-10">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-xs text-gray-500">固件版本</span>
+                                            <i class="fas fa-code-branch text-purple-500"></i>
+                                        </div>
+                                        <div class="flex items-baseline mb-2">
+                                            <span class="text-2xl font-bold text-purple-600">v2.3.1</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="fas fa-check-circle text-green-500 mr-1"></i>
+                                            <span class="text-xs text-green-500">已是最新版本</span>
+                                        </div>
+                                        <div class="text-xs text-purple-500 mt-1">上次更新: 2024-01-15</div>
+                                    </div>
+                                    <div class="absolute -bottom-4 -right-4 w-20 h-20 bg-purple-100 rounded-full opacity-20"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 设备使用统计 - 新增区域 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h3 class="font-semibold mb-4">使用统计</h3>
+                            <div class="grid grid-cols-2 gap-4">
                                 <div class="bg-gray-50 rounded-xl p-3">
                                     <div class="flex items-center justify-between mb-2">
-                                        <span class="text-xs text-gray-500">固件版本</span>
-                                        <i class="fas fa-code-branch text-purple-500"></i>
+                                        <span class="text-xs text-gray-500">累计使用</span>
+                                        <i class="fas fa-clock text-purple-500"></i>
                                     </div>
                                     <div class="flex items-end">
-                                        <span class="text-xl font-bold">v2.3.1</span>
-                                    </div>
-                                    <div class="flex items-center mt-2">
-                                        <span class="text-xs text-green-500">已是最新版本</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 设备控制 -->
-                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-                            <h3 class="font-semibold mb-4">设备控制</h3>
-                            
-                            <!-- 模式选择 -->
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm text-gray-600">训练模式</span>
-                                    <span class="text-xs text-purple-500">查看模式说明</span>
-                                </div>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <button class="bg-purple-500 text-white py-2 rounded-lg text-sm font-medium">
-                                        初级模式
-                                    </button>
-                                    <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium">
-                                        中级模式
-                                    </button>
-                                    <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium">
-                                        高级模式
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- 强度调节 -->
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm text-gray-600">训练强度</span>
-                                    <span class="text-sm font-medium">3级</span>
-                                </div>
-                                <div class="flex items-center">
-                                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                        <i class="fas fa-minus text-gray-500"></i>
-                                    </button>
-                                    <div class="flex-1 mx-3">
-                                        <div class="w-full bg-gray-100 rounded-full h-2">
-                                            <div class="bg-purple-500 h-2 rounded-full" style="width: 30%"></div>
-                                        </div>
-                                    </div>
-                                    <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                        <i class="fas fa-plus text-gray-500"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- 时长设置 -->
-                            <div class="mb-4">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm text-gray-600">训练时长</span>
-                                    <span class="text-sm font-medium">15分钟</span>
-                                </div>
-                                <div class="grid grid-cols-4 gap-2">
-                                    <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm">
-                                        5分钟
-                                    </button>
-                                    <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm">
-                                        10分钟
-                                    </button>
-                                    <button class="bg-purple-500 text-white py-2 rounded-lg text-sm">
-                                        15分钟
-                                    </button>
-                                    <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm">
-                                        20分钟
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- 开始按钮 -->
-                            <button class="w-full bg-purple-500 text-white py-3 rounded-xl text-base font-medium flex items-center justify-center">
-                                <i class="fas fa-play mr-2"></i>
-                                开始训练
-                            </button>
-                        </div>
-
-                        <!-- 训练记录 -->
-                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="font-semibold">训练记录</h3>
-                                <span class="text-xs text-purple-500">查看全部</span>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <!-- 记录1 -->
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-dumbbell text-purple-500"></i>
-                                    </div>
-                                    <div class="ml-3 flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <h4 class="font-medium">初级训练</h4>
-                                            <span class="text-xs text-gray-500">今天 09:30</span>
-                                        </div>
-                                        <div class="flex items-center justify-between mt-1">
-                                            <div class="flex items-center">
-                                                <span class="text-xs text-gray-500">强度: 3级</span>
-                                                <span class="text-xs text-gray-500 mx-2">|</span>
-                                                <span class="text-xs text-gray-500">时长: 15分钟</span>
-                                            </div>
-                                            <span class="text-xs text-green-500">完成</span>
-                                        </div>
+                                        <span class="text-xl font-bold">42</span>
+                                        <span class="text-xs text-gray-500 ml-1 mb-1">小时</span>
                                     </div>
                                 </div>
                                 
-                                <!-- 记录2 -->
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-dumbbell text-purple-500"></i>
+                                <div class="bg-gray-50 rounded-xl p-3">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs text-gray-500">训练次数</span>
+                                        <i class="fas fa-calendar-check text-blue-500"></i>
                                     </div>
-                                    <div class="ml-3 flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <h4 class="font-medium">初级训练</h4>
-                                            <span class="text-xs text-gray-500">昨天 16:45</span>
-                                        </div>
-                                        <div class="flex items-center justify-between mt-1">
-                                            <div class="flex items-center">
-                                                <span class="text-xs text-gray-500">强度: 2级</span>
-                                                <span class="text-xs text-gray-500 mx-2">|</span>
-                                                <span class="text-xs text-gray-500">时长: 10分钟</span>
-                                            </div>
-                                            <span class="text-xs text-green-500">完成</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- 记录3 -->
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                                        <i class="fas fa-dumbbell text-purple-500"></i>
-                                    </div>
-                                    <div class="ml-3 flex-1">
-                                        <div class="flex items-center justify-between">
-                                            <h4 class="font-medium">初级训练</h4>
-                                            <span class="text-xs text-gray-500">前天 10:15</span>
-                                        </div>
-                                        <div class="flex items-center justify-between mt-1">
-                                            <div class="flex items-center">
-                                                <span class="text-xs text-gray-500">强度: 2级</span>
-                                                <span class="text-xs text-gray-500 mx-2">|</span>
-                                                <span class="text-xs text-gray-500">时长: 15分钟</span>
-                                            </div>
-                                            <span class="text-xs text-yellow-500">中断</span>
-                                        </div>
+                                    <div class="flex items-end">
+                                        <span class="text-xl font-bold">128</span>
+                                        <span class="text-xs text-gray-500 ml-1 mb-1">次</span>
                                     </div>
                                 </div>
                             </div>
@@ -295,26 +202,19 @@
                                 </div>
                             </div>
                             
-                            <!-- 设备操作按钮 -->
+                            <!-- 设备操作按钮 - 简化后 -->
                             <div class="grid grid-cols-2 gap-3 mt-4">
                                 <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium flex items-center justify-center">
                                     <i class="fas fa-sync-alt mr-2"></i>
                                     检查更新
                                 </button>
-                                <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium flex items-center justify-center">
-                                    <i class="fas fa-cog mr-2"></i>
-                                    设备设置
-                                </button>
-                                <button class="bg-gray-100 text-gray-600 py-2 rounded-lg text-sm font-medium flex items-center justify-center">
-                                    <i class="fas fa-book mr-2"></i>
-                                    使用手册
-                                </button>
-                                <button class="bg-gray-100 text-red-500 py-2 rounded-lg text-sm font-medium flex items-center justify-center">
+                                <button class="bg-red-50 text-red-500 py-2 rounded-lg text-sm font-medium flex items-center justify-center">
                                     <i class="fas fa-unlink mr-2"></i>
                                     解除绑定
                                 </button>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div class="bottom-tab-bar flex items-center justify-around">
@@ -338,5 +238,20 @@
             </div>
         </div>
     </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 返回按钮点击事件
+            const backButton = document.querySelector('.fa-arrow-left').parentElement;
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    // 直接返回设备管理页面
+                    window.location.href = 'device-usage.html';
+                });
+            }
+            
+            // 底部导航栏点击事件代码保持不变
+        });
+    </script>
 </body>
 </html>

@@ -316,26 +316,26 @@
                                 <span class="text-xs text-purple-500">查看全部</span>
                             </div>
                             
-                            <div class="flex items-center space-x-2 mb-4 overflow-x-auto py-1">
-                                <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0 text-white font-medium">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0 text-white text-xs font-medium">
                                     今
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 text-xs font-medium">
                                     19
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 text-xs font-medium">
                                     18
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-400 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-400 text-xs font-medium">
                                     17
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 text-xs font-medium">
                                     16
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 text-purple-500 text-xs font-medium">
                                     15
                                 </div>
-                                <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-400 font-medium">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0 text-gray-400 text-xs font-medium">
                                     14
                                 </div>
                             </div>
@@ -359,13 +359,26 @@
                                 <i class="fas fa-share-alt mr-2"></i>
                                 分享结果
                             </button>
-                            <button class="bg-purple-500 text-white py-3 rounded-xl text-base font-medium flex items-center justify-center">
+                            <button id="completeButton" class="bg-purple-500 text-white py-3 rounded-xl text-base font-medium flex items-center justify-center">
                                 <i class="fas fa-check-circle mr-2"></i>
                                 完成
                             </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- 添加脚本 -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const completeButton = document.getElementById('completeButton');
+                        if (completeButton) {
+                            completeButton.addEventListener('click', function() {
+                                window.location.href = 'device-management.html';
+                            });
+                        }
+                    });
+                </script>
+
                 <div class="bottom-tab-bar flex items-center justify-around">
                     <div class="tab-item active flex flex-col items-center">
                         <i class="fas fa-mobile-alt text-xl"></i>
