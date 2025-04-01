@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>消息通知 - 医疗设备管理APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .device-container {
+            display: grid;
+            grid-template-columns: repeat(4, 390px);
+            gap: 40px;
+            padding: 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .device-label {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .device-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 55px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1),
+                        0 0 0 1px rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 12px solid #1a1a1a;
+        }
+        .content-area {
+            height: calc(100% - 127px);
+            overflow-y: auto;
+            background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+        }
+        .bottom-tab-bar {
+            height: 83px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(229,231,235,0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .status-bar {
+            height: 44px;
+            background: #000;
+            color: white;
+            padding: 0 20px;
+        }
+        .tab-item {
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s;
+        }
+        .tab-item:hover {
+            color: #8B5CF6;
+        }
+        .tab-item.active {
+            color: #8B5CF6;
+        }
+        /* 设备按钮样式 */
+        .device-button {
+            position: absolute;
+            background: #1a1a1a;
+            z-index: 2;
+        }
+        .power-button {
+            right: -14px;
+            top: 180px;
+            width: 3px;
+            height: 50px;
+            border-radius: 0 2px 2px 0;
+        }
+        .volume-up {
+            left: -14px;
+            top: 150px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        .volume-down {
+            left: -14px;
+            top: 200px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        /* 动态岛样式 */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* 卡片样式优化 */
+        .bg-white {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .shadow-sm {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05),
+                       0 1px 3px rgba(0,0,0,0.1);
+        }
+        /* 按钮样式优化 */
+        .bg-purple-500 {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+        }
+        .bg-purple-500:hover {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(139,92,246,0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="device-container">
+        <div>
+            <div class="device-label">消息通知</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航 -->
+                    <div class="bg-white px-4 py-3 flex items-center border-b sticky top-0 z-10">
+                        <button onclick="window.history.back()" class="mr-4">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <h1 class="text-lg font-semibold">消息通知</h1>
+                        <button class="ml-auto text-sm text-gray-500">全部已读</button>
+                    </div>
+
+                    <!-- 消息列表 -->
+                    <div class="divide-y">
+                        <!-- 系统通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-bell text-purple-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">系统通知</h3>
+                                        <span class="text-xs text-gray-500">10分钟前</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">恭喜您获得"金牌达人"称号！</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 预约通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-calendar-check text-blue-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">预约提醒</h3>
+                                        <span class="text-xs text-gray-500">30分钟前</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">您有一个新的视频咨询预约，请及时确认。</p>
+                                    <div class="mt-2 flex space-x-2">
+                                        <button class="px-4 py-1 bg-purple-500 text-white text-sm rounded-full">接受</button>
+                                        <button class="px-4 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">拒绝</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 评价通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-star text-yellow-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">新评价</h3>
+                                        <span class="text-xs text-gray-500">2小时前</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">张女士给您的咨询服务评价了5星！</p>
+                                    <div class="mt-2 text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 收入通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-coins text-green-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">收入到账</h3>
+                                        <span class="text-xs text-gray-500">昨天</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">您的咨询收入99元已到账</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部导航栏 -->
+                <div class="bottom-tab-bar flex items-center justify-around">
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                        <span class="text-xs">设备</span>
+                    </div>
+                    <div class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl"></i>
+                        <span class="text-xs">健康</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span class="text-xs">商城</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl"></i>
+                        <span class="text-xs">我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

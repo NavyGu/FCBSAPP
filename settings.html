@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置 - 医疗设备管理APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .device-container {
+            display: grid;
+            grid-template-columns: repeat(4, 390px);
+            gap: 40px;
+            padding: 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .device-label {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .device-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 55px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1),
+                        0 0 0 1px rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 12px solid #1a1a1a;
+        }
+        .content-area {
+            height: calc(100% - 127px);
+            overflow-y: auto;
+            background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+        }
+        .bottom-tab-bar {
+            height: 83px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(229,231,235,0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .status-bar {
+            height: 44px;
+            background: #000;
+            color: white;
+            padding: 0 20px;
+        }
+        .tab-item {
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s;
+        }
+        .tab-item:hover {
+            color: #8B5CF6;
+        }
+        .tab-item.active {
+            color: #8B5CF6;
+        }
+        /* 设备按钮样式 */
+        .device-button {
+            position: absolute;
+            background: #1a1a1a;
+            z-index: 2;
+        }
+        .power-button {
+            right: -14px;
+            top: 180px;
+            width: 3px;
+            height: 50px;
+            border-radius: 0 2px 2px 0;
+        }
+        .volume-up {
+            left: -14px;
+            top: 150px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        .volume-down {
+            left: -14px;
+            top: 200px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        /* 动态岛样式 */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* 卡片样式优化 */
+        .bg-white {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .shadow-sm {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05),
+                       0 1px 3px rgba(0,0,0,0.1);
+        }
+        /* 按钮样式优化 */
+        .bg-purple-500 {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+        }
+        .bg-purple-500:hover {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(139,92,246,0.4);
+        }
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e5e7eb;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #8B5CF6;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">设置</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航 -->
+                    <div class="bg-white px-4 py-3 flex items-center border-b">
+                        <button onclick="window.history.back()" class="mr-4">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <h1 class="text-lg font-semibold">设置</h1>
+                    </div>
+
+                    <!-- 达人认证状态 -->
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 m-4 rounded-xl text-white">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="头像" class="w-12 h-12 rounded-full border-2 border-white">
+                                <div class="ml-3">
+                                    <h3 class="font-semibold">李小花</h3>
+                                    <p class="text-sm text-white/80">金牌达人</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">已认证</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <div>
+                                <p class="font-semibold">352</p>
+                                <p class="text-white/80">已帮助用户</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold">4.9</p>
+                                <p class="text-white/80">平均评分</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold">98%</p>
+                                <p class="text-white/80">满意度</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 成就展示 -->
+                    <div class="bg-white m-4 rounded-xl p-4">
+                        <h2 class="text-lg font-semibold mb-4">我的成就</h2>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-2">
+                                    <i class="fas fa-medal text-2xl text-purple-500"></i>
+                                </div>
+                                <p class="text-sm">金牌达人</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                                    <i class="fas fa-certificate text-2xl text-blue-500"></i>
+                                </div>
+                                <p class="text-sm">专业认证</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-2">
+                                    <i class="fas fa-star text-2xl text-yellow-500"></i>
+                                </div>
+                                <p class="text-sm">优质服务</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 咨询设置 -->
+                    <div class="bg-white m-4 rounded-xl p-4">
+                        <h2 class="text-lg font-semibold mb-4">咨询设置</h2>
+                        
+                        <!-- 咨询时间 -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium mb-3">可预约时间</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="border rounded-lg p-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm">上午场</span>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">09:00 - 12:00</p>
+                                </div>
+                                <div class="border rounded-lg p-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm">下午场</span>
+                                        <label class="switch">
+                                            <input type="checkbox" checked>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">14:00 - 17:00</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 咨询价格 -->
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium mb-3">咨询价格设置</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 border rounded-lg">
+                                    <div>
+                                        <p class="text-sm">图文咨询</p>
+                                        <p class="text-xs text-gray-500">48小时内回复</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium">¥</span>
+                                        <input type="number" value="29" class="w-16 text-right border-none focus:ring-0">
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 border rounded-lg">
+                                    <div>
+                                        <p class="text-sm">视频咨询</p>
+                                        <p class="text-xs text-gray-500">15分钟</p>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <span class="text-sm font-medium">¥</span>
+                                        <input type="number" value="99" class="w-16 text-right border-none focus:ring-0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 自动回复设置 -->
+                        <div>
+                            <h3 class="text-sm font-medium mb-3">自动回复设置</h3>
+                            <textarea class="w-full h-24 p-3 border rounded-lg text-sm" placeholder="设置自动回复内容...">感谢您的咨询，我会在24小时内回复您的问题。如果是紧急情况，建议您直接预约视频咨询。</textarea>
+                        </div>
+                    </div>
+
+                    <!-- 其他设置 -->
+                    <div class="bg-white m-4 rounded-xl p-4">
+                        <h2 class="text-lg font-semibold mb-4">其他设置</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">消息提醒</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">声音提示</span>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">自动接单</span>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 保存按钮 -->
+                    <div class="p-4 bg-white border-t">
+                        <button class="w-full bg-purple-500 text-white py-3 rounded-full font-medium">
+                            保存设置
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 底部导航栏 -->
+                <div class="bottom-tab-bar flex items-center justify-around">
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                        <span class="text-xs">设备</span>
+                    </div>
+                    <div class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl"></i>
+                        <span class="text-xs">健康</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span class="text-xs">商城</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl"></i>
+                        <span class="text-xs">我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
