@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专业医生指导 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .device-container {
+            display: grid;
+            grid-template-columns: repeat(4, 390px);
+            gap: 40px;
+            padding: 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .device-label {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .device-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 55px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1),
+                        0 0 0 1px rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 12px solid #1a1a1a;
+        }
+        .content-area {
+            height: calc(100% - 127px);
+            overflow-y: auto;
+            background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+        }
+        .bottom-tab-bar {
+            height: 83px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(229,231,235,0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .status-bar {
+            height: 44px;
+            background: #000;
+            color: white;
+            padding: 0 20px;
+        }
+        .tab-item {
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s;
+        }
+        .tab-item:hover {
+            color: #8B5CF6;
+        }
+        .tab-item.active {
+            color: #8B5CF6;
+        }
+        /* 设备按钮样式 */
+        .device-button {
+            position: absolute;
+            background: #1a1a1a;
+            z-index: 2;
+        }
+        .power-button {
+            right: -14px;
+            top: 180px;
+            width: 3px;
+            height: 50px;
+            border-radius: 0 2px 2px 0;
+        }
+        .volume-up {
+            left: -14px;
+            top: 150px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        .volume-down {
+            left: -14px;
+            top: 200px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        /* 动态岛样式 */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* 卡片样式优化 */
+        .bg-white {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .shadow-sm {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05),
+                       0 1px 3px rgba(0,0,0,0.1);
+        }
+        /* 按钮样式优化 */
+        .bg-purple-500 {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            box-shadow: 0 4px 12px rgba(139,92,246,0.3);
+        }
+        .bg-purple-500:hover {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(139,92,246,0.4);
+        }
+        /* 筛选标签样式 */
+        .filter-chip {
+            transition: all 0.2s ease;
+        }
+        .filter-chip.active {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            color: white;
+            box-shadow: 0 2px 8px rgba(139,92,246,0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">专业医生指导</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航栏 -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <a href="/Users/gunavy/Project/TRAE/FCBSAPP/health.html" class="mr-3">
+                                <i class="fas fa-arrow-left text-gray-500"></i>
+                            </a>
+                            <h1 class="text-lg font-bold">专业医生指导</h1>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center">
+                                <i class="fas fa-search text-gray-500 hover:text-purple-500"></i>
+                            </button>
+                            <button class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center">
+                                <i class="fas fa-filter text-gray-500 hover:text-purple-500"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 筛选标签 -->
+                    <div class="p-4">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-gray-50 hover:bg-purple-50 transition-colors rounded-lg p-2">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-female text-pink-500 text-xs"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <p class="text-xs font-medium">妇产科</p>
+                                        <p class="text-xs text-gray-500">8位医生</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 hover:bg-purple-50 transition-colors rounded-lg p-2">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-running text-blue-500 text-xs"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <p class="text-xs font-medium">康复科</p>
+                                        <p class="text-xs text-gray-500">6位医生</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 hover:bg-purple-50 transition-colors rounded-lg p-2">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-yin-yang text-green-500 text-xs"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <p class="text-xs font-medium">中医科</p>
+                                        <p class="text-xs text-gray-500">5位医生</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 hover:bg-purple-50 transition-colors rounded-lg p-2">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-brain text-purple-500 text-xs"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <p class="text-xs font-medium">心理科</p>
+                                        <p class="text-xs text-gray-500">6位医生</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 医生列表 -->
+                    <div class="p-4 space-y-4">
+                        <!-- 医生1 - 与主页相同的医生 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="医生头像" class="w-16 h-16 rounded-full border-2 border-purple-100">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-bold">张医生</h3>
+                                            <p class="text-xs text-gray-500">妇产科 · 主任医师</p>
+                                        </div>
+                                        <div class="flex items-center bg-blue-50 px-2 py-1 rounded-lg">
+                                            <span class="text-blue-500 font-medium mr-1">4.8</span>
+                                            <div class="flex">
+                                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        专注于盆底康复治疗15年，擅长产后盆底功能障碍的诊断与治疗
+                                    </p>
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        <span class="px-2 py-0.5 bg-purple-50 text-purple-600 rounded-full text-xs">盆底康复</span>
+                                        <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full text-xs">产后恢复</span>
+                                        <span class="px-2 py-0.5 bg-green-50 text-green-600 rounded-full text-xs">尿失禁</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center text-gray-500 text-xs">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>今日可约</span>
+                                        </div>
+                                        <button class="bg-purple-500 text-white px-4 py-1.5 rounded-full text-sm">
+                                            预约咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 医生2 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="医生头像" class="w-16 h-16 rounded-full border-2 border-purple-100">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-bold">李医生</h3>
+                                            <p class="text-xs text-gray-500">康复科 · 副主任医师</p>
+                                        </div>
+                                        <div class="flex items-center bg-blue-50 px-2 py-1 rounded-lg">
+                                            <span class="text-blue-500 font-medium mr-1">4.9</span>
+                                            <div class="flex">
+                                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        从事康复医学20年，擅长运动疗法、物理治疗等综合康复方案制定
+                                    </p>
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        <span class="px-2 py-0.5 bg-purple-50 text-purple-600 rounded-full text-xs">盆底康复</span>
+                                        <span class="px-2 py-0.5 bg-orange-50 text-orange-600 rounded-full text-xs">运动疗法</span>
+                                        <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full text-xs">物理治疗</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center text-gray-500 text-xs">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>明日可约</span>
+                                        </div>
+                                        <button class="bg-purple-500 text-white px-4 py-1.5 rounded-full text-sm">
+                                            预约咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 医生3 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="医生头像" class="w-16 h-16 rounded-full border-2 border-purple-100">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-bold">王医生</h3>
+                                            <p class="text-xs text-gray-500">中医科 · 主任医师</p>
+                                        </div>
+                                        <div class="flex items-center bg-blue-50 px-2 py-1 rounded-lg">
+                                            <span class="text-blue-500 font-medium mr-1">4.7</span>
+                                            <div class="flex">
+                                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        中西医结合治疗盆底功能障碍，擅长针灸、推拿等传统疗法
+                                    </p>
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        <span class="px-2 py-0.5 bg-purple-50 text-purple-600 rounded-full text-xs">盆底康复</span>
+                                        <span class="px-2 py-0.5 bg-yellow-50 text-yellow-600 rounded-full text-xs">针灸治疗</span>
+                                        <span class="px-2 py-0.5 bg-red-50 text-red-600 rounded-full text-xs">中医调理</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center text-gray-500 text-xs">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>今日可约</span>
+                                        </div>
+                                        <button class="bg-purple-500 text-white px-4 py-1.5 rounded-full text-sm">
+                                            预约咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 医生4 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="医生头像" class="w-16 h-16 rounded-full border-2 border-purple-100">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-bold">陈医生</h3>
+                                            <p class="text-xs text-gray-500">妇产科 · 副主任医师</p>
+                                        </div>
+                                        <div class="flex items-center bg-blue-50 px-2 py-1 rounded-lg">
+                                            <span class="text-blue-500 font-medium mr-1">4.6</span>
+                                            <div class="flex">
+                                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        专注女性盆底功能障碍诊疗，擅长产后康复指导和盆底肌训练
+                                    </p>
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        <span class="px-2 py-0.5 bg-purple-50 text-purple-600 rounded-full text-xs">盆底康复</span>
+                                        <span class="px-2 py-0.5 bg-pink-50 text-pink-600 rounded-full text-xs">女性健康</span>
+                                        <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full text-xs">产后恢复</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center text-gray-500 text-xs">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>3天后可约</span>
+                                        </div>
+                                        <button class="bg-purple-500 text-white px-4 py-1.5 rounded-full text-sm">
+                                            预约咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 医生5 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="医生头像" class="w-16 h-16 rounded-full border-2 border-purple-100">
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="font-bold">赵医生</h3>
+                                            <p class="text-xs text-gray-500">心理科 · 主任医师</p>
+                                        </div>
+                                        <div class="flex items-center bg-blue-50 px-2 py-1 rounded-lg">
+                                            <span class="text-blue-500 font-medium mr-1">4.9</span>
+                                            <div class="flex">
+                                                <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        专注产后抑郁和焦虑障碍治疗，提供心理支持和认知行为疗法
+                                    </p>
+                                    <div class="flex flex-wrap gap-1 mt-2">
+                                        <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full text-xs">心理健康</span>
+                                        <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded-full text-xs">产后抑郁</span>
+                                        <span class="px-2 py-0.5 bg-green-50 text-green-600 rounded-full text-xs">认知疗法</span>
+                                    </div>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center text-gray-500 text-xs">
+                                            <i class="far fa-clock mr-1"></i>
+                                            <span>今日可约</span>
+                                        </div>
+                                        <button class="bg-purple-500 text-white px-4 py-1.5 rounded-full text-sm">
+                                            预约咨询
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 底部导航栏 -->
+                    <div class="bottom-tab-bar flex items-center justify-around">
+                        <a href="/Users/gunavy/Project/TRAE/FCBSAPP/device-management.html" class="tab-item flex flex-col items-center">
+                            <i class="fas fa-mobile-alt text-xl"></i>
+                            <span class="text-xs">设备</span>
+                        </a>
+                        <a href="/Users/gunavy/Project/TRAE/FCBSAPP/health.html" class="tab-item active flex flex-col items-center">
+                            <i class="fas fa-heartbeat text-xl"></i>
+                            <span class="text-xs">健康</span>
+                        </a>
+                        <a href="/Users/gunavy/Project/TRAE/FCBSAPP/shop.html" class="tab-item flex flex-col items-center">
+                            <i class="fas fa-shopping-bag text-xl"></i>
+                            <span class="text-xs">商城</span>
+                        </a>
+                        <a href="/Users/gunavy/Project/TRAE/FCBSAPP/profile.html" class="tab-item flex flex-col items-center">
+                            <i class="fas fa-user text-xl"></i>
+                            <span class="text-xs">我的</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 筛选标签点击事件
+            const filterItems = document.querySelectorAll('.grid-cols-2 > div');
+            let activeFilter = null; // 当前激活的筛选标签，null表示显示全部
+            
+            filterItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 如果点击的是当前激活的标签，则取消选择（显示全部）
+                    if (this === activeFilter) {
+                        // 移除当前标签的active样式
+                        this.classList.remove('bg-purple-500', 'text-white');
+                        this.classList.add('bg-gray-50');
+                        const innerDiv = this.querySelector('.w-8');
+                        if (innerDiv) {
+                            innerDiv.classList.remove('bg-white/20');
+                        }
+                        
+                        // 恢复文字颜色
+                        const textElements = this.querySelectorAll('p');
+                        if (textElements.length > 1) {
+                            textElements[1].classList.remove('text-white/80');
+                            textElements[1].classList.add('text-gray-500');
+                        }
+                        
+                        activeFilter = null; // 设置为null表示显示全部
+                        
+                        // 这里可以添加显示全部医生的逻辑
+                        console.log('显示全部医生');
+                        
+                    } else {
+                        // 移除所有标签的active样式
+                        filterItems.forEach(i => {
+                            i.classList.remove('bg-purple-500', 'text-white');
+                            i.classList.add('bg-gray-50');
+                            const innerDiv = i.querySelector('.w-8');
+                            if (innerDiv) {
+                                innerDiv.classList.remove('bg-white/20');
+                            }
+                            
+                            // 恢复文字颜色
+                            const textElements = i.querySelectorAll('p');
+                            if (textElements.length > 1) {
+                                textElements[1].classList.remove('text-white/80');
+                                textElements[1].classList.add('text-gray-500');
+                            }
+                        });
+                        
+                        // 为当前点击的标签添加active样式
+                        this.classList.remove('bg-gray-50');
+                        this.classList.add('bg-purple-500', 'text-white');
+                        const innerDiv = this.querySelector('.w-8');
+                        if (innerDiv) {
+                            innerDiv.classList.add('bg-white/20');
+                        }
+                        
+                        // 更新文字颜色
+                        const textElements = this.querySelectorAll('p');
+                        if (textElements.length > 1) {
+                            textElements[1].classList.remove('text-gray-500');
+                            textElements[1].classList.add('text-white/80');
+                        }
+                        
+                        activeFilter = this; // 更新当前激活的筛选标签
+                        
+                        // 这里可以添加根据标签筛选医生的逻辑
+                        const category = textElements[0].textContent.trim();
+                        console.log('筛选类别:', category);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

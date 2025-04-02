@@ -241,25 +241,48 @@
                 
                 <!-- 底部导航栏 -->
                 <div class="bottom-tab-bar flex items-center justify-around">
-                    <div class="tab-item flex flex-col items-center">
-                        <i class="fas fa-mobile-alt text-xl"></i>
-                        <span class="text-xs">设备</span>
-                    </div>
-                    <div class="tab-item active flex flex-col items-center">
-                        <i class="fas fa-heartbeat text-xl"></i>
-                        <span class="text-xs">健康</span>
-                    </div>
-                    <div class="tab-item flex flex-col items-center">
-                        <i class="fas fa-shopping-bag text-xl"></i>
-                        <span class="text-xs">商城</span>
-                    </div>
-                    <div class="tab-item flex flex-col items-center">
-                        <i class="fas fa-user text-xl"></i>
-                        <span class="text-xs">我的</span>
-                    </div>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/device-management.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">设备</span>
+                    </a>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // 为所有标签添加悬停效果
+                const allTabs = document.querySelectorAll('.tab-item');
+                allTabs.forEach(tab => {
+                    if (!tab.classList.contains('active')) {
+                        tab.addEventListener('mouseover', function() {
+                            const icon = this.querySelector('i');
+                            const text = this.querySelector('span');
+                            if (icon) icon.classList.add('text-purple-400');
+                            if (text) text.classList.add('text-purple-400');
+                        });
+                        
+                        tab.addEventListener('mouseout', function() {
+                            const icon = this.querySelector('i');
+                            const text = this.querySelector('span');
+                            if (icon) icon.classList.remove('text-purple-400');
+                            if (text) text.classList.remove('text-purple-400');
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html>

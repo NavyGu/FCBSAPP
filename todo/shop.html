@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商城 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">商城</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="p-4">
+                        <!-- 顶部标题和搜索栏 -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h1 class="text-2xl font-bold">健康商城</h1>
+                                <div class="flex items-center space-x-2">
+                                    <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                        <i class="fas fa-bell text-gray-500"></i>
+                                    </button>
+                                    <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                        <i class="fas fa-shopping-cart text-gray-500"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <input type="text" placeholder="搜索产品、配件或服务" class="w-full bg-gray-100 rounded-full py-3 px-5 pl-12 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        <!-- 促销轮播 -->
+                        <div class="mb-6 relative">
+                            <div class="rounded-xl overflow-hidden h-40 relative">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500" alt="促销活动" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-r from-purple-900/70 to-transparent flex items-center">
+                                    <div class="p-6">
+                                        <span class="bg-white text-purple-600 text-xs font-bold px-2 py-1 rounded-full mb-2 inline-block">限时特惠</span>
+                                        <h3 class="text-white text-xl font-bold mb-1">春季焕新礼包</h3>
+                                        <p class="text-white/80 text-sm mb-3">购买指定产品享8折优惠</p>
+                                        <button class="bg-white text-purple-600 px-4 py-1.5 rounded-full text-xs font-medium">
+                                            立即查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 轮播指示器 -->
+                            <div class="absolute bottom-3 right-3 flex space-x-1">
+                                <span class="w-2 h-2 rounded-full bg-white"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/50"></span>
+                                <span class="w-2 h-2 rounded-full bg-white/50"></span>
+                            </div>
+                        </div>
+
+                        <!-- 分类导航 -->
+                        <div class="mb-6">
+                            <div class="grid grid-cols-4 gap-3">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-14 h-14 rounded-full bg-purple-100 flex items-center justify-center mb-1">
+                                        <i class="fas fa-mobile-alt text-purple-500 text-xl"></i>
+                                    </div>
+                                    <span class="text-xs">智能设备</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center mb-1">
+                                        <i class="fas fa-puzzle-piece text-blue-500 text-xl"></i>
+                                    </div>
+                                    <span class="text-xs">配件耗材</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mb-1">
+                                        <i class="fas fa-book-medical text-green-500 text-xl"></i>
+                                    </div>
+                                    <span class="text-xs">健康服务</span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="w-14 h-14 rounded-full bg-yellow-100 flex items-center justify-center mb-1">
+                                        <i class="fas fa-gift text-yellow-500 text-xl"></i>
+                                    </div>
+                                    <span class="text-xs">会员专区</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 热销产品 -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold">热销产品</h2>
+                                <button class="text-sm text-purple-500">查看全部</button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- 产品卡片1 -->
+                                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                                    <div class="h-32 overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300" alt="盆底紧致修复仪" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="p-3">
+                                        <h3 class="font-medium text-sm mb-1">盆底紧致修复仪Pro</h3>
+                                        <div class="flex items-center mb-2">
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                            <span class="text-xs text-gray-500 ml-1">4.8 (245)</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span class="text-purple-500 font-bold">¥1,299</span>
+                                                <span class="text-xs text-gray-400 line-through ml-1">¥1,599</span>
+                                            </div>
+                                            <button class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center">
+                                                <i class="fas fa-plus text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 产品卡片2 -->
+                                <div class="bg-white rounded-xl overflow-hidden shadow-sm">
+                                    <div class="h-32 overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1631549916768-4119b4123a21?w=300" alt="智能按摩仪" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="p-3">
+                                        <h3 class="font-medium text-sm mb-1">智能按摩仪Mini</h3>
+                                        <div class="flex items-center mb-2">
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <span class="text-xs text-gray-500 ml-1">4.0 (189)</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span class="text-purple-500 font-bold">¥899</span>
+                                                <span class="text-xs text-gray-400 line-through ml-1">¥1,099</span>
+                                            </div>
+                                            <button class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center">
+                                                <i class="fas fa-plus text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 新品上架 -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold">新品上架</h2>
+                                <button class="text-sm text-purple-500">查看全部</button>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex">
+                                    <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1584208124888-3a20b9c799e2?w=300" alt="智能康复套装" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="flex items-start justify-between">
+                                            <div>
+                                                <h3 class="font-medium text-sm">全新智能康复套装</h3>
+                                                <div class="flex items-center mt-1">
+                                                    <span class="bg-purple-100 text-purple-600 text-xs px-2 py-0.5 rounded-full">新品</span>
+                                                    <span class="bg-green-100 text-green-600 text-xs px-2 py-0.5 rounded-full ml-1">限量</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-purple-500 font-bold">¥2,499</p>
+                                                <p class="text-xs text-gray-400 line-through">¥2,999</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-xs text-gray-500 mt-2">
+                                            全新升级的智能康复套装，包含主机、4种不同功能探头和专业训练课程
+                                        </p>
+                                        <div class="flex justify-between items-center mt-2">
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <span class="text-xs text-gray-500 ml-1">5.0 (32)</span>
+                                            </div>
+                                            <button class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                                                加入购物车
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 限时特惠 -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <h2 class="text-lg font-semibold">限时特惠</h2>
+                                    <div class="ml-2 flex items-center bg-red-100 text-red-500 px-2 py-1 rounded-full text-xs">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        <span>23:59:42</span>
+                                    </div>
+                                </div>
+                                <button class="text-sm text-purple-500">查看全部</button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <!-- 特惠产品1 -->
+                                <div class="bg-white rounded-xl overflow-hidden shadow-sm relative">
+                                    <div class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                        7折
+                                    </div>
+                                    <div class="h-32 overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1584208124888-3a20b9c799e2?w=300" alt="智能康复仪" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="p-3">
+                                        <h3 class="font-medium text-sm mb-1">智能康复仪标准版</h3>
+                                        <div class="flex items-center mb-2">
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <span class="text-xs text-gray-500 ml-1">4.2 (156)</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span class="text-red-500 font-bold">¥699</span>
+                                                <span class="text-xs text-gray-400 line-through ml-1">¥999</span>
+                                            </div>
+                                            <button class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center">
+                                                <i class="fas fa-plus text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 特惠产品2 -->
+                                <div class="bg-white rounded-xl overflow-hidden shadow-sm relative">
+                                    <div class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                        8折
+                                    </div>
+                                    <div class="h-32 overflow-hidden">
+                                        <img src="https://images.unsplash.com/photo-1584516150909-c43483ee7932?w=300" alt="按摩贴片" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="p-3">
+                                        <h3 class="font-medium text-sm mb-1">智能按摩贴片(6片装)</h3>
+                                        <div class="flex items-center mb-2">
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                            <span class="text-xs text-gray-500 ml-1">4.6 (98)</span>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span class="text-red-500 font-bold">¥199</span>
+                                                <span class="text-xs text-gray-400 line-through ml-1">¥249</span>
+                                            </div>
+                                            <button class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center">
+                                                <i class="fas fa-plus text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 健康服务 -->
+                        <div class="mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold">健康服务</h2>
+                                <button class="text-sm text-purple-500">查看全部</button>
+                            </div>
+                            <div class="space-y-3">
+                                <!-- 服务项目1 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-user-md text-blue-500"></i>
+                                        </div>
+                                        <div class="ml-4 flex-1">
+                                            <h3 class="font-medium">专业康复指导</h3>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                由专业康复师提供一对一指导，制定个性化康复方案
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-purple-500 font-bold">¥299<span class="text-xs font-normal">/次</span></p>
+                                            <button class="mt-1 bg-purple-100 text-purple-600 px-2 py-1 rounded-full text-xs">
+                                                立即预约
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 服务项目2 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-video text-green-500"></i>
+                                        </div>
+                                        <div class="ml-4 flex-1">
+                                            <h3 class="font-medium">线上康复课程</h3>
+                                            <p class="text-xs text-gray-500 mt-1">
+                                                专业康复课程，包含视频教程和实时指导
+                                            </p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-purple-500 font-bold">¥99<span class="text-xs font-normal">/月</span></p>
+                                            <button class="mt-1 bg-purple-100 text-purple-600 px-2 py-1 rounded-full text-xs">
+                                                立即订阅
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 用户评价 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-lg font-semibold">用户评价</h2>
+                                <button class="text-sm text-purple-500">查看全部</button>
+                            </div>
+                            <div class="space-y-4">
+                                <!-- 评价1 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-start">
+                                        <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <h3 class="font-medium text-sm">李女士</h3>
+                                                <span class="text-xs text-gray-500">2024-03-10</span>
+                                            </div>
+                                            <div class="flex items-center text-yellow-400 text-xs mt-1">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mt-2">
+                                                产品非常好用，使用一个月后效果明显，盆底肌力量有了很大提升，漏尿问题也改善了很多。客服态度也很好，有问题都能及时解答。
+                                            </p>
+                                            <div class="mt-2 flex space-x-2">
+                                                <div class="w-16 h-16 rounded-md overflow-hidden bg-gray-100">
+                                                    <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=300" alt="评价图片" class="w-full h-full object-cover">
+                                                </div>
+                                                <div class="w-16 h-16 rounded-md overflow-hidden bg-gray-100">
+                                                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=300" alt="评价图片" class="w-full h-full object-cover">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 评价2 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-start">
+                                        <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                                            <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="用户头像" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="ml-3 flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <h3 class="font-medium text-sm">张女士</h3>
+                                                <span class="text-xs text-gray-500">2024-03-05</span>
+                                            </div>
+                                            <div class="flex items-center text-yellow-400 text-xs mt-1">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mt-2">
+                                                产品质量不错，操作也比较简单。刚开始使用一周，还没有明显效果，但感觉在慢慢改善中。希望长期使用后能有更好的效果。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-tab-bar flex items-center justify-around">
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl"></i>
+                        <span class="text-xs">设备</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl"></i>
+                        <span class="text-xs">健康</span>
+                    </div>
+                    <div class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span class="text-xs">商城</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl"></i>
+                        <span class="text-xs">我的</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

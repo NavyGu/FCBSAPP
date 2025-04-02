@@ -238,7 +238,7 @@
                             <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <h2 class="text-lg font-semibold">专业医生指导</h2>
-                                    <span class="text-xs text-purple-500">查看全部</span>
+                                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/doctors.html" class="text-xs text-purple-500">查看全部</a>
                                 </div>
                                 
                                 <!-- 医生卡片 -->
@@ -307,7 +307,7 @@
                             <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <h2 class="text-lg font-semibold">社区达人指导</h2>
-                                    <span class="text-xs text-purple-500">更多达人</span>
+                                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/experts.html" class="text-xs text-purple-500">更多达人</a>
                                 </div>
                                 
                                 <!-- 达人列表 -->
@@ -420,42 +420,66 @@
                         
                         <!-- 社区分享内容 -->
                         <div id="communityContent" class="hidden">
-                            <!-- 社区热门话题 -->
+                            <!-- 社区热门话题 - 使用底部更好的版本 -->
                             <div class="bg-white rounded-xl p-3 shadow-sm mb-3">
                                 <div class="flex items-center justify-between mb-2">
                                     <h2 class="text-sm font-semibold">热门话题</h2>
                                     <span class="text-xs text-purple-500">更多话题</span>
                                 </div>
                                 
-                                <!-- 修改网格布局的间距和内边距 -->
-                                <div class="grid grid-cols-2 gap-1.5 mb-2">
-                                    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
-                                        <i class="fas fa-hashtag"></i>
-                                        <p class="text-[10px] font-medium text-center mt-0.5">产后康复</p>
-                                        <p class="text-[10px] opacity-80">2.5k人讨论</p>
+                                <!-- 修改为网格布局，避免滚动条 -->
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-gray-50 rounded-lg p-2">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <i class="fas fa-venus text-pink-500 text-xs"></i>
+                                            </div>
+                                            <div class="ml-2">
+                                                <p class="text-xs font-medium">产后恢复</p>
+                                                <p class="text-xs text-gray-500">2.3k人参与</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     
-                                    <div class="bg-gradient-to-br from-pink-500 to-red-500 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
-                                        <i class="fas fa-hashtag"></i>
-                                        <p class="text-[10px] font-medium text-center mt-0.5">盆底训练</p>
-                                        <p class="text-[10px] opacity-80">1.8k人讨论</p>
+                                    <div class="bg-gray-50 rounded-lg p-2">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <i class="fas fa-running text-blue-500 text-xs"></i>
+                                            </div>
+                                            <div class="ml-2">
+                                                <p class="text-xs font-medium">盆底训练</p>
+                                                <p class="text-xs text-gray-500">1.8k人参与</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     
-                                    <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
-                                        <i class="fas fa-hashtag"></i>
-                                        <p class="text-[10px] font-medium text-center mt-0.5">健康生活</p>
-                                        <p class="text-[10px] opacity-80">3.2k人讨论</p>
+                                    <div class="bg-gray-50 rounded-lg p-2">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <i class="fas fa-utensils text-green-500 text-xs"></i>
+                                            </div>
+                                            <div class="ml-2">
+                                                <p class="text-xs font-medium">健康饮食</p>
+                                                <p class="text-xs text-gray-500">3.5k人参与</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     
-                                    <div class="bg-gradient-to-br from-green-500 to-teal-500 rounded-lg flex flex-col items-center justify-center text-white p-1.5">
-                                        <i class="fas fa-hashtag"></i>
-                                        <p class="text-[10px] font-medium text-center mt-0.5">康复经验</p>
-                                        <p class="text-[10px] opacity-80">1.5k人讨论</p>
+                                    <div class="bg-gray-50 rounded-lg p-2">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                                <i class="fas fa-brain text-purple-500 text-xs"></i>
+                                            </div>
+                                            <div class="ml-2">
+                                                <p class="text-xs font-medium">心理健康</p>
+                                                <p class="text-xs text-gray-500">1.2k人参与</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 
                                 <!-- 发布动态按钮 -->
-                                <button class="w-full bg-purple-500 text-white py-1.5 rounded-full text-xs font-medium flex items-center justify-center">
+                                <button class="w-full bg-purple-500 text-white py-1.5 rounded-full text-xs font-medium flex items-center justify-center mt-2">
                                     <i class="fas fa-edit mr-1"></i>
                                     发布我的康复动态
                                 </button>
@@ -494,7 +518,7 @@
                                                 <i class="far fa-heart mr-1"></i>
                                                 <span>128</span>
                                             </button>
-                                            <button class="flex items-center mr-4">
+                                            <button class="flex items-center mr-4 comment-toggle" data-target="comment-section-1">
                                                 <i class="far fa-comment mr-1"></i>
                                                 <span>36</span>
                                             </button>
@@ -506,6 +530,84 @@
                                         <button class="flex items-center">
                                             <i class="far fa-bookmark"></i>
                                         </button>
+                                    </div>
+                                    
+                                    <!-- 评论区 -->
+                                    <div id="comment-section-1" class="mt-3 pt-3 border-t border-gray-100 hidden">
+                                        <!-- 已有评论 -->
+                                        <div class="space-y-3 mb-3">
+                                            <div class="flex">
+                                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="评论用户头像" class="w-7 h-7 rounded-full">
+                                                <div class="ml-2 flex-1">
+                                                    <div class="bg-gray-50 rounded-lg p-2">
+                                                        <div class="flex items-center">
+                                                            <p class="text-xs font-medium">张小姐</p>
+                                                            <span class="text-gray-400 text-xs ml-2">1小时前</span>
+                                                        </div>
+                                                        <p class="text-xs mt-1">请问每天什么时间训练效果最好呢？</p>
+                                                    </div>
+                                                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                                                        <button class="mr-3">
+                                                            <i class="far fa-heart mr-1"></i>
+                                                            <span>8</span>
+                                                        </button>
+                                                        <button>回复</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex">
+                                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="评论用户头像" class="w-7 h-7 rounded-full">
+                                                <div class="ml-2 flex-1">
+                                                    <div class="bg-gray-50 rounded-lg p-2">
+                                                        <div class="flex items-center">
+                                                            <p class="text-xs font-medium">李小花</p>
+                                                            <span class="text-yellow-600 text-xs ml-1">作者</span>
+                                                            <span class="text-gray-400 text-xs ml-2">45分钟前</span>
+                                                        </div>
+                                                        <p class="text-xs mt-1">我一般是早晨起床后和晚上睡前各做一次，保持规律很重要~</p>
+                                                    </div>
+                                                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                                                        <button class="mr-3">
+                                                            <i class="far fa-heart mr-1"></i>
+                                                            <span>12</span>
+                                                        </button>
+                                                        <button>回复</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex">
+                                                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="评论用户头像" class="w-7 h-7 rounded-full">
+                                                <div class="ml-2 flex-1">
+                                                    <div class="bg-gray-50 rounded-lg p-2">
+                                                        <div class="flex items-center">
+                                                            <p class="text-xs font-medium">王女士</p>
+                                                            <span class="text-gray-400 text-xs ml-2">30分钟前</span>
+                                                        </div>
+                                                        <p class="text-xs mt-1">坚持了一周，确实有效果！谢谢分享~</p>
+                                                    </div>
+                                                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                                                        <button class="mr-3">
+                                                            <i class="far fa-heart mr-1"></i>
+                                                            <span>5</span>
+                                                        </button>
+                                                        <button>回复</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 添加评论 -->
+                                        <div class="flex items-center">
+                                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="我的头像" class="w-7 h-7 rounded-full">
+                                            <div class="ml-2 flex-1 relative">
+                                                <input type="text" placeholder="添加评论..." class="w-full bg-gray-50 rounded-full text-xs py-2 px-3 focus:outline-none focus:ring-1 focus:ring-purple-500">
+                                                <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-500">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -547,7 +649,7 @@
                                                 <i class="fas fa-heart text-red-500 mr-1"></i>
                                                 <span>256</span>
                                             </button>
-                                            <button class="flex items-center mr-4">
+                                            <button class="flex items-center mr-4 comment-toggle" data-target="comment-section-2">
                                                 <i class="far fa-comment mr-1"></i>
                                                 <span>48</span>
                                             </button>
@@ -559,6 +661,84 @@
                                         <button class="flex items-center">
                                             <i class="fas fa-bookmark text-purple-500"></i>
                                         </button>
+                                    </div>
+                                    
+                                    <!-- 评论区 -->
+                                    <div id="comment-section-2" class="mt-3 pt-3 border-t border-gray-100 hidden">
+                                        <!-- 已有评论 -->
+                                        <div class="space-y-3 mb-3">
+                                            <div class="flex">
+                                                <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="评论用户头像" class="w-7 h-7 rounded-full">
+                                                <div class="ml-2 flex-1">
+                                                    <div class="bg-gray-50 rounded-lg p-2">
+                                                        <div class="flex items-center">
+                                                            <p class="text-xs font-medium">刘女士</p>
+                                                            <span class="text-gray-400 text-xs ml-2">昨天</span>
+                                                        </div>
+                                                        <p class="text-xs mt-1">视频很清晰，动作讲解得很详细，谢谢分享！</p>
+                                                    </div>
+                                                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                                                        <button class="mr-3">
+                                                            <i class="far fa-heart mr-1"></i>
+                                                            <span>15</span>
+                                                        </button>
+                                                        <button>回复</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex">
+                                                <img src="https://randomuser.me/api/portraits/women/35.jpg" alt="评论用户头像" class="w-7 h-7 rounded-full">
+                                                <div class="ml-2 flex-1">
+                                                    <div class="bg-gray-50 rounded-lg p-2">
+                                                        <div class="flex items-center">
+                                                            <p class="text-xs font-medium">赵妈妈</p>
+                                                            <span class="text-gray-400 text-xs ml-2">昨天</span>
+                                                        </div>
+                                                        <p class="text-xs mt-1">请问这个动作产后多久可以开始做呢？</p>
+                                                    </div>
+                                                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                                                        <button class="mr-3">
+                                                            <i class="far fa-heart mr-1"></i>
+                                                            <span>7</span>
+                                                        </button>
+                                                        <button>回复</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="flex">
+                                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="评论用户头像" class="w-7 h-7 rounded-full">
+                                                <div class="ml-2 flex-1">
+                                                    <div class="bg-gray-50 rounded-lg p-2">
+                                                        <div class="flex items-center">
+                                                            <p class="text-xs font-medium">王美丽</p>
+                                                            <span class="text-purple-600 text-xs ml-1">作者</span>
+                                                            <span class="text-gray-400 text-xs ml-2">昨天</span>
+                                                        </div>
+                                                        <p class="text-xs mt-1">一般建议产后6周后开始，但最好先咨询医生确认身体恢复情况哦~</p>
+                                                    </div>
+                                                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                                                        <button class="mr-3">
+                                                            <i class="far fa-heart mr-1"></i>
+                                                            <span>20</span>
+                                                        </button>
+                                                        <button>回复</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- 添加评论 -->
+                                        <div class="flex items-center">
+                                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="我的头像" class="w-7 h-7 rounded-full">
+                                            <div class="ml-2 flex-1 relative">
+                                                <input type="text" placeholder="添加评论..." class="w-full bg-gray-50 rounded-full text-xs py-2 px-3 focus:outline-none focus:ring-1 focus:ring-purple-500">
+                                                <button class="absolute right-2 top-1/2 transform -translate-y-1/2 text-purple-500">
+                                                    <i class="fas fa-paper-plane"></i>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -646,66 +826,24 @@
                     }
                 });
             });
+            
+            // 评论区切换显示/隐藏
+            const commentToggles = document.querySelectorAll('.comment-toggle');
+            commentToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const commentSection = document.getElementById(targetId);
+                    
+                    if (commentSection.classList.contains('hidden')) {
+                        commentSection.classList.remove('hidden');
+                        commentSection.classList.add('block');
+                    } else {
+                        commentSection.classList.remove('block');
+                        commentSection.classList.add('hidden');
+                    }
+                });
+            });
         });
     </script>
 </body>
 </html>
-
-<!-- 热门话题区域 - 修改显示形式，避免滚动条 -->
-<div class="mt-4">
-    <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-medium">热门话题</h3>
-        <a href="#" class="text-xs text-purple-500">查看全部</a>
-    </div>
-    
-    <!-- 修改为网格布局，避免滚动条 -->
-    <div class="grid grid-cols-2 gap-2">
-        <div class="bg-gray-50 rounded-lg p-3">
-            <div class="flex items-center">
-                <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-venus text-pink-500 text-xs"></i>
-                </div>
-                <div class="ml-2">
-                    <p class="text-xs font-medium">产后恢复</p>
-                    <p class="text-xs text-gray-500">2.3k人参与</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-gray-50 rounded-lg p-3">
-            <div class="flex items-center">
-                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-running text-blue-500 text-xs"></i>
-                </div>
-                <div class="ml-2">
-                    <p class="text-xs font-medium">盆底训练</p>
-                    <p class="text-xs text-gray-500">1.8k人参与</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-gray-50 rounded-lg p-3">
-            <div class="flex items-center">
-                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-utensils text-green-500 text-xs"></i>
-                </div>
-                <div class="ml-2">
-                    <p class="text-xs font-medium">健康饮食</p>
-                    <p class="text-xs text-gray-500">3.5k人参与</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-gray-50 rounded-lg p-3">
-            <div class="flex items-center">
-                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <i class="fas fa-brain text-purple-500 text-xs"></i>
-                </div>
-                <div class="ml-2">
-                    <p class="text-xs font-medium">心理健康</p>
-                    <p class="text-xs text-gray-500">1.2k人参与</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
