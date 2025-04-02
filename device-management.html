@@ -101,25 +101,31 @@
                             </div>
 
                             <!-- 康复计划日历区域 - 添加月份切换功能 -->
-                            <div class="mb-6 bg-white rounded-xl p-4 shadow-sm">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h2 class="text-lg font-semibold flex items-center">
+                            <div class="mb-4 bg-white rounded-xl p-3 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h2 class="text-base font-semibold flex items-center whitespace-nowrap">
                                         <i class="fas fa-calendar-alt text-purple-500 mr-2"></i>
                                         康复计划
                                     </h2>
-                                    <!-- 月份切换控件 -->
-                                    <div class="flex items-center space-x-2">
-                                        <button id="prevMonth" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                            <i class="fas fa-chevron-left text-gray-500"></i>
-                                        </button>
-                                        <span id="currentMonth" class="text-sm text-gray-500">2024年3月</span>
-                                        <button id="nextMonth" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                                            <i class="fas fa-chevron-right text-gray-500"></i>
+                                    <div class="flex items-center gap-1">
+                                        <div class="flex items-center">
+                                            <button id="prevMonth" class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <i class="fas fa-chevron-left text-gray-500 text-xs"></i>
+                                            </button>
+                                            <span id="currentMonth" class="text-xs text-gray-500 mx-1">2024年3月</span>
+                                            <button id="nextMonth" class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+                                            </button>
+                                        </div>
+                                        <button onclick="window.location.href='rehabilitation-plan.html'" 
+                                                class="text-xs text-purple-500 hover:text-purple-600 flex items-center whitespace-nowrap">
+                                            <span>查看详细</span>
+                                            <i class="fas fa-chevron-right ml-1 text-xs"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <!-- 简单日历网格 -->
-                                <div id="calendarDays" class="grid grid-cols-7 gap-2 mb-4">
+                                <div id="calendarDays" class="grid grid-cols-7 gap-1 mb-2">
                                     <div class="text-center text-xs text-gray-500">日</div>
                                     <div class="text-center text-xs text-gray-500">一</div>
                                     <div class="text-center text-xs text-gray-500">二</div>
@@ -130,18 +136,18 @@
                                     <!-- 日期格子将通过JavaScript动态生成 -->
                                 </div>
                                 <!-- 康复计划汇总 -->
-                                <div class="border-t pt-4">
-                                    <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="border-t pt-2">
+                                    <div class="grid grid-cols-3 gap-2 text-center">
                                         <div>
-                                            <p class="text-2xl font-bold text-purple-500">14</p>
+                                            <p class="text-lg font-bold text-purple-500">14</p>
                                             <p class="text-xs text-gray-500">持续天数</p>
                                         </div>
                                         <div>
-                                            <p class="text-2xl font-bold text-purple-500">5</p>
+                                            <p class="text-lg font-bold text-purple-500">5</p>
                                             <p class="text-xs text-gray-500">本周完成</p>
                                         </div>
                                         <div>
-                                            <p class="text-2xl font-bold text-purple-500">60%</p>
+                                            <p class="text-lg font-bold text-purple-500">60%</p>
                                             <p class="text-xs text-gray-500">计划完成度</p>
                                         </div>
                                     </div>
@@ -149,7 +155,7 @@
                             </div>
 
                             <!-- 最近训练记录 -->
-                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="bg-white rounded-xl p-3 shadow-sm">
                                 <h2 class="text-lg font-semibold mb-4 flex items-center">
                                     <i class="fas fa-history text-purple-500 mr-2"></i>
                                     最近训练
@@ -201,14 +207,89 @@
         </div>
     </div>
 
-    <!-- 添加导航跳转脚本 -->
+     <!-- 修改弹窗组件，确保保持在APP框架内 -->
+     <div id="noRehabPlanModal" class="hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-5 max-w-xs w-11/12 shadow-xl z-50">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-clipboard-list text-purple-500 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800">开始使用设备</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    建议先通过AI对话制定专属康复计划，帮助您更好地达成康复目标。
+                </p>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <button id="confirmRehabPlan" class="w-full py-2 bg-purple-500 text-white rounded-lg text-sm font-medium">
+                    制定康复计划
+                </button>
+                <button id="directUseButton" class="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                    直接使用设备
+                </button>
+                <button id="cancelRehabPlan" class="w-full py-2 text-gray-500 text-sm font-medium">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 获取开始使用按钮
+            // 获取按钮元素
             const startUseButton = document.getElementById('startUseButton');
+            const cancelRehabPlan = document.getElementById('cancelRehabPlan');
+            const confirmRehabPlan = document.getElementById('confirmRehabPlan');
+            const directUseButton = document.getElementById('directUseButton');
+            
+            // 显示弹窗
             if (startUseButton) {
                 startUseButton.addEventListener('click', function() {
-                    window.location.href = 'device-usage.html';
+                    // 创建弹窗元素
+                    const modalHTML = `
+                        <div id="noRehabPlanModal" class="absolute inset-0 z-50">
+                            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-5 w-4/5 shadow-xl">
+                                <div class="text-center mb-4">
+                                    <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-clipboard-list text-purple-500 text-2xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-gray-800">开始使用设备</h3>
+                                    <p class="text-sm text-gray-600 mt-2">
+                                        建议先通过AI对话制定专属康复计划，帮助您更好地达成康复目标。
+                                    </p>
+                                </div>
+                                <div class="flex flex-col space-y-2">
+                                    <button id="confirmRehabPlan" class="w-full py-2 bg-purple-500 text-white rounded-lg text-sm font-medium">
+                                        制定康复计划
+                                    </button>
+                                    <button id="directUseButton" class="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                                        直接使用设备
+                                    </button>
+                                    <button id="cancelRehabPlan" class="w-full py-2 text-gray-500 text-sm font-medium">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 将弹窗添加到内容区域中
+                    const contentArea = document.querySelector('.content-area');
+                    contentArea.insertAdjacentHTML('beforeend', modalHTML);
+                    
+                    // 绑定新创建的按钮事件
+                    document.getElementById('cancelRehabPlan').addEventListener('click', function() {
+                        document.getElementById('noRehabPlanModal').remove();
+                    });
+                    
+                    document.getElementById('confirmRehabPlan').addEventListener('click', function() {
+                        window.location.href = 'ai-conversation.html';
+                    });
+                    
+                    document.getElementById('directUseButton').addEventListener('click', function() {
+                        window.location.href = 'device-usage.html';
+                    });
                 });
             }
             

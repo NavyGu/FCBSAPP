@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI康复助手 - 医疗设备管理APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .device-container {
+            display: grid;
+            grid-template-columns: repeat(4, 390px);
+            gap: 40px;
+            padding: 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .device-label {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .device-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 55px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1),
+                        0 0 0 1px rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 12px solid #1a1a1a;
+        }
+        .content-area {
+            height: calc(100% - 127px);
+            overflow-y: auto;
+            background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+        }
+        .bottom-tab-bar {
+            height: 83px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(229,231,235,0.5);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .status-bar {
+            height: 44px;
+            background: #000;
+            color: white;
+            padding: 0 20px;
+        }
+        .tab-item {
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s;
+        }
+        .tab-item:hover {
+            color: #8B5CF6;
+        }
+        .tab-item.active {
+            color: #8B5CF6;
+        }
+        /* 设备按钮样式 */
+        .device-button {
+            position: absolute;
+            background: #1a1a1a;
+            z-index: 2;
+        }
+        .power-button {
+            right: -14px;
+            top: 180px;
+            width: 3px;
+            height: 50px;
+            border-radius: 0 2px 2px 0;
+        }
+        .volume-up {
+            left: -14px;
+            top: 150px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        .volume-down {
+            left: -14px;
+            top: 200px;
+            width: 3px;
+            height: 40px;
+            border-radius: 2px 0 0 2px;
+        }
+        /* 动态岛样式 */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 25px;
+            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            border-radius: 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        /* 聊天气泡样式 */
+        .ai-bubble {
+            background: #f3f4f6;
+            border-radius: 18px 18px 18px 4px;
+            max-width: 80%;
+        }
+        .user-bubble {
+            background: #8B5CF6;
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            max-width: 80%;
+            align-self: flex-end;
+        }
+        /* 选项按钮样式 */
+        .option-btn {
+            border: 1px solid #8B5CF6;
+            color: #8B5CF6;
+            transition: all 0.3s;
+        }
+        .option-btn:hover, .option-btn.selected {
+            background-color: #8B5CF6;
+            color: white;
+        }
+        /* 输入框样式 */
+        .message-input {
+            border: 1px solid #e5e7eb;
+            border-radius: 24px;
+            padding: 10px 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .message-input:focus {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        /* 打字动画 */
+        .typing-animation {
+            display: inline-flex;
+            align-items: center;
+            height: 20px;
+        }
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            margin: 0 1px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.6); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">AI康复助手</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航 -->
+                    <div class="bg-white px-4 py-3 flex items-center border-b">
+                        <button onclick="window.history.back()" class="mr-4">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <h1 class="text-lg font-semibold">AI康复助手</h1>
+                    </div>
+
+                    <!-- 聊天区域 -->
+                    <div id="chatContainer" class="p-4 space-y-4 pb-24">
+                        <!-- AI欢迎消息 -->
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-purple-500"></i>
+                            </div>
+                            <div class="ai-bubble p-3 ml-2">
+                                <p class="text-sm">您好！我是您的AI康复助手。为了给您制定个性化的康复计划，我需要了解一些基本信息。请问您是产后多久了？</p>
+                            </div>
+                        </div>
+
+                        <!-- 用户选项 -->
+                        <div class="flex flex-wrap gap-2 ml-10">
+                            <button class="option-btn text-sm px-3 py-1.5 rounded-full" data-value="1个月内">1个月内</button>
+                            <button class="option-btn text-sm px-3 py-1.5 rounded-full" data-value="1-3个月">1-3个月</button>
+                            <button class="option-btn text-sm px-3 py-1.5 rounded-full" data-value="3-6个月">3-6个月</button>
+                            <button class="option-btn text-sm px-3 py-1.5 rounded-full" data-value="6个月以上">6个月以上</button>
+                        </div>
+
+                        <!-- 聊天记录将动态添加在这里 -->
+                    </div>
+
+                    <!-- 底部输入框 -->
+                    <div class="fixed bottom-[95px] left-0 right-0 p-4 bg-white border-t">
+                        <div class="flex items-center">
+                            <input type="text" id="messageInput" class="message-input flex-1 text-sm" placeholder="输入您的回答或问题...">
+                            <button id="sendButton" class="ml-2 w-10 h-10 bg-purple-500 text-white rounded-full flex items-center justify-center">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部导航栏 -->
+                <div class="bottom-tab-bar flex items-center justify-around">
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/device-management.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">设备</span>
+                    </a>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有标签添加悬停效果
+            const allTabs = document.querySelectorAll('.tab-item');
+            allTabs.forEach(tab => {
+                if (!tab.classList.contains('active')) {
+                    tab.addEventListener('mouseover', function() {
+                        const icon = this.querySelector('i');
+                        const text = this.querySelector('span');
+                        if (icon) icon.classList.add('text-purple-400');
+                        if (text) text.classList.add('text-purple-400');
+                    });
+                    
+                    tab.addEventListener('mouseout', function() {
+                        const icon = this.querySelector('i');
+                        const text = this.querySelector('span');
+                        if (icon) icon.classList.remove('text-purple-400');
+                        if (text) text.classList.remove('text-purple-400');
+                    });
+                }
+            });
+
+            // 聊天功能
+            const chatContainer = document.getElementById('chatContainer');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+            const optionButtons = document.querySelectorAll('.option-btn');
+            
+            // 用户信息收集
+            const userInfo = {
+                postpartumPeriod: '',
+                symptoms: [],
+                exerciseFrequency: '',
+                painLevel: '',
+                goals: []
+            };
+            
+            // 对话流程
+            let conversationStep = 0;
+            const conversationFlow = [
+                {
+                    question: "您目前有哪些不适症状？可以多选。",
+                    options: ["盆底肌无力", "腰背疼痛", "腹直肌分离", "尿失禁", "其他"]
+                },
+                {
+                    question: "您平时的运动频率是？",
+                    options: ["几乎不运动", "每周1-2次", "每周3-4次", "每周5次以上"]
+                },
+                {
+                    question: "您的疼痛程度如何？（0-10分，10分为最严重）",
+                    options: ["0-2 轻微", "3-5 中等", "6-8 严重", "9-10 极度严重"]
+                },
+                {
+                    question: "您希望通过康复训练达到什么目标？可以多选。",
+                    options: ["缓解疼痛", "增强肌肉力量", "改善姿势", "恢复身材", "提高生活质量"]
+                }
+            ];
+            
+            // 选项按钮点击事件
+            optionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    userInfo.postpartumPeriod = value;
+                    
+                    // 添加用户回复到聊天
+                    addUserMessage(value);
+                    
+                    // 移除选项按钮
+                    const optionsContainer = this.parentElement;
+                    optionsContainer.remove();
+                    
+                    // 显示AI正在输入
+                    showTypingAnimation();
+                    
+                    // 延迟后显示下一个问题
+                    setTimeout(() => {
+                        removeTypingAnimation();
+                        askNextQuestion();
+                    }, 1500);
+                });
+            });
+            
+            // 发送按钮点击事件
+            sendButton.addEventListener('click', sendMessage);
+            
+            // 输入框回车事件
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // 发送消息函数
+            function sendMessage() {
+                const message = messageInput.value.trim();
+                if (message) {
+                    addUserMessage(message);
+                    messageInput.value = '';
+                    
+                    // 根据当前步骤处理用户输入
+                    processUserInput(message);
+                }
+            }
+            
+            // 添加用户消息到聊天
+            function addUserMessage(message) {
+                const userBubble = document.createElement('div');
+                userBubble.className = 'flex flex-row-reverse items-start';
+                userBubble.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div class="user-bubble p-3 mr-2">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+                chatContainer.appendChild(userBubble);
+                scrollToBottom();
+            }
+            
+            // 添加AI消息到聊天
+            function addAIMessage(message) {
+                const aiBubble = document.createElement('div');
+                aiBubble.className = 'flex items-start';
+                aiBubble.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-purple-500"></i>
+                    </div>
+                    <div class="ai-bubble p-3 ml-2">
+                        <p class="text-sm">${message}</p>
+                    </div>
+                `;
+                chatContainer.appendChild(aiBubble);
+                scrollToBottom();
+            }
+            
+            // 添加选项按钮
+            function addOptions(options, isMultiSelect = false) {
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'flex flex-wrap gap-2 ml-10';
+                
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn text-sm px-3 py-1.5 rounded-full';
+                    button.textContent = option;
+                    button.setAttribute('data-value', option);
+                    
+                    if (isMultiSelect) {
+                        button.addEventListener('click', function() {
+                            this.classList.toggle('selected');
+                        });
+                    } else {
+                        button.addEventListener('click', function() {
+                            const value = this.getAttribute('data-value');
+                            
+                            // 添加用户回复到聊天
+                            addUserMessage(value);
+                            
+                            // 处理用户选择
+                            processUserSelection(value, conversationStep);
+                            
+                            // 移除选项按钮
+                            optionsContainer.remove();
+                            
+                            // 显示AI正在输入
+                            showTypingAnimation();
+                            
+                            // 延迟后显示下一个问题
+                            setTimeout(() => {
+                                removeTypingAnimation();
+                                conversationStep++;
+                                askNextQuestion();
+                            }, 1500);
+                        });
+                    }
+                    
+                    optionsContainer.appendChild(button);
+                });
+                
+                if (isMultiSelect) {
+                    const confirmButton = document.createElement('button');
+                    confirmButton.className = 'bg-purple-500 text-white text-sm px-3 py-1.5 rounded-full ml-2';
+                    confirmButton.textContent = '确认';
+                    confirmButton.addEventListener('click', function() {
+                        const selectedOptions = [];
+                        optionsContainer.querySelectorAll('.selected').forEach(btn => {
+                            selectedOptions.push(btn.getAttribute('data-value'));
+                        });
+                        
+                        if (selectedOptions.length > 0) {
+                            // 添加用户回复到聊天
+                            addUserMessage(selectedOptions.join(', '));
+                            
+                            // 处理用户选择
+                            processMultiSelection(selectedOptions, conversationStep);
+                            
+                            // 移除选项按钮
+                            optionsContainer.remove();
+                            
+                            // 显示AI正在输入
+                            showTypingAnimation();
+                            
+                            // 延迟后显示下一个问题
+                            setTimeout(() => {
+                                removeTypingAnimation();
+                                conversationStep++;
+                                askNextQuestion();
+                            }, 1500);
+                        }
+                    });
+                    optionsContainer.appendChild(confirmButton);
+                }
+                
+                chatContainer.appendChild(optionsContainer);
+                scrollToBottom();
+            }
+            
+            // 显示AI正在输入动画
+            function showTypingAnimation() {
+                const typingContainer = document.createElement('div');
+                typingContainer.id = 'typingAnimation';
+                typingContainer.className = 'flex items-start';
+                typingContainer.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-purple-500"></i>
+                    </div>
+                    <div class="ai-bubble p-3 ml-2">
+                        <div class="typing-animation">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                chatContainer.appendChild(typingContainer);
+                scrollToBottom();
+            }
+            
+            // 移除AI正在输入动画
+            function removeTypingAnimation() {
+                const typingAnimation = document.getElementById('typingAnimation');
+                if (typingAnimation) {
+                    typingAnimation.remove();
+                }
+            }
+            
+            // 处理用户选择
+            function processUserSelection(value, step) {
+                switch(step) {
+                    case 0: // 症状
+                        userInfo.symptoms = [value];
+                        break;
+                    case 1: // 运动频率
+                        userInfo.exerciseFrequency = value;
+                        break;
+                    case 2: // 疼痛程度
+                        userInfo.painLevel = value;
+                        break;
+                    case 3: // 目标
+                        userInfo.goals = [value];
+                        break;
+                }
+            }
+            
+            // 处理多选
+            function processMultiSelection(values, step) {
+                switch(step) {
+                    case 0: // 症状
+                        userInfo.symptoms = values;
+                        break;
+                    case 3: // 目标
+                        userInfo.goals = values;
+                        break;
+                }
+            }
+            
+            // 处理用户输入
+            function processUserInput(message) {
+                // 显示AI正在输入
+                showTypingAnimation();
+                
+                // 延迟后显示回复
+                setTimeout(() => {
+                    removeTypingAnimation();
+                    addAIMessage("谢谢您的回复！");
+                    
+                    // 继续对话流程
+                    setTimeout(() => {
+                        askNextQuestion();
+                    }, 500);
+                }, 1500);
+            }
+            
+            // 询问下一个问题
+            function askNextQuestion() {
+                if (conversationStep < conversationFlow.length) {
+                    const currentQuestion = conversationFlow[conversationStep];
+                    addAIMessage(currentQuestion.question);
+                    
+                    // 判断是否为多选问题
+                    const isMultiSelect = conversationStep === 0 || conversationStep === 3;
+                    
+                    // 添加选项按钮
+                    setTimeout(() => {
+                        addOptions(currentQuestion.options, isMultiSelect);
+                    }, 500);
+                } else {
+                    // 对话结束，生成康复计划
+                    finishConversation();
+                }
+            }
+            
+            // 完成对话，生成康复计划
+            function finishConversation() {
+                addAIMessage("感谢您提供的信息！我正在为您生成个性化康复计划...");
+                
+                // 模拟生成计划的延迟
+                setTimeout(() => {
+                    addAIMessage("您的康复计划已生成完毕！");
+                    
+                    // 添加查看计划按钮
+                    const planButtonContainer = document.createElement('div');
+                    planButtonContainer.className = 'flex justify-center mt-4';
+                    planButtonContainer.innerHTML = `
+                        <button id="viewPlanButton" class="bg-purple-500 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-file-medical mr-2"></i>
+                            查看康复计划
+                        </button>
+                    `;
+                    chatContainer.appendChild(planButtonContainer);
+                    
+                    // 添加查看计划按钮点击事件
+                    document.getElementById('viewPlanButton').addEventListener('click', function() {
+                        // 跳转到康复计划页面
+                        window.location.href = '/Users/gunavy/Project/TRAE/FCBSAPP/rehabilitation-plan.html';
+                        
+                        // 保存用户信息到本地存储
+                        localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                    });
+                    
+                    scrollToBottom();
+                }, 3000);
+            }
+            
+            // 滚动到底部
+            function scrollToBottom() {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

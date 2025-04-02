@@ -432,8 +432,8 @@
             const backButton = document.getElementById('backButton');
             if (backButton) {
                 backButton.addEventListener('click', function() {
-                    // 修改为不跳出应用，而是返回上一页
-                    history.back();
+                    // 修改为直接跳转到设备管理页面
+                    window.location.href = 'device-management.html';
                 });
             }
             
