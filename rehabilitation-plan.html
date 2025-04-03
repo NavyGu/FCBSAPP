@@ -6,110 +6,12 @@
     <title>康复计划 - 医疗设备管理APP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/Users/gunavy/Project/TRAE/FCBSAPP/styles.css">
     <style>
+        /* 仅保留页面特有的样式 */
         body {
             min-height: 100vh;
             padding: 2rem;
-        }
-        .device-container {
-            display: grid;
-            grid-template-columns: repeat(4, 390px);
-            gap: 40px;
-            padding: 40px;
-            max-width: 1800px;
-            margin: 0 auto;
-        }
-        .device-label {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #2d3748;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .device-frame {
-            width: 390px;
-            height: 844px;
-            border-radius: 55px;
-            background: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1),
-                        0 0 0 1px rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 12px solid #1a1a1a;
-        }
-        .content-area {
-            height: calc(100% - 127px);
-            overflow-y: auto;
-            background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
-        }
-        .bottom-tab-bar {
-            height: 83px;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(229,231,235,0.5);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        .status-bar {
-            height: 44px;
-            background: #000;
-            color: white;
-            padding: 0 20px;
-        }
-        .tab-item {
-            cursor: pointer;
-            padding: 8px;
-            transition: all 0.3s;
-        }
-        .tab-item:hover {
-            color: #8B5CF6;
-        }
-        .tab-item.active {
-            color: #8B5CF6;
-        }
-        /* 设备按钮样式 */
-        .device-button {
-            position: absolute;
-            background: #1a1a1a;
-            z-index: 2;
-        }
-        .power-button {
-            right: -14px;
-            top: 180px;
-            width: 3px;
-            height: 50px;
-            border-radius: 0 2px 2px 0;
-        }
-        .volume-up {
-            left: -14px;
-            top: 150px;
-            width: 3px;
-            height: 40px;
-            border-radius: 2px 0 0 2px;
-        }
-        .volume-down {
-            left: -14px;
-            top: 200px;
-            width: 3px;
-            height: 40px;
-            border-radius: 2px 0 0 2px;
-        }
-        /* 动态岛样式 */
-        .dynamic-island {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 25px;
-            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
-            border-radius: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         /* 进度条样式 */
         .progress-bar {
@@ -166,7 +68,7 @@
                     <!-- 顶部导航 -->
                     <div class="bg-white px-4 py-3 flex items-center justify-between border-b">
                         <div class="flex items-center">
-                            <button onclick="window.location.href='/Users/gunavy/Project/TRAE/FCBSAPP/device-management.html'" class="mr-4">
+                            <button onclick="window.location.href='device-management.html'" class="mr-4">
                                 <i class="fas fa-arrow-left text-gray-600"></i>
                             </button>
                             <h1 class="text-lg font-semibold">我的康复计划</h1>
@@ -179,10 +81,10 @@
                     <!-- 计划概览 -->
                     <div class="bg-white m-4 rounded-xl p-4 shadow-sm">
                         <div class="flex items-center justify-between mb-3">
-                            <h2 class="text-lg font-semibold">产后康复计划</h2>
+                            <h2 class="text-lg font-semibold">产后盆底康复计划</h2>
                             <span class="text-xs text-white bg-green-500 px-2 py-1 rounded-full">AI推荐</span>
                         </div>
-                        <p class="text-sm text-gray-600 mb-3">根据您的情况定制的康复训练计划，帮助您恢复身体机能。</p>
+                        <p class="text-sm text-gray-600 mb-3">根据您的情况定制的盆底肌康复训练计划，帮助您恢复盆底肌功能。</p>
                         <div class="mb-2">
                             <div class="flex justify-between text-sm mb-1">
                                 <span>完成进度</span>
@@ -204,181 +106,307 @@
                         <div class="bg-white rounded-xl p-4 shadow-sm">
                             <div class="flex items-center justify-between mb-3">
                                 <div>
-                                    <h3 class="font-medium">盆底肌训练</h3>
+                                    <h3 class="font-medium">盆底肌基础训练</h3>
                                     <p class="text-xs text-gray-500">3组 × 10次</p>
                                 </div>
-                                <button class="bg-purple-500 text-white text-sm px-4 py-1.5 rounded-full">
-                                    开始
+                                <button onclick="window.location.href='device-usage.html'" class="bg-purple-500 text-white text-xs px-3 py-1.5 rounded-lg">
+                                    开始训练
                                 </button>
                             </div>
-                            <div class="flex items-center justify-between mb-3 pt-3 border-t">
-                                <div>
-                                    <h3 class="font-medium">腹直肌修复</h3>
-                                    <p class="text-xs text-gray-500">2组 × 8次</p>
+                            <div class="text-xs text-gray-600">
+                                <p>通过盆底紧致修复仪进行基础强度训练，帮助恢复盆底肌张力。</p>
+                                <div class="flex items-center mt-2">
+                                    <i class="fas fa-clock text-purple-400 mr-1"></i>
+                                    <span>预计时长: 15分钟</span>
                                 </div>
-                                <button class="bg-purple-500 text-white text-sm px-4 py-1.5 rounded-full">
-                                    开始
-                                </button>
-                            </div>
-                            <div class="flex items-center justify-between pt-3 border-t">
-                                <div>
-                                    <h3 class="font-medium">骨盆稳定训练</h3>
-                                    <p class="text-xs text-gray-500">2组 × 12次</p>
-                                </div>
-                                <button class="bg-purple-500 text-white text-sm px-4 py-1.5 rounded-full">
-                                    开始
-                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 训练项目 -->
-                    <div id="exerciseList" class="px-4 mb-4">
+                    <!-- 训练计划详情 -->
+                    <div class="px-4 mb-4">
                         <div class="flex items-center justify-between mb-3">
-                            <h2 class="text-lg font-semibold">训练项目</h2>
-                            <div id="editControls" class="hidden">
-                                <button id="addExerciseBtn" class="text-xs bg-purple-500 text-white px-2 py-1 rounded-full mr-2">
-                                    <i class="fas fa-plus"></i> 添加
-                                </button>
-                                <button id="saveChangesBtn" class="text-xs bg-green-500 text-white px-2 py-1 rounded-full">
-                                    <i class="fas fa-check"></i> 保存
-                                </button>
+                            <h2 class="text-lg font-semibold">训练计划详情</h2>
+                            <div class="text-xs text-purple-500">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                <span>第2周/共6周</span>
                             </div>
                         </div>
-
-                        <!-- 训练项目列表 -->
-                        <div class="space-y-3">
-                            <!-- 项目1 -->
-                            <div class="exercise-card bg-white rounded-xl shadow-sm overflow-hidden" data-id="1">
-                                <div class="relative">
-                                    <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="盆底肌训练" class="w-full h-32 object-cover">
-                                    <div class="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs">
-                                        10-15分钟
-                                    </div>
-                                    <div class="drag-handle hidden absolute top-2 left-2 bg-white/80 backdrop-blur-sm rounded-full w-6 h-6 flex items-center justify-center">
-                                        <i class="fas fa-grip-lines"></i>
-                                    </div>
+                        
+                        <!-- 训练阶段 -->
+                        <div class="space-y-4">
+                            <!-- 第一阶段 -->
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium">第一阶段：感知训练</h3>
+                                    <span class="text-xs text-white bg-green-500 px-2 py-1 rounded-full">已完成</span>
                                 </div>
-                                <div class="p-3">
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="font-medium">盆底肌训练</h3>
-                                        <span class="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">核心</span>
+                                <p class="text-xs text-gray-600 mb-3">帮助您感知和识别盆底肌群，建立神经肌肉连接。</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">基础感知</p>
+                                        <p class="text-xs text-green-500 mt-1">已完成</p>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-1">帮助恢复盆底肌力量，预防尿失禁</p>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <div class="flex items-center">
-                                            <span class="text-xs text-gray-500">难度:</span>
-                                            <div class="flex ml-1">
-                                                <i class="fas fa-circle text-purple-500 text-xs"></i>
-                                                <i class="fas fa-circle text-purple-500 text-xs"></i>
-                                                <i class="fas fa-circle text-gray-300 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <button class="delete-btn hidden text-red-500 text-xs">
-                                            <i class="fas fa-trash"></i> 删除
-                                        </button>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">肌肉识别</p>
+                                        <p class="text-xs text-green-500 mt-1">已完成</p>
+                                    </div>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">轻度收缩</p>
+                                        <p class="text-xs text-green-500 mt-1">已完成</p>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- 项目2 -->
-                            <div class="exercise-card bg-white rounded-xl shadow-sm overflow-hidden" data-id="2">
-                                <div class="relative">
-                                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="腹直肌修复" class="w-full h-32 object-cover">
-                                    <div class="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs">
-                                        15-20分钟
-                                    </div>
-                                    <div class="drag-handle hidden absolute top-2 left-2 bg-white/80 backdrop-blur-sm rounded-full w-6 h-6 flex items-center justify-center">
-                                        <i class="fas fa-grip-lines"></i>
-                                    </div>
+                            
+                            <!-- 第二阶段 -->
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium">第二阶段：基础强化</h3>
+                                    <span class="text-xs text-white bg-blue-500 px-2 py-1 rounded-full">进行中</span>
                                 </div>
-                                <div class="p-3">
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="font-medium">腹直肌修复</h3>
-                                        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">修复</span>
+                                <p class="text-xs text-gray-600 mb-3">通过盆底紧致修复仪进行基础强度训练，增强肌肉力量。</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">短促收缩</p>
+                                        <p class="text-xs text-green-500 mt-1">已完成</p>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-1">针对腹直肌分离问题的修复训练</p>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <div class="flex items-center">
-                                            <span class="text-xs text-gray-500">难度:</span>
-                                            <div class="flex ml-1">
-                                                <i class="fas fa-circle text-purple-500 text-xs"></i>
-                                                <i class="fas fa-circle text-purple-500 text-xs"></i>
-                                                <i class="fas fa-circle text-purple-500 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <button class="delete-btn hidden text-red-500 text-xs">
-                                            <i class="fas fa-trash"></i> 删除
-                                        </button>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">持续收缩</p>
+                                        <p class="text-xs text-blue-500 mt-1">进行中</p>
+                                    </div>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">节律训练</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- 项目3 -->
-                            <div class="exercise-card bg-white rounded-xl shadow-sm overflow-hidden" data-id="3">
-                                <div class="relative">
-                                    <img src="https://images.unsplash.com/photo-1562088287-bde35a1ea917?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="骨盆稳定训练" class="w-full h-32 object-cover">
-                                    <div class="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs">
-                                        10分钟
+                            
+                            <!-- 第三阶段 -->
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium">第三阶段：进阶强化</h3>
+                                    <span class="text-xs text-white bg-gray-400 px-2 py-1 rounded-full">未开始</span>
+                                </div>
+                                <p class="text-xs text-gray-600 mb-3">增加训练强度和复杂度，提高肌肉耐力和协调性。</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">中等强度</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
                                     </div>
-                                    <div class="drag-handle hidden absolute top-2 left-2 bg-white/80 backdrop-blur-sm rounded-full w-6 h-6 flex items-center justify-center">
-                                        <i class="fas fa-grip-lines"></i>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">复合训练</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
+                                    </div>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">耐力训练</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
                                     </div>
                                 </div>
-                                <div class="p-3">
-                                    <div class="flex items-center justify-between">
-                                        <h3 class="font-medium">骨盆稳定训练</h3>
-                                        <span class="text-xs bg-green-100 text-green-600 px-2 py-0.5 rounded-full">基础</span>
+                            </div>
+                            
+                            <!-- 第四阶段 -->
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium">第四阶段：功能恢复</h3>
+                                    <span class="text-xs text-white bg-gray-400 px-2 py-1 rounded-full">未开始</span>
+                                </div>
+                                <p class="text-xs text-gray-600 mb-3">结合日常活动，实现盆底功能的全面恢复。</p>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">高强度训练</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
                                     </div>
-                                    <p class="text-xs text-gray-500 mt-1">改善骨盆稳定性，缓解腰背疼痛</p>
-                                    <div class="flex items-center justify-between mt-2">
-                                        <div class="flex items-center">
-                                            <span class="text-xs text-gray-500">难度:</span>
-                                            <div class="flex ml-1">
-                                                <i class="fas fa-circle text-purple-500 text-xs"></i>
-                                                <i class="fas fa-circle text-gray-300 text-xs"></i>
-                                                <i class="fas fa-circle text-gray-300 text-xs"></i>
-                                            </div>
-                                        </div>
-                                        <button class="delete-btn hidden text-red-500 text-xs">
-                                            <i class="fas fa-trash"></i> 删除
-                                        </button>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">功能整合</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
+                                    </div>
+                                    <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                        <p class="text-xs font-medium">维持训练</p>
+                                        <p class="text-xs text-gray-400 mt-1">未开始</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- 康复建议 -->
-                    <div class="px-4 mb-20">
-                        <h2 class="text-lg font-semibold mb-3">康复建议</h2>
+                    
+                    <!-- 训练记录 -->
+                    <div class="px-4 mb-4">
+                        <h2 class="text-lg font-semibold mb-3">训练记录</h2>
+                        <div class="space-y-3">
+                            <!-- 训练记录项 -->
+                            <div class="bg-white rounded-xl p-3 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-dumbbell text-purple-500"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-sm font-medium">盆底肌基础训练</h3>
+                                            <p class="text-xs text-gray-500">2023-06-20</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-green-500 bg-green-50 px-2 py-1 rounded-full">完成</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                    <div>
+                                        <p class="text-gray-500">训练时长</p>
+                                        <p class="font-medium">15分钟</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500">训练强度</p>
+                                        <p class="font-medium">60%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500">完成度</p>
+                                        <p class="font-medium">100%</p>
+                                    </div>
+                                </div>
+                                <!-- 添加AI训练总结话术 -->
+                                <div class="mt-2 pt-2 border-t border-gray-100">
+                                    <div class="flex items-start">
+                                        <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                                            <i class="fas fa-robot text-blue-500 text-xs"></i>
+                                        </div>
+                                        <p class="text-xs text-gray-600">您的训练强度适中，肌肉收缩质量良好。建议下次可以尝试增加持续收缩时间，有助于提高盆底肌耐力。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl p-3 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-dumbbell text-purple-500"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-sm font-medium">盆底肌感知训练</h3>
+                                            <p class="text-xs text-gray-500">2023-06-18</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-green-500 bg-green-50 px-2 py-1 rounded-full">完成</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                    <div>
+                                        <p class="text-gray-500">训练时长</p>
+                                        <p class="font-medium">10分钟</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500">训练强度</p>
+                                        <p class="font-medium">45%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500">完成度</p>
+                                        <p class="font-medium">100%</p>
+                                    </div>
+                                </div>
+                                <!-- 添加AI训练总结话术 -->
+                                <div class="mt-2 pt-2 border-t border-gray-100">
+                                    <div class="flex items-start">
+                                        <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                                            <i class="fas fa-robot text-blue-500 text-xs"></i>
+                                        </div>
+                                        <p class="text-xs text-gray-600">感知训练完成得很好，您已经能够准确识别盆底肌群。接下来可以尝试在不同活动中随时进行轻微收缩，增强神经肌肉连接。</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl p-3 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-dumbbell text-purple-500"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-sm font-medium">盆底肌短促收缩训练</h3>
+                                            <p class="text-xs text-gray-500">2023-06-16</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-green-500 bg-green-50 px-2 py-1 rounded-full">完成</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                    <div>
+                                        <p class="text-gray-500">训练时长</p>
+                                        <p class="font-medium">12分钟</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500">训练强度</p>
+                                        <p class="font-medium">50%</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-500">完成度</p>
+                                        <p class="font-medium">100%</p>
+                                    </div>
+                                </div>
+                                <!-- 添加AI训练总结话术 -->
+                                <div class="mt-2 pt-2 border-t border-gray-100">
+                                    <div class="flex items-start">
+                                        <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                                            <i class="fas fa-robot text-blue-500 text-xs"></i>
+                                        </div>
+                                        <p class="text-xs text-gray-600">短促收缩训练对改善尿失禁症状非常有效。您的收缩反应速度有所提高，建议下次尝试增加收缩次数，从10次/组增加到12次/组。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 训练建议 -->
+                    <div class="px-4 mb-6">
+                        <h2 class="text-lg font-semibold mb-3">AI训练建议</h2>
                         <div class="bg-white rounded-xl p-4 shadow-sm">
-                            <div class="flex items-start mb-3">
-                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
                                     <i class="fas fa-robot text-purple-500"></i>
                                 </div>
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium">AI建议</h3>
-                                    <p class="text-xs text-gray-600 mt-1">根据您的情况，建议您在训练过程中注意以下几点：</p>
-                                    <ul class="text-xs text-gray-600 mt-2 space-y-1 list-disc list-inside">
-                                        <li>训练前做好充分的热身</li>
-                                        <li>如有不适，立即停止训练</li>
-                                        <li>保持规律的训练频率，每周至少3次</li>
-                                        <li>注意呼吸节奏，避免屏气</li>
-                                        <li>训练后适当休息，避免过度疲劳</li>
-                                    </ul>
+                                <div>
+                                    <h3 class="text-sm font-medium">最近训练总结</h3>
+                                    <p class="text-xs text-gray-600 mt-1">您在过去两周内完成了7次训练，总时长达到95分钟，平均完成度98%。盆底肌收缩能力有明显提升，尤其是短促收缩的反应速度提高了15%。</p>
                                 </div>
                             </div>
-                            <div class="flex items-start pt-3 border-t">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-user-md text-blue-500"></i>
+                            
+                            <div class="flex items-start mb-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-calendar-day text-blue-500"></i>
                                 </div>
-                                <div class="ml-3">
-                                    <h3 class="text-sm font-medium">专家建议</h3>
-                                    <p class="text-xs text-gray-600 mt-1">如需更专业的指导，建议预约专家一对一咨询。</p>
-                                    <button class="mt-2 text-xs bg-blue-500 text-white px-3 py-1 rounded-full">
-                                        预约专家
-                                    </button>
+                                <div>
+                                    <h3 class="text-sm font-medium">下次训练计划</h3>
+                                    <p class="text-xs text-gray-600 mt-1">建议明天进行"持续收缩训练"，强度设置为65%，3组×8次，每次收缩保持8秒，组间休息30秒。这将帮助您提高盆底肌的耐力和稳定性。</p>
+                                    <div class="mt-2 flex">
+                                        <button class="bg-purple-500 text-white text-xs px-3 py-1.5 rounded-lg mr-2">
+                                            添加到日程
+                                        </button>
+                                        <button class="bg-gray-100 text-gray-600 text-xs px-3 py-1.5 rounded-lg">
+                                            调整参数
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                    <i class="fas fa-chart-line text-green-500"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-medium">未来训练规划</h3>
+                                    <p class="text-xs text-gray-600 mt-1">根据您的进步速度，预计两周后可以进入"节律训练"阶段。建议保持每周4-5次的训练频率，每次15-20分钟。未来一个月内，我们将逐步提高训练强度至75%，为第三阶段的进阶强化做准备。</p>
+                                    <div class="mt-2 grid grid-cols-4 gap-2">
+                                        <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                            <p class="text-xs font-medium">第3周</p>
+                                            <p class="text-xs text-gray-500">持续收缩</p>
+                                        </div>
+                                        <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                            <p class="text-xs font-medium">第4周</p>
+                                            <p class="text-xs text-gray-500">节律训练</p>
+                                        </div>
+                                        <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                            <p class="text-xs font-medium">第5周</p>
+                                            <p class="text-xs text-gray-500">节律训练</p>
+                                        </div>
+                                        <div class="bg-gray-50 p-2 rounded-lg text-center">
+                                            <p class="text-xs font-medium">第6周</p>
+                                            <p class="text-xs text-gray-500">中等强度</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -387,22 +415,22 @@
                 
                 <!-- 底部导航栏 -->
                 <div class="bottom-tab-bar flex items-center justify-around">
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/device-management.html" class="tab-item flex flex-col items-center">
+                    <div class="tab-item flex flex-col items-center">
                         <i class="fas fa-mobile-alt text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">设备</span>
-                    </a>
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/health.html" class="tab-item flex flex-col items-center">
-                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
-                        <span class="text-xs text-gray-400">健康</span>
-                    </a>
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/shop.html" class="tab-item flex flex-col items-center">
+                    </div>
+                    <div class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-purple-500"></i>
+                        <span class="text-xs text-purple-500">健康</span>
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
                         <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">商城</span>
-                    </a>
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/profile.html" class="tab-item flex flex-col items-center">
+                    </div>
+                    <div class="tab-item flex flex-col items-center">
                         <i class="fas fa-user text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">我的</span>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -586,7 +614,7 @@
                         }
                         
                         if (info.symptoms.includes('尿失禁')) {
-                            adviceHTML += '<li>日常生活中注意控制尿频，配合盆底肌训练</li>';
+                            adviceHTML += '<li>生活中注意控制尿频，配合盆底肌训练</li>';
                         }
                         
                         // 添加通用建议

@@ -3,145 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>专业医生指导 - 医疗设备管理APP</title>
+    <title>专家医生 - 医疗设备管理APP</title>
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引用项目中已有的styles.css文件 -->
+    <link rel="stylesheet" href="/Users/gunavy/Project/TRAE/FCBSAPP/styles.css">
     <style>
+        /* 仅保留页面特有的样式 */
         body {
-            background: linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%);
             min-height: 100vh;
             padding: 2rem;
         }
-        .device-container {
-            display: grid;
-            grid-template-columns: repeat(4, 390px);
-            gap: 40px;
-            padding: 40px;
-            max-width: 1800px;
-            margin: 0 auto;
+        /* 医生卡片悬停效果 */
+        .doctor-card {
+            transition: all 0.3s ease;
         }
-        .device-label {
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #2d3748;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .doctor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
         }
-        .device-frame {
-            width: 390px;
-            height: 844px;
-            border-radius: 55px;
-            background: white;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1),
-                        0 0 0 1px rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 12px solid #1a1a1a;
+        /* 评分星星样式 */
+        .star-rating .fas.fa-star {
+            color: #FBBF24;
         }
-        .content-area {
-            height: calc(100% - 127px);
-            overflow-y: auto;
-            background: linear-gradient(180deg, #ffffff 0%, #f8faff 100%);
+        .star-rating .far.fa-star {
+            color: #E5E7EB;
         }
-        .bottom-tab-bar {
-            height: 83px;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(229,231,235,0.5);
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        .status-bar {
-            height: 44px;
-            background: #000;
-            color: white;
-            padding: 0 20px;
-        }
-        .tab-item {
-            cursor: pointer;
-            padding: 8px;
-            transition: all 0.3s;
-        }
-        .tab-item:hover {
-            color: #8B5CF6;
-        }
-        .tab-item.active {
-            color: #8B5CF6;
-        }
-        /* 设备按钮样式 */
-        .device-button {
-            position: absolute;
-            background: #1a1a1a;
-            z-index: 2;
-        }
-        .power-button {
-            right: -14px;
-            top: 180px;
-            width: 3px;
-            height: 50px;
-            border-radius: 0 2px 2px 0;
-        }
-        .volume-up {
-            left: -14px;
-            top: 150px;
-            width: 3px;
-            height: 40px;
-            border-radius: 2px 0 0 2px;
-        }
-        .volume-down {
-            left: -14px;
-            top: 200px;
-            width: 3px;
-            height: 40px;
-            border-radius: 2px 0 0 2px;
-        }
-        /* 动态岛样式 */
-        .dynamic-island {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 25px;
-            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
-            border-radius: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        /* 卡片样式优化 */
-        .bg-white {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .shadow-sm {
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05),
-                       0 1px 3px rgba(0,0,0,0.1);
-        }
-        /* 按钮样式优化 */
-        .bg-purple-500 {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            box-shadow: 0 4px 12px rgba(139,92,246,0.3);
-        }
-        .bg-purple-500:hover {
-            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(139,92,246,0.4);
-        }
-        /* 筛选标签样式 */
-        .filter-chip {
-            transition: all 0.2s ease;
-        }
-        .filter-chip.active {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            color: white;
-            box-shadow: 0 2px 8px rgba(139,92,246,0.3);
+        /* 徽章样式 */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
     </style>
 </head>

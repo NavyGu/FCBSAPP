@@ -101,86 +101,155 @@
                             </div>
 
                             <!-- 康复计划日历区域 - 添加月份切换功能 -->
-                            <div class="mb-4 bg-white rounded-xl p-3 shadow-sm">
-                                <div class="flex items-center justify-between mb-2">
-                                    <h2 class="text-base font-semibold flex items-center whitespace-nowrap">
-                                        <i class="fas fa-calendar-alt text-purple-500 mr-2"></i>
-                                        康复计划
-                                    </h2>
-                                    <div class="flex items-center gap-1">
-                                        <div class="flex items-center">
-                                            <button id="prevMonth" class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
-                                                <i class="fas fa-chevron-left text-gray-500 text-xs"></i>
-                                            </button>
-                                            <span id="currentMonth" class="text-xs text-gray-500 mx-1">2024年3月</span>
-                                            <button id="nextMonth" class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
-                                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
-                                            </button>
-                                        </div>
-                                        <button onclick="window.location.href='rehabilitation-plan.html'" 
-                                                class="text-xs text-purple-500 hover:text-purple-600 flex items-center whitespace-nowrap">
-                                            <span>查看详细</span>
-                                            <i class="fas fa-chevron-right ml-1 text-xs"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- 简单日历网格 -->
-                                <div id="calendarDays" class="grid grid-cols-7 gap-1 mb-2">
-                                    <div class="text-center text-xs text-gray-500">日</div>
-                                    <div class="text-center text-xs text-gray-500">一</div>
-                                    <div class="text-center text-xs text-gray-500">二</div>
-                                    <div class="text-center text-xs text-gray-500">三</div>
-                                    <div class="text-center text-xs text-gray-500">四</div>
-                                    <div class="text-center text-xs text-gray-500">五</div>
-                                    <div class="text-center text-xs text-gray-500">六</div>
-                                    <!-- 日期格子将通过JavaScript动态生成 -->
-                                </div>
-                                <!-- 康复计划汇总 -->
-                                <div class="border-t pt-2">
-                                    <div class="grid grid-cols-3 gap-2 text-center">
-                                        <div>
-                                            <p class="text-lg font-bold text-purple-500">14</p>
-                                            <p class="text-xs text-gray-500">持续天数</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-lg font-bold text-purple-500">5</p>
-                                            <p class="text-xs text-gray-500">本周完成</p>
-                                        </div>
-                                        <div>
-                                            <p class="text-lg font-bold text-purple-500">60%</p>
-                                            <p class="text-xs text-gray-500">计划完成度</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- 康复计划日历区域 - 更紧凑的设计 -->
+                                            <div class="mb-3 bg-white rounded-xl p-2 shadow-sm">
+                                                <div class="flex items-center justify-between mb-1">
+                                                    <h2 class="text-sm font-semibold flex items-center whitespace-nowrap">
+                                                        <i class="fas fa-calendar-alt text-purple-500 mr-1"></i>
+                                                        康复计划
+                                                    </h2>
+                                                    <div class="flex items-center gap-1">
+                                                        <div class="flex items-center">
+                                                            <button id="prevMonth" class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                                                <i class="fas fa-chevron-left text-gray-500 text-xs"></i>
+                                                            </button>
+                                                            <span id="currentMonth" class="text-xs text-gray-500 mx-1">2024年3月</span>
+                                                            <button id="nextMonth" class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+                                                            </button>
+                                                        </div>
+                                                        <button onclick="window.location.href='rehabilitation-plan.html'" 
+                                                                class="text-xs text-purple-500 hover:text-purple-600 flex items-center whitespace-nowrap">
+                                                            <span>详细</span>
+                                                            <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!-- 简单日历网格 - 更紧凑 -->
+                                                <div id="calendarDays" class="grid grid-cols-7 gap-0.5 mb-1">
+                                                    <div class="text-center text-xs text-gray-500">日</div>
+                                                    <div class="text-center text-xs text-gray-500">一</div>
+                                                    <div class="text-center text-xs text-gray-500">二</div>
+                                                    <div class="text-center text-xs text-gray-500">三</div>
+                                                    <div class="text-center text-xs text-gray-500">四</div>
+                                                    <div class="text-center text-xs text-gray-500">五</div>
+                                                    <div class="text-center text-xs text-gray-500">六</div>
+                                                    <!-- 日期格子将通过JavaScript动态生成 -->
+                                                </div>
+                                                <!-- 康复计划汇总 - 更紧凑 -->
+                                                <div class="border-t pt-1">
+                                                    <div class="grid grid-cols-3 gap-1 text-center">
+                                                        <div>
+                                                            <p class="text-base font-bold text-purple-500">14</p>
+                                                            <p class="text-xs text-gray-500">持续天数</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-base font-bold text-purple-500">5</p>
+                                                            <p class="text-xs text-gray-500">本周完成</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="text-base font-bold text-purple-500">60%</p>
+                                                            <p class="text-xs text-gray-500">计划完成度</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                             <!-- 最近训练记录 -->
                             <div class="bg-white rounded-xl p-3 shadow-sm">
-                                <h2 class="text-lg font-semibold mb-4 flex items-center">
-                                    <i class="fas fa-history text-purple-500 mr-2"></i>
-                                    最近训练
-                                </h2>
-                                <div class="space-y-4">
-                                    <!-- 训练记录项 -->
-                                    <div class="flex items-start border-b pb-4">
-                                        <div class="flex-shrink-0 w-12 text-center">
-                                            <p class="text-sm font-medium">今天</p>
-                                            <p class="text-xs text-gray-500">20:30</p>
+                                <div class="flex items-center justify-between mb-3">
+                                    <h2 class="text-base font-semibold flex items-center">
+                                        <i class="fas fa-history text-purple-500 mr-2"></i>
+                                        最近训练
+                                    </h2>
+                                    <a href="training-records.html" class="text-xs text-purple-500 flex items-center">
+                                        查看全部 <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <!-- 训练记录项1 -->
+                                    <div class="flex items-center p-2 border-b border-gray-100">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                            <i class="fas fa-dumbbell text-purple-500 text-sm"></i>
                                         </div>
-                                        <div class="ml-4 flex-1">
-                                            <div class="flex justify-between items-start">
-                                                <div>
-                                                    <h3 class="text-sm font-medium">常规康复训练</h3>
-                                                    <p class="text-xs text-gray-500 mt-1">训练时长: 25分钟</p>
-                                                </div>
-                                                <span class="text-xs text-green-500 px-2 py-1 bg-green-50 rounded-full">已完成</span>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-sm font-medium">盆底肌基础训练</h3>
+                                                <span class="text-xs text-green-500 bg-green-50 px-2 py-0.5 rounded-full">完成</span>
                                             </div>
-                                            <p class
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">今天 15:30</p>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-500 mr-2">15分钟</span>
+                                                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 训练记录项2 -->
+                                    <div class="flex items-center p-2 border-b border-gray-100">
+                                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                            <i class="fas fa-wave-square text-blue-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-sm font-medium">盆底肌感知训练</h3>
+                                                <span class="text-xs text-green-500 bg-green-50 px-2 py-0.5 rounded-full">完成</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">昨天 09:15</p>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-500 mr-2">10分钟</span>
+                                                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 训练记录项3 -->
+                                    <div class="flex items-center p-2">
+                                        <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                            <i class="fas fa-bolt text-orange-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-sm font-medium">盆底肌短促收缩训练</h3>
+                                                <span class="text-xs text-green-500 bg-green-50 px-2 py-0.5 rounded-full">完成</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">前天 16:45</p>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-500 mr-2">12分钟</span>
+                                                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- AI训练建议摘要 -->
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                                            <i class="fas fa-robot text-blue-500 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-600">根据您的训练情况，建议明天进行<span class="text-purple-500">持续收缩训练</span>，强度设置为65%，有助于提高盆底肌耐力。</p>
+                                            <button class="mt-2 text-xs text-purple-500 flex items-center">
+                                                查看详细建议 <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
