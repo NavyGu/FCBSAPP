@@ -42,7 +42,8 @@
                 <div class="content-area">
                     <!-- 顶部导航栏 -->
                     <div class="flex items-center justify-between p-4 border-b border-gray-100">
-                        <div class="flex items-center">
+                        <h1 class="text-lg font-bold">健康管理</h1>
+                        <div class="flex space-x-2">
                             <a href="notifications.html" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center relative">
                                 <i class="fas fa-bell text-gray-500 hover:text-purple-500"></i>
                                 <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
@@ -161,7 +162,10 @@
                             </div>
                             
                             <!-- 社区达人指导 -->
-                            <a href="experts.html" class="text-xs text-purple-500">更多达人</a>
+                            <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h2 class="text-lg font-semibold">社区达人指导</h2>
+                                    <a href="experts.html" class="text-xs text-purple-500">更多达人</a>
                                 </div>
                                 
                                 <!-- 达人列表 -->
@@ -218,11 +222,10 @@
                             </div>
                             
                             <!-- 健康报告 -->
-                            <a href="report.html" class="text-xs text-purple-500">查看详情</a>
                             <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <h2 class="text-lg font-semibold">健康报告</h2>
-                                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/report.html" class="text-xs text-purple-500">查看详情</a>
+                                    <a href="report.html" class="text-xs text-purple-500">查看详情</a>
                                 </div>
                                 
                                 <div class="bg-gray-50 rounded-xl p-3 mb-4">
@@ -234,7 +237,7 @@
                                             <h3 class="text-sm font-medium">最新康复评估报告</h3>
                                             <p class="text-xs text-gray-500 mt-0.5">2024年3月15日生成</p>
                                         </div>
-                                        <a href="/Users/gunavy/Project/TRAE/FCBSAPP/report.html" class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs">
+                                        <a href="report.html" class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs">
                                             查看
                                         </a>
                                     </div>
@@ -601,23 +604,24 @@
                     </div>
                 </div>
                 
-                <div class="bottom-tab-bar flex items-center justify-around">
-                    <div class="tab-item flex flex-col items-center">
-                        <i class="fas fa-mobile-alt text-xl"></i>
-                        <span class="text-xs">设备</span>
-                    </div>
-                    <div class="tab-item active flex flex-col items-center">
-                        <i class="fas fa-heartbeat text-xl"></i>
-                        <span class="text-xs">健康</span>
-                    </div>
-                    <div class="tab-item flex flex-col items-center">
-                        <i class="fas fa-shopping-bag text-xl"></i>
-                        <span class="text-xs">商城</span>
-                    </div>
-                    <div class="tab-item flex flex-col items-center">
-                        <i class="fas fa-user text-xl"></i>
-                        <span class="text-xs">我的</span>
-                    </div>
+                <!-- 修改底部导航栏样式 -->
+                <div class="bottom-tab-bar flex items-center justify-around absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2">
+                    <a href="device-management.html" class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-purple-500"></i>
+                        <span class="text-xs text-purple-500">设备</span>
+                    </a>
+                    <a href="health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
                 </div>
             </div>
         </div>
