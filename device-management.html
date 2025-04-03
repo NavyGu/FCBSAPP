@@ -120,8 +120,7 @@
                                                         </div>
                                                         <button onclick="window.location.href='rehabilitation-plan.html'" 
                                                                 class="text-xs text-purple-500 hover:text-purple-600 flex items-center whitespace-nowrap">
-                                                            <span>详细</span>
-                                                            <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                                            <span>详细计划</span>
                                                         </button>
                                                     </div>
                                                 </div>
@@ -232,7 +231,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                 </div>
                                 
                                 <!-- AI训练建议摘要 -->
@@ -255,22 +253,22 @@
                 </div>
                 <!-- 添加底部导航栏 -->
                 <div class="bottom-tab-bar flex items-center justify-around">
-                    <div class="tab-item active flex flex-col items-center">
+                    <a href="device-management.html" class="tab-item active flex flex-col items-center">
                         <i class="fas fa-mobile-alt text-xl text-purple-500"></i>
                         <span class="text-xs text-purple-500">设备</span>
-                    </div>
-                    <div id="health-tab" class="tab-item flex flex-col items-center">
+                    </a>
+                    <a href="health.html" class="tab-item flex flex-col items-center">
                         <i class="fas fa-heartbeat text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">健康</span>
-                    </div>
-                    <div id="shop-tab" class="tab-item flex flex-col items-center">
+                    </a>
+                    <a href="shop.html" class="tab-item flex flex-col items-center">
                         <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">商城</span>
-                    </div>
-                    <div id="profile-tab" class="tab-item flex flex-col items-center">
+                    </a>
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
                         <i class="fas fa-user text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">我的</span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -362,29 +360,30 @@
                 });
             }
             
+            // 移除这部分代码，因为已经使用了链接元素
             // 获取所有导航标签
-            const healthTab = document.getElementById('health-tab');
-            const shopTab = document.getElementById('shop-tab');
-            const profileTab = document.getElementById('profile-tab');
+            // const healthTab = document.getElementById('health-tab');
+            // const shopTab = document.getElementById('shop-tab');
+            // const profileTab = document.getElementById('profile-tab');
             
-            // 添加点击事件
-            if (healthTab) {
-                healthTab.addEventListener('click', function() {
-                    window.location.href = 'health.html';
-                });
-            }
+            // // 添加点击事件
+            // if (healthTab) {
+            //     healthTab.addEventListener('click', function() {
+            //         window.location.href = 'health.html';
+            //     });
+            // }
             
-            if (shopTab) {
-                shopTab.addEventListener('click', function() {
-                    window.location.href = 'shop.html';
-                });
-            }
+            // if (shopTab) {
+            //     shopTab.addEventListener('click', function() {
+            //         window.location.href = 'shop.html';
+            //     });
+            // }
             
-            if (profileTab) {
-                profileTab.addEventListener('click', function() {
-                    window.location.href = 'profile.html';
-                });
-            }
+            // if (profileTab) {
+            //     profileTab.addEventListener('click', function() {
+            //         window.location.href = 'profile.html';
+            //     });
+            // }
             
             // 为所有标签添加悬停效果
             const allTabs = document.querySelectorAll('.tab-item');

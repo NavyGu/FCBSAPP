@@ -6,7 +6,8 @@
     <title>健康数据 - 医疗设备管理APP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/Users/gunavy/Project/TRAE/FCBSAPP/styles.css">
+    <!-- 引用项目中已有的styles.css文件 -->
+    <link rel="stylesheet" href="styles.css">
     <style>
         /* 仅保留页面特有的样式 */
         body {
@@ -41,13 +42,12 @@
                 <div class="content-area">
                     <!-- 顶部导航栏 -->
                     <div class="flex items-center justify-between p-4 border-b border-gray-100">
-                        <h1 class="text-lg font-bold">健康管理</h1>
-                        <div class="flex space-x-2">
-                            <a href="/Users/gunavy/Project/TRAE/FCBSAPP/notifications.html" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center relative">
+                        <div class="flex items-center">
+                            <a href="notifications.html" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center relative">
                                 <i class="fas fa-bell text-gray-500 hover:text-purple-500"></i>
                                 <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
                             </a>
-                            <a href="/Users/gunavy/Project/TRAE/FCBSAPP/settings.html" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center">
+                            <a href="settings.html" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-purple-100 transition-all flex items-center justify-center">
                                 <i class="fas fa-cog text-gray-500 hover:text-purple-500"></i>
                             </a>
                         </div>
@@ -94,7 +94,8 @@
                             <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <h2 class="text-lg font-semibold">专业医生指导</h2>
-                                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/doctors.html" class="text-xs text-purple-500">查看全部</a>
+                                    <!-- 专业医生指导 -->
+                                    <a href="doctors.html" class="text-xs text-purple-500">查看全部</a>
                                 </div>
                                 
                                 <!-- 医生卡片 -->
@@ -160,10 +161,7 @@
                             </div>
                             
                             <!-- 社区达人指导 -->
-                            <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h2 class="text-lg font-semibold">社区达人指导</h2>
-                                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/experts.html" class="text-xs text-purple-500">更多达人</a>
+                            <a href="experts.html" class="text-xs text-purple-500">更多达人</a>
                                 </div>
                                 
                                 <!-- 达人列表 -->
@@ -220,6 +218,7 @@
                             </div>
                             
                             <!-- 健康报告 -->
+                            <a href="report.html" class="text-xs text-purple-500">查看详情</a>
                             <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                                 <div class="flex items-center justify-between mb-4">
                                     <h2 class="text-lg font-semibold">健康报告</h2>

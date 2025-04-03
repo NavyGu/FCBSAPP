@@ -209,19 +209,19 @@
                 
                 <!-- 底部导航栏 -->
                 <div class="bottom-tab-bar flex items-center justify-around">
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/device-management.html" class="tab-item flex flex-col items-center">
+                    <a href="device-management.html" class="tab-item flex flex-col items-center">
                         <i class="fas fa-mobile-alt text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">设备</span>
                     </a>
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/health.html" class="tab-item flex flex-col items-center">
+                    <a href="health.html" class="tab-item flex flex-col items-center">
                         <i class="fas fa-heartbeat text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">健康</span>
                     </a>
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/shop.html" class="tab-item active flex flex-col items-center">
+                    <a href="shop.html" class="tab-item active flex flex-col items-center">
                         <i class="fas fa-shopping-bag text-xl text-purple-500"></i>
                         <span class="text-xs text-purple-500">商城</span>
                     </a>
-                    <a href="/Users/gunavy/Project/TRAE/FCBSAPP/profile.html" class="tab-item flex flex-col items-center">
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
                         <i class="fas fa-user text-xl text-gray-400"></i>
                         <span class="text-xs text-gray-400">我的</span>
                     </a>
@@ -275,7 +275,7 @@
                     const productId = this.getAttribute('data-product-id');
                     console.log('点击了产品ID:', productId);
                     // 跳转到商品详情页
-                    window.location.href = '/Users/gunavy/Project/TRAE/FCBSAPP/product-detail.html?id=' + productId;
+                    window.location.href = 'product-detail.html?id=' + productId;
                 });
                 
                 // 添加鼠标悬停效果
@@ -299,7 +299,7 @@
                     const productName = this.querySelector('h3').textContent;
                     console.log('点击了产品:', productName);
                     // 跳转到商品详情页
-                    window.location.href = '/Users/gunavy/Project/TRAE/FCBSAPP/product-detail.html?name=' + encodeURIComponent(productName);
+                    window.location.href = 'product-detail.html?name=' + encodeURIComponent(productName);
                 });
                 
                 // 添加鼠标悬停效果

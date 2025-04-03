@@ -9,7 +9,7 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- 引用项目中已有的styles.css文件 -->
-    <link rel="stylesheet" href="/Users/gunavy/Project/TRAE/FCBSAPP/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
         /* 仅保留页面特有的样式 */
         body {
@@ -384,147 +384,116 @@
                     }
                 });
             });
+            
+            // 绘制康复趋势图
+            const trendCanvas = document.getElementById('trendChart');
+            if (trendCanvas) {
+                const ctx = trendCanvas.getContext('2d');
+                
+                // 清空画布
+                ctx.clearRect(0, 0, trendCanvas.width, trendCanvas.height);
+                
+                // 设置背景
+                ctx.fillStyle = '#f9fafb';
+                ctx.fillRect(0, 0, trendCanvas.width, trendCanvas.height);
+                
+                // 绘制网格线
+                ctx.strokeStyle = '#e5e7eb';
+                ctx.lineWidth = 1;
+                
+                // 横向网格线
+                for (let i = 0; i <= 4; i++) {
+                    const y = 20 + (trendCanvas.height - 40) * (i / 4);
+                    ctx.beginPath();
+                    ctx.moveTo(30, y);
+                    ctx.lineTo(trendCanvas.width - 20, y);
+                    ctx.stroke();
+                }
+                
+                // 纵向网格线
+                for (let i = 0; i <= 6; i++) {
+                    const x = 30 + (trendCanvas.width - 50) * (i / 6);
+                    ctx.beginPath();
+                    ctx.moveTo(x, 20);
+                    ctx.lineTo(x, trendCanvas.height - 20);
+                    ctx.stroke();
+                }
+                
+                // 绘制坐标轴标签
+                ctx.fillStyle = '#6b7280';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                
+                // Y轴标签
+                for (let i = 0; i <= 4; i++) {
+                    const y = 20 + (trendCanvas.height - 40) * (i / 4);
+                    const label = 100 - i * 25;
+                    ctx.fillText(label, 25, y + 4);
+                }
+                
+                // 绘制趋势线
+                const data = [45, 52, 58, 63, 68, 72, 75];
+                const dataPoints = data.map((value, index) => {
+                    const x = 30 + (trendCanvas.width - 50) * (index / 6);
+                    const y = trendCanvas.height - 20 - (value / 100) * (trendCanvas.height - 40);
+                    return { x, y };
+                });
+                
+                // 绘制渐变区域
+                const gradient = ctx.createLinearGradient(0, 0, 0, trendCanvas.height);
+                gradient.addColorStop(0, 'rgba(139, 92, 246, 0.5)');
+                gradient.addColorStop(1, 'rgba(139, 92, 246, 0.1)');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.moveTo(dataPoints[0].x, trendCanvas.height - 20);
+                dataPoints.forEach(point => {
+                    ctx.lineTo(point.x, point.y);
+                });
+                ctx.lineTo(dataPoints[dataPoints.length - 1].x, trendCanvas.height - 20);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 绘制趋势线
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
+                dataPoints.forEach((point, index) => {
+                    if (index > 0) {
+                        ctx.lineTo(point.x, point.y);
+                    }
+                });
+                ctx.stroke();
+                
+                // 绘制数据点
+                dataPoints.forEach(point => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#8B5CF6';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+                    ctx.stroke();
+                });
+                
+                // 标记最新数据点
+                const lastPoint = dataPoints[dataPoints.length - 1];
+                ctx.fillStyle = '#8B5CF6';
+                ctx.beginPath();
+                ctx.arc(lastPoint.x, lastPoint.y, 6, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 显示最新数据值
+                ctx.fillStyle = '#8B5CF6';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(data[data.length - 1] + '%', lastPoint.x, lastPoint.y - 15);
+            }
         });
     </script>
 </body>
 </html>
-
-<!-- 在body结束标签前添加趋势图的JavaScript代码 -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 底部导航栏点击事件
-        const tabItems = document.querySelectorAll('.tab-item');
-        tabItems.forEach(item => {
-            item.addEventListener('click', function() {
-                tabItems.forEach(tab => tab.classList.remove('active'));
-                this.classList.add('active');
-                
-                // 设备页面跳转
-                if (this.querySelector('span').textContent === '设备') {
-                    window.location.href = 'device-management.html';
-                }
-                // 健康页面跳转
-                else if (this.querySelector('span').textContent === '健康') {
-                    window.location.href = 'health.html';
-                }
-                // 商城页面跳转
-                else if (this.querySelector('span').textContent === '商城') {
-                    window.location.href = 'shop.html';
-                }
-                // 我的页面跳转
-                else if (this.querySelector('span').textContent === '我的') {
-                    window.location.href = 'profile.html';
-                }
-            });
-        });
-        
-        // 绘制康复趋势图
-        const trendCanvas = document.getElementById('trendChart');
-        if (trendCanvas) {
-            const ctx = trendCanvas.getContext('2d');
-            
-            // 清空画布
-            ctx.clearRect(0, 0, trendCanvas.width, trendCanvas.height);
-            
-            // 设置背景
-            ctx.fillStyle = '#f9fafb';
-            ctx.fillRect(0, 0, trendCanvas.width, trendCanvas.height);
-            
-            // 绘制网格线
-            ctx.strokeStyle = '#e5e7eb';
-            ctx.lineWidth = 1;
-            
-            // 横向网格线
-            for (let i = 0; i <= 4; i++) {
-                const y = 20 + (trendCanvas.height - 40) * (i / 4);
-                ctx.beginPath();
-                ctx.moveTo(30, y);
-                ctx.lineTo(trendCanvas.width - 20, y);
-                ctx.stroke();
-            }
-            
-            // 纵向网格线
-            for (let i = 0; i <= 6; i++) {
-                const x = 30 + (trendCanvas.width - 50) * (i / 6);
-                ctx.beginPath();
-                ctx.moveTo(x, 20);
-                ctx.lineTo(x, trendCanvas.height - 20);
-                ctx.stroke();
-            }
-            
-            // 绘制坐标轴标签
-            ctx.fillStyle = '#6b7280';
-            ctx.font = '10px Arial';
-            ctx.textAlign = 'right';
-            
-            // Y轴标签
-            for (let i = 0; i <= 4; i++) {
-                const y = 20 + (trendCanvas.height - 40) * (i / 4);
-                const label = 100 - i * 25;
-                ctx.fillText(label, 25, y + 4);
-            }
-            
-            // 绘制趋势线
-            const data = [45, 52, 58, 63, 68, 72, 75];
-            const dataPoints = data.map((value, index) => {
-                const x = 30 + (trendCanvas.width - 50) * (index / 6);
-                const y = trendCanvas.height - 20 - (value / 100) * (trendCanvas.height - 40);
-                return { x, y };
-            });
-            
-            // 绘制渐变区域
-            const gradient = ctx.createLinearGradient(0, 0, 0, trendCanvas.height);
-            gradient.addColorStop(0, 'rgba(139, 92, 246, 0.5)');
-            gradient.addColorStop(1, 'rgba(139, 92, 246, 0.1)');
-            
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.moveTo(dataPoints[0].x, trendCanvas.height - 20);
-            dataPoints.forEach(point => {
-                ctx.lineTo(point.x, point.y);
-            });
-            ctx.lineTo(dataPoints[dataPoints.length - 1].x, trendCanvas.height - 20);
-            ctx.closePath();
-            ctx.fill();
-            
-            // 绘制趋势线
-            ctx.strokeStyle = '#8B5CF6';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
-            dataPoints.forEach((point, index) => {
-                if (index > 0) {
-                    ctx.lineTo(point.x, point.y);
-                }
-            });
-            ctx.stroke();
-            
-            // 绘制数据点
-            dataPoints.forEach(point => {
-                ctx.fillStyle = '#ffffff';
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.strokeStyle = '#8B5CF6';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
-                ctx.stroke();
-            });
-            
-            // 标记最新数据点
-            const lastPoint = dataPoints[dataPoints.length - 1];
-            ctx.fillStyle = '#8B5CF6';
-            ctx.beginPath();
-            ctx.arc(lastPoint.x, lastPoint.y, 6, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // 显示最新数据值
-            ctx.fillStyle = '#8B5CF6';
-            ctx.font = 'bold 12px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(data[data.length - 1] + '%', lastPoint.x, lastPoint.y - 15);
-        }
-    });
-</script>
