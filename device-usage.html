@@ -164,6 +164,79 @@
                             </div>
                         </div>
 
+                        <!-- AI训练推荐区域 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center mr-2">
+                                        <i class="fas fa-robot text-white"></i>
+                                    </div>
+                                    <h2 class="text-lg font-semibold">AI训练推荐</h2>
+                                </div>
+                                <div class="flex items-center">
+                                    <span class="text-xs text-gray-500 mr-2">AI推荐</span>
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="aiRecommendToggle" class="sr-only peer" checked>
+                                        <div class="relative w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-500"></div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="aiRecommendContent" class="mb-4">
+                                <div class="p-3 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg mb-3">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fas fa-lightbulb text-purple-500"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="text-sm font-medium text-purple-700">根据您的历史数据，AI推荐以下训练方案</h3>
+                                            <p class="text-xs text-purple-600 mt-1">
+                                                基于您最近5次训练表现和身体状况，我们为您定制了个性化训练计划。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-2 mb-3">
+                                    <div class="bg-white p-2 rounded-lg border border-gray-100">
+                                        <div class="text-xs text-gray-500">推荐训练模式</div>
+                                        <div class="text-sm font-medium">进阶训练</div>
+                                    </div>
+                                    <div class="bg-white p-2 rounded-lg border border-gray-100">
+                                        <div class="text-xs text-gray-500">推荐训练强度</div>
+                                        <div class="text-sm font-medium">3/5</div>
+                                    </div>
+                                    <div class="bg-white p-2 rounded-lg border border-gray-100">
+                                        <div class="text-xs text-gray-500">推荐训练时长</div>
+                                        <div class="text-sm font-medium">45分钟</div>
+                                    </div>
+                                    <div class="bg-white p-2 rounded-lg border border-gray-100">
+                                        <div class="text-xs text-gray-500">预计消耗热量</div>
+                                        <div class="text-sm font-medium">120千卡</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg mb-3">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-1">
+                                            <i class="fas fa-chart-line text-blue-500"></i>
+                                        </div>
+                                        <div class="ml-3">
+                                            <h3 class="text-sm font-medium text-blue-700">训练节奏建议</h3>
+                                            <p class="text-xs text-blue-600 mt-1">
+                                                前15分钟保持低强度热身，中间20分钟进行中高强度训练，最后10分钟逐渐降低强度进行放松。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button id="applyAiRecommendBtn" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-medium shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center">
+                                    <i class="fas fa-magic mr-2"></i>
+                                    一键应用AI推荐方案
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- 控制面板 -->
                         <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
                             <h2 class="text-lg font-semibold mb-4">控制面板</h2>
@@ -436,7 +509,21 @@
                     window.location.href = 'device-management.html';
                 });
             }
+              // AI推荐功能开关
+            const aiRecommendToggle = document.getElementById('aiRecommendToggle');
+            const aiRecommendContent = document.getElementById('aiRecommendContent');
             
+            if (aiRecommendToggle && aiRecommendContent) {
+                aiRecommendToggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        aiRecommendContent.style.display = 'block';
+                    } else {
+                        aiRecommendContent.style.display = 'none';
+                    }
+                });
+            }
+            
+
             // 获取训练模式按钮
             const basicTrainingButton = document.getElementById('basicTrainingButton');
             const advancedTrainingButton = document.getElementById('advancedTrainingButton');
@@ -646,251 +733,15 @@
                     });
                 });
             }
-            
-            // 删除这段重复的代码，使用上面已经实现的带自定义弹窗的停止训练按钮事件处理
-            // if (stopButton) {
-            //     stopButton.addEventListener('click', function() {
-            //         // 这里可以添加停止训练的逻辑
-            //         console.log('停止训练');
-                    
-            //         // 确认是否要停止当前训练
-            //         if (confirm('确定要停止当前训练吗？')) {
-            //             // 停止训练后返回上一页，而不是直接跳转
-            //             history.back();
-            //         }
-            //     });
-            // }
-        });
-    </script>
-</body>
-</html>
-<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取设置按钮并添加点击事件
-            const settingsButton = document.getElementById('settingsButton');
-            if (settingsButton) {
-                settingsButton.addEventListener('click', function() {
-                    window.location.href = 'device-detail.html';
-                });
-            }
-            
-            // 获取训练模式按钮
-            const basicTrainingButton = document.getElementById('basicTrainingButton');
-            const advancedTrainingButton = document.getElementById('advancedTrainingButton');
-            const proTrainingButton = document.getElementById('proTrainingButton');
-            const trainingModeText = document.querySelector('.flex.items-center.justify-between.mb-2 .text-sm.font-medium');
-            
-            // 获取训练模式内容区域
-            const basicTrainingContent = document.getElementById('basicTrainingContent');
-            const advancedTrainingContent = document.getElementById('advancedTrainingContent');
-            const proTrainingContent = document.getElementById('proTrainingContent');
-            
-            // 添加训练模式按钮点击事件
-            if (basicTrainingButton && advancedTrainingButton && proTrainingButton) {
-                // 基础训练按钮点击事件
-                basicTrainingButton.addEventListener('click', function() {
-                    // 更新按钮样式
-                    basicTrainingButton.classList.remove('bg-gray-100', 'text-gray-600');
-                    basicTrainingButton.classList.add('bg-purple-500', 'text-white');
-                    
-                    advancedTrainingButton.classList.remove('bg-purple-500', 'text-white');
-                    advancedTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
-                    
-                    proTrainingButton.classList.remove('bg-purple-500', 'text-white');
-                    proTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
-                    
-                    // 更新显示的训练模式文本
-                    if (trainingModeText) {
-                        trainingModeText.textContent = '基础训练';
-                    }
-                    
-                    // 切换内容显示
-                    basicTrainingContent.classList.remove('hidden');
-                    advancedTrainingContent.classList.add('hidden');
-                    proTrainingContent.classList.add('hidden');
-                    
-                    // 更新训练参数
-                    updateTrainingParameters('基础训练');
-                    
-                    // 这里可以添加切换到基础训练模式的逻辑
-                    console.log('切换到基础训练模式');
-                });
-                
-                // 进阶训练按钮点击事件
-                advancedTrainingButton.addEventListener('click', function() {
-                    // 更新按钮样式
-                    advancedTrainingButton.classList.remove('bg-gray-100', 'text-gray-600');
-                    advancedTrainingButton.classList.add('bg-purple-500', 'text-white');
-                    
-                    basicTrainingButton.classList.remove('bg-purple-500', 'text-white');
-                    basicTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
-                    
-                    proTrainingButton.classList.remove('bg-purple-500', 'text-white');
-                    proTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
-                    
-                    // 更新显示的训练模式文本
-                    if (trainingModeText) {
-                        trainingModeText.textContent = '进阶训练';
-                    }
-                    
-                    // 切换内容显示
-                    basicTrainingContent.classList.add('hidden');
-                    advancedTrainingContent.classList.remove('hidden');
-                    proTrainingContent.classList.add('hidden');
-                    
-                    // 更新训练参数
-                    updateTrainingParameters('进阶训练');
-                    
-                    // 这里可以添加切换到进阶训练模式的逻辑
-                    console.log('切换到进阶训练模式');
-                });
-                
-                // 专业训练按钮点击事件
-                proTrainingButton.addEventListener('click', function() {
-                    // 更新按钮样式
-                    proTrainingButton.classList.remove('bg-gray-100', 'text-gray-600');
-                    proTrainingButton.classList.add('bg-purple-500', 'text-white');
-                    
-                    basicTrainingButton.classList.remove('bg-purple-500', 'text-white');
-                    basicTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
-                    
-                    advancedTrainingButton.classList.remove('bg-purple-500', 'text-white');
-                    advancedTrainingButton.classList.add('bg-gray-100', 'text-gray-600');
-                    
-                    // 更新显示的训练模式文本
-                    if (trainingModeText) {
-                        trainingModeText.textContent = '专业训练';
-                    }
-                    
-                    // 切换内容显示
-                    basicTrainingContent.classList.add('hidden');
-                    advancedTrainingContent.classList.add('hidden');
-                    proTrainingContent.classList.remove('hidden');
-                    
-                    // 更新训练参数
-                    updateTrainingParameters('专业训练');
-                    
-                    // 这里可以添加切换到专业训练模式的逻辑
-                    console.log('切换到专业训练模式');
-                });
-            }
-            
-            // 更新训练参数函数
-            function updateTrainingParameters(mode) {
-                // 获取波形图指标元素
-                const frequencyElement = document.querySelector('.grid.grid-cols-3.gap-4 div:nth-child(1) p.text-lg.font-bold');
-                const intensityElement = document.querySelector('.grid.grid-cols-3.gap-4 div:nth-child(2) p.text-lg.font-bold');
-                
-                // 根据不同模式更新参数
-                switch(mode) {
-                    case '基础训练':
-                        // 更新波形图指标
-                        if (frequencyElement) frequencyElement.innerHTML = '45<span class="text-xs font-normal">bpm</span>';
-                        if (intensityElement) intensityElement.innerHTML = '60<span class="text-xs font-normal">%</span>';
-                        
-                        // 更新波形图振幅和频率
-                        updateWaveform(0.7, 1.5);
-                        break;
-                        
-                    case '进阶训练':
-                        // 更新波形图指标
-                        if (frequencyElement) frequencyElement.innerHTML = '68<span class="text-xs font-normal">bpm</span>';
-                        if (intensityElement) intensityElement.innerHTML = '85<span class="text-xs font-normal">%</span>';
-                        
-                        // 更新波形图振幅和频率
-                        updateWaveform(1, 1);
-                        break;
-                        
-                    case '专业训练':
-                        // 更新波形图指标
-                        if (frequencyElement) frequencyElement.innerHTML = '85<span class="text-xs font-normal">bpm</span>';
-                        if (intensityElement) intensityElement.innerHTML = '95<span class="text-xs font-normal">%</span>';
-                        
-                        // 更新波形图振幅和频率
-                        updateWaveform(1.3, 0.7);
-                        break;
-                }
-            }
-            
-            // 更新波形图函数
-            function updateWaveform(amplitude, duration) {
-                // 获取波形图SVG元素
-                const waveformPath = document.querySelector('svg path.animate-pulse');
-                const animateElement = document.querySelector('svg circle animate');
-                
-                if (waveformPath) {
-                    // 根据振幅调整波形图高度
-                    const baseHeight = 75;
-                    const variation = 10 * amplitude;
-                    
-                    // 生成新的波形路径
-                    let newPath = `M0,${baseHeight} `;
-                    for (let i = 0; i < 10; i++) {
-                        newPath += `C${i*30+10},${baseHeight-variation} ${i*30+20},${baseHeight+variation} ${i*30+30},${baseHeight} `;
-                    }
-                    
-                    // 应用新路径
-                    waveformPath.setAttribute('d', newPath);
-                }
-                
-                if (animateElement) {
-                    // 调整动画速度
-                    animateElement.setAttribute('dur', `${3 * duration}s`);
-                }
-            }
-            
-            // 获取训练控制按钮
-            const startButton = document.getElementById('startTrainingButton');
-            const pauseButton = document.getElementById('pauseTrainingButton');
-            const stopButton = document.getElementById('stopTrainingButton');
-            
-            // 添加暂停训练按钮点击事件
-            if (pauseButton) {
-                pauseButton.addEventListener('click', function() {
-                    // 这里可以添加暂停训练的逻辑
-                    console.log('暂停训练');
-                    
-                    // 切换按钮显示
-                    pauseButton.classList.add('hidden');
-                    startButton.classList.remove('hidden');
-                    
-                    // 更新UI状态，例如暂停波形动画等
-                    document.querySelectorAll('.animate-pulse').forEach(el => {
-                        el.classList.remove('animate-pulse');
-                    });
-                    document.querySelectorAll('.animate-ping').forEach(el => {
-                        el.classList.remove('animate-ping');
-                    });
-                });
-            }
-            
-            // 添加开始训练按钮点击事件
-            if (startButton) {
-                startButton.addEventListener('click', function() {
-                    // 这里可以添加开始训练的逻辑
-                    console.log('开始训练');
-                    
-                    // 切换按钮显示
-                    startButton.classList.add('hidden');
-                    pauseButton.classList.remove('hidden');
-                    
-                    // 更新UI状态，例如显示波形动画等
-                    document.querySelectorAll('.animate-pulse').forEach(el => {
-                        el.classList.add('animate-pulse');
-                    });
-                    document.querySelectorAll('.animate-ping').forEach(el => {
-                        el.classList.add('animate-ping');
-                    });
-                });
-            }
-            
-            // 添加停止训练按钮点击事件
-            if (stopButton) {
+
+                        // 添加停止训练按钮点击事件
+                        if (stopButton) {
                 stopButton.addEventListener('click', function() {
                     // 创建自定义弹窗内容
                     const modalHTML = `
-                        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" style="top: 44px; bottom: 90px;">
-                            <div class="bg-white rounded-2xl p-6 w-[85%] max-w-sm mx-4">
+                        <div class="fixed inset-0 z-50 flex items-center justify-center" style="top: 44px; bottom: 90px;">
+                            <div class="absolute inset-0 bg-black/50"></div>
+                            <div class="relative bg-white rounded-2xl p-6 w-[85%] max-w-sm mx-4 z-10 shadow-xl">
                                 <div class="text-center mb-4">
                                     <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-3">
                                         <i class="fas fa-stop text-red-500 text-xl"></i>
