@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCBS医疗设备管理系统 - 后台管理</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        .sidebar-item.active {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-left: 3px solid #8b5cf6;
+        }
+        .sidebar-item:hover:not(.active) {
+            background-color: rgba(139, 92, 246, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="flex h-screen overflow-hidden">
+        <!-- 侧边栏 -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 border-r border-gray-200 bg-white">
+                <!-- 品牌Logo -->
+                <div class="flex items-center justify-center h-16 border-b border-gray-200">
+                    <div class="flex items-center">
+                        <img class="h-8 w-auto" src="https://via.placeholder.com/40x40?text=FCBS" alt="FCBS Logo">
+                        <span class="ml-2 text-xl font-semibold text-gray-800">FCBS管理系统</span>
+                    </div>
+                </div>
+                
+                <!-- 导航菜单 -->
+                <div class="flex-1 flex flex-col overflow-y-auto pt-5 pb-4">
+                    <nav class="flex-1 px-2 space-y-1">
+                        <!-- 监控看板 -->
+                        <a href="#dashboard" class="sidebar-item active group flex items-center px-2 py-3 text-sm font-medium rounded-md">
+                            <i class="fas fa-tachometer-alt text-purple-600 mr-3 text-lg"></i>
+                            <span class="truncate">监控看板</span>
+                        </a>
+                        
+                        <!-- 用户管理 -->
+                        <div>
+                            <a href="#user-management" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900">
+                                <i class="fas fa-users text-purple-600 mr-3 text-lg"></i>
+                                <span class="truncate">用户管理</span>
+                            </a>
+                            <div class="pl-10 space-y-1">
+                                <a href="#user-list" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    用户列表
+                                </a>
+                                <a href="#user-analytics" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    用户分析
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- 设备管理 -->
+                        <div>
+                            <a href="#device-management" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900">
+                                <i class="fas fa-mobile-alt text-purple-600 mr-3 text-lg"></i>
+                                <span class="truncate">设备管理</span>
+                            </a>
+                            <div class="pl-10 space-y-1">
+                                <a href="#device-list" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    设备列表
+                                </a>
+                                <a href="#device-types" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    设备类型
+                                </a>
+                                <a href="#device-firmware" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    固件管理
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- AI模型设置 -->
+                        <div>
+                            <a href="#ai-model" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900">
+                                <i class="fas fa-brain text-purple-600 mr-3 text-lg"></i>
+                                <span class="truncate">AI模型设置</span>
+                            </a>
+                            <div class="pl-10 space-y-1">
+                                <a href="#model-list" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    模型列表
+                                </a>
+                                <a href="#model-training" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    模型训练
+                                </a>
+                                <a href="#model-deployment" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    模型部署
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- 系统管理 -->
+                        <div>
+                            <a href="#system" class="sidebar-item group flex items-center px-2 py-3 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900">
+                                <i class="fas fa-cogs text-purple-600 mr-3 text-lg"></i>
+                                <span class="truncate">系统管理</span>
+                            </a>
+                            <div class="pl-10 space-y-1">
+                                <a href="#admin-accounts" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    管理员账户
+                                </a>
+                                <a href="#system-logs" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    系统日志
+                                </a>
+                                <a href="#system-settings" class="group flex items-center px-2 py-2 text-xs font-medium text-gray-500 rounded-md hover:text-gray-900">
+                                    系统设置
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                
+                <!-- 用户信息 -->
+                <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+                    <div class="flex-shrink-0 group block">
+                        <div class="flex items-center">
+                            <div>
+                                <img class="inline-block h-9 w-9 rounded-full" src="https://via.placeholder.com/36x36" alt="用户头像">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-700">管理员</p>
+                                <p class="text-xs font-medium text-gray-500">超级管理员</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 主内容区域 -->
+        <div class="flex flex-col w-0 flex-1 overflow-hidden">
+            <!-- 顶部导航栏 -->
+            <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
+                <button type="button" class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 md:hidden">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="flex-1 px-4 flex justify-between">
+                    <div class="flex-1 flex">
+                        <div class="w-full flex md:ml-0">
+                            <label for="search-field" class="sr-only">搜索</label>
+                            <div class="relative w-full text-gray-400 focus-within:text-gray-600">
+                                <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
+                                    <i class="fas fa-search ml-3"></i>
+                                </div>
+                                <input id="search-field" class="block w-full h-full pl-10 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm" placeholder="全局搜索" type="search">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <!-- 通知按钮 -->
+                        <button class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 relative">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400"></span>
+                        </button>
+                        
+                        <!-- 设置按钮 -->
+                        <button class="ml-3 p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        
+                        <!-- 用户下拉菜单 -->
+                        <div class="ml-3 relative">
+                            <div>
+                                <button type="button" class="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" id="user-menu-button">
+                                    <img class="h-8 w-8 rounded-full" src="https://via.placeholder.com/32x32" alt="用户头像">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 主内容 -->
+            <main class="flex-1 relative overflow-y-auto focus:outline-none">
+                <div class="py-6">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <h1 class="text-2xl font-semibold text-gray-900">监控看板</h1>
+                    </div>
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                        <!-- 监控看板内容 -->
+                        <div class="py-4">
+                            <!-- 数据概览卡片 -->
+                            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-6">
+                                <!-- 总用户数 -->
+                                <div class="bg-white overflow-hidden shadow rounded-lg">
+                                    <div class="p-5">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                                                <i class="fas fa-users text-purple-600 text-xl"></i>
+                                            </div>
+                                            <div class="ml-5 w-0 flex-1">
+                                                <dl>
+                                                    <dt class="text-sm font-medium text-gray-500 truncate">总用户数</dt>
+                                                    <dd>
+                                                        <div class="text-lg font-medium text-gray-900">24,521</div>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 px-5 py-3">
+                                        <div class="text-sm">
+                                            <a href="#" class="font-medium text-purple-600 hover:text-purple-900">查看所有用户</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 活跃设备 -->
+                                <div class="bg-white overflow-hidden shadow rounded-lg">
+                                    <div class="p-5">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 bg-green-100 rounded-md p-3">
+                                                <i class="fas fa-mobile-alt text-green-600 text-xl"></i>
+                                            </div>
+                                            <div class="ml-5 w-0 flex-1">
+                                                <dl>
+                                                    <dt class="text-sm font-medium text-gray-500 truncate">活跃设备</dt>
+                                                    <dd>
+                                                        <div class="text-lg font-medium text-gray-900">18,362</div>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 px-5 py-3">
+                                        <div class="text-sm">
+                                            <a href="#" class="font-medium text-green-600 hover:text-green-900">查看所有设备</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 今日训练次数 -->
+                                <div class="bg-white overflow-hidden shadow rounded-lg">
+                                    <div class="p-5">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                                                <i class="fas fa-heartbeat text-blue-600 text-xl"></i>
+                                            </div>
+                                            <div class="ml-5 w-0 flex-1">
+                                                <dl>
+                                                    <dt class="text-sm font-medium text-gray-500 truncate">今日训练次数</dt>
+                                                    <dd>
+                                                        <div class="text-lg font-medium text-gray-900">4,352</div>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 px-5 py-3">
+                                        <div class="text-sm">
+                                            <a href="#" class="font-medium text-blue-600 hover:text-blue-900">查看训练数据</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- AI模型调用 -->
+                                <div class="bg-white overflow-hidden shadow rounded-lg">
+                                    <div class="p-5">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 bg-indigo-100 rounded-md p-3">
+                                                <i class="fas fa-brain text-indigo-600 text-xl"></i>
+                                            </div>
+                                            <div class="ml-5 w-0 flex-1">
+                                                <dl>
+                                                    <dt class="text-sm font-medium text-gray-500 truncate">AI模型调用</dt>
+                                                    <dd>
+                                                        <div class="text-lg font-medium text-gray-900">12,721</div>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-50 px-5 py-3">
+                                        <div class="text-sm">
+                                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-900">查看模型性能</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 图表区域 -->
+                            <div class="grid grid-cols-1 gap-5 lg:grid-cols-2 mb-6">
+                                <!-- 用户增长趋势 -->
+                                <div class="bg-white overflow-hidden shadow rounded-lg">
+                                    <div class="px-5 py-4 border-b border-gray-200">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">用户增长趋势</h3>
+                                    </div>
+                                    <div class="p-5">
+                                        <div id="userGrowthChart" class="h-64"></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 设备使用情况 -->
+                                <div class="bg-white overflow-hidden shadow rounded-lg">
+                                    <div class="px-5 py-4 border-b border-gray-200">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">设备使用情况</h3>
+                                    </div>
+                                    <div class="p-5">
+                                        <div id="deviceUsageChart" class="h-64"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 最近活动 -->
+                            <div class="bg-white shadow rounded-lg">
+                                <div class="px-5 py-4 border-b border-gray-200">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900">最近系统活动</h3>
+                                </div>
+                                <div class="p-5">
+                                    <div class="flow-root">
+                                        <ul class="-mb-8">
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                                <i class="fas fa-user-plus text-white"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">新用户 <span class="font-medium text-gray-900">张女士</span> 注册了账号</p>
+                                                            </div>
+                                                            <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                                <time>10分钟前</time>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
+                                                                <i class="fas fa-mobile-alt text-white"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">新设备 <span class="font-medium text-gray-900">盆底紧致修复仪 (FCB-2024-1089)</span> 被激活</p>
+                                                            </div>
+                                                            <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                                <time>30分钟前</time>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"></span>
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center ring-8 ring-white">
+                                                                <i class="fas fa-brain text-white"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">AI模型 <span class="font-medium text-gray-900">盆底肌肉训练AI模型 v2.3.1</span> 已部署</p>
+                                                            </div>
+                                                            <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                                <time>2小时前</time>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="relative pb-8">
+                                                    <div class="relative flex space-x-3">
+                                                        <div>
+                                                            <span class="h-8 w-8 rounded-full bg-red-500 flex items-center justify-center ring-8 ring-white">
+                                                                <i class="fas fa-exclamation-triangle text-white"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                            <div>
+                                                                <p class="text-sm text-gray-500">系统警报: <span class="font-medium text-gray-900">服务器负载过高</span> 已自动扩容</p>
+                                                            </div>
+                                                            <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                                <time>5小时前</time>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="mt-6">
+                                        <a href="#" class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                            查看更多活动
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 用户增长趋势图表
+            var userGrowthOptions = {
+                series: [{
+                    name: '新用户',
+                    data: [31, 40, 28, 51, 42, 109, 100, 120, 80, 95, 110, 150]
+                }],
+                chart: {
+                    height: 256,
+                    type: 'area',
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#8b5cf6'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                },
+                tooltip: {
+                    x: {
+                        format: 'MM'
+                    },
+                }
+            };
+
+            var userGrowthChart = new ApexCharts(document.querySelector("#userGrowthChart"), userGrowthOptions);
+            userGrowthChart.render();
+            
+            // 设备使用情况图表
+            var deviceUsageOptions = {
+                series: [{
+                    name: '盆底紧致修复仪',
+                    data: [44, 55, 57, 56, 61, 58, 63]
+                }, {
+                    name: '智能生发修复仪',
+                    data: [35, 41, 36, 26, 45, 48, 52]
+                }, {
+                    name: '辅助睡眠仪',
+                    data: [25, 32, 26, 41, 30, 28, 35]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 256,
+                    stacked: true,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#8b5cf6', '#10b981', '#3b82f6'],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                    },
+                },
+                xaxis: {
+                    categories: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'left'
+                },
+                fill: {
+                    opacity: 1
+                }
+            };
+
+            var deviceUsageChart = new ApexCharts(document.querySelector("#deviceUsageChart"), deviceUsageOptions);
+            deviceUsageChart.render();
+            
+            // 侧边栏菜单激活状态切换
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    sidebarItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

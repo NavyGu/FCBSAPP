@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康复评估报告 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引用项目中已有的styles.css文件 -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 仅保留页面特有的样式 */
+        body {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        /* 报告卡片样式 */
+        .report-card {
+            transition: all 0.3s ease;
+        }
+        .report-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        /* 进度条样式 */
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e5e7eb;
+            overflow: hidden;
+        }
+        .progress-value {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #8B5CF6, #6D28D9);
+            transition: width 0.5s ease;
+        }
+        /* 图表容器样式 */
+        .chart-container {
+            height: 200px;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">康复评估报告</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航栏 -->
+                    <div class="bg-white px-4 py-3 flex items-center border-b sticky top-0 z-10">
+                        <button onclick="window.history.back()" class="mr-4">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <h1 class="text-lg font-semibold">康复评估报告</h1>
+                        <button class="ml-auto text-sm text-purple-500">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+
+                    <!-- 报告内容 -->
+                    <div class="p-4">
+                        <!-- 报告基本信息 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h2 class="text-lg font-semibold">康复评估报告</h2>
+                                    <p class="text-sm text-gray-500">2024年3月15日生成</p>
+                                </div>
+                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-file-medical-alt text-blue-500 text-2xl"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between text-sm border-t border-gray-100 pt-3">
+                                <div>
+                                    <p class="text-gray-500">评估医生</p>
+                                    <p class="font-medium">张医生</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">评估设备</p>
+                                    <p class="font-medium">盆底康复仪 Pro</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500">报告编号</p>
+                                    <p class="font-medium">R20240315</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 总体评分 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h3 class="text-base font-semibold mb-4">总体评分</h3>
+                            
+                            <div class="flex items-center justify-center mb-6">
+                                <div class="progress-ring relative">
+                                    <svg width="120" height="120" viewBox="0 0 120 120">
+                                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e5e7eb" stroke-width="12"></circle>
+                                        <circle class="progress-ring-circle" cx="60" cy="60" r="54" fill="none" stroke="#8B5CF6" stroke-width="12" stroke-dasharray="339.292" stroke-dashoffset="101.7876"></circle>
+                                    </svg>
+                                    <div class="progress-ring-text absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                                        <p class="text-3xl font-bold text-purple-600">68</p>
+                                        <p class="text-xs text-gray-500">总体评分</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-sm text-center mb-4">
+                                <p class="font-medium">康复进展良好</p>
+                                <p class="text-gray-500 mt-1">较上次评估提升了5分，继续保持！</p>
+                            </div>
+                            
+                            <div class="flex justify-between text-xs text-gray-500 border-t border-gray-100 pt-3">
+                                <div class="text-center">
+                                    <p class="font-medium text-green-500">优秀</p>
+                                    <p>80-100</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-medium text-blue-500">良好</p>
+                                    <p>60-79</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-medium text-yellow-500">一般</p>
+                                    <p>40-59</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="font-medium text-red-500">需改善</p>
+                                    <p>0-39</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 详细指标 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h3 class="text-base font-semibold mb-4">详细指标</h3>
+                            
+                            <!-- 雷达图 - 替换为SVG实现 -->
+                            <div class="radar-chart mb-6 flex justify-center">
+                                <svg width="300" height="200" viewBox="0 0 300 200">
+                                    <!-- 雷达图背景 -->
+                                    <polygon points="150,20 240,70 210,160 90,160 60,70" 
+                                            fill="none" stroke="#e5e7eb" stroke-width="1" />
+                                    <polygon points="150,40 220,80 195,150 105,150 80,80" 
+                                            fill="none" stroke="#e5e7eb" stroke-width="1" />
+                                    <polygon points="150,60 200,90 180,140 120,140 100,90" 
+                                            fill="none" stroke="#e5e7eb" stroke-width="1" />
+                                    <polygon points="150,80 180,100 165,130 135,130 120,100" 
+                                            fill="none" stroke="#e5e7eb" stroke-width="1" />
+                                    
+                                    <!-- 雷达图数据区域 -->
+                                    <polygon points="150,35 225,78 190,155 100,145 75,75" 
+                                            fill="rgba(139,92,246,0.2)" stroke="#8B5CF6" stroke-width="2" />
+                                    
+                                    <!-- 雷达图轴线 -->
+                                    <line x1="150" y1="20" x2="150" y2="160" stroke="#e5e7eb" stroke-width="1" />
+                                    <line x1="60" y1="70" x2="240" y2="70" stroke="#e5e7eb" stroke-width="1" />
+                                    <line x1="90" y1="160" x2="210" y2="160" stroke="#e5e7eb" stroke-width="1" />
+                                    <line x1="150" y1="20" x2="60" y2="70" stroke="#e5e7eb" stroke-width="1" />
+                                    <line x1="150" y1="20" x2="240" y2="70" stroke="#e5e7eb" stroke-width="1" />
+                                    
+                                    <!-- 雷达图数据点 -->
+                                    <circle cx="150" cy="35" r="4" fill="#8B5CF6" />
+                                    <circle cx="225" cy="78" r="4" fill="#8B5CF6" />
+                                    <circle cx="190" cy="155" r="4" fill="#8B5CF6" />
+                                    <circle cx="100" cy="145" r="4" fill="#8B5CF6" />
+                                    <circle cx="75" cy="75" r="4" fill="#8B5CF6" />
+                                    
+                                    <!-- 雷达图标签 -->
+                                    <text x="150" y="10" text-anchor="middle" font-size="10" fill="#6b7280">肌肉力量</text>
+                                    <text x="255" y="70" text-anchor="start" font-size="10" fill="#6b7280">肌肉耐力</text>
+                                    <text x="220" y="175" text-anchor="middle" font-size="10" fill="#6b7280">协调性</text>
+                                    <text x="80" y="175" text-anchor="middle" font-size="10" fill="#6b7280">控制能力</text>
+                                    <text x="45" y="70" text-anchor="end" font-size="10" fill="#6b7280">灵活性</text>
+                                </svg>
+                            </div>
+                            
+                            <!-- 各项指标 -->
+                            <div class="space-y-4">
+                                <!-- 肌肉力量 -->
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-medium">肌肉力量</p>
+                                        <div class="flex items-center">
+                                            <p class="text-sm font-medium">75%</p>
+                                            <span class="ml-2 text-xs text-green-500">+5%</span>
+                                        </div>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <div class="chart-bar-fill bg-green-500" style="width: 75%"></div>
+                                    </div>
+                                    <div class="chart-label">
+                                        <span>0</span>
+                                        <span>50</span>
+                                        <span>100</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 肌肉耐力 -->
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-medium">肌肉耐力</p>
+                                        <div class="flex items-center">
+                                            <p class="text-sm font-medium">62%</p>
+                                            <span class="ml-2 text-xs text-green-500">+3%</span>
+                                        </div>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <div class="chart-bar-fill bg-blue-500" style="width: 62%"></div>
+                                    </div>
+                                    <div class="chart-label">
+                                        <span>0</span>
+                                        <span>50</span>
+                                        <span>100</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 协调性 -->
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-medium">协调性</p>
+                                        <div class="flex items-center">
+                                            <p class="text-sm font-medium">70%</p>
+                                            <span class="ml-2 text-xs text-green-500">+8%</span>
+                                        </div>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <div class="chart-bar-fill bg-purple-500" style="width: 70%"></div>
+                                    </div>
+                                    <div class="chart-label">
+                                        <span>0</span>
+                                        <span>50</span>
+                                        <span>100</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 控制能力 -->
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-medium">控制能力</p>
+                                        <div class="flex items-center">
+                                            <p class="text-sm font-medium">65%</p>
+                                            <span class="ml-2 text-xs text-green-500">+4%</span>
+                                        </div>
+                                    </div>
+                                    <div class="chart-bar">
+                                        <div class="chart-bar-fill bg-yellow-500" style="width: 65%"></div>
+                                    </div>
+                                    <div class="chart-label">
+                                        <span>0</span>
+                                        <span>50</span>
+                                        <span>100</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 康复趋势 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h3 class="text-base font-semibold mb-4">康复趋势</h3>
+                            
+                            <!-- 趋势图 - 替换为Canvas实现 -->
+                            <div class="mb-4">
+                                <canvas id="trendChart" width="350" height="180" class="w-full rounded-lg"></canvas>
+                            </div>
+                            
+                            <div class="flex justify-between text-xs text-gray-500">
+                                <span>1月</span>
+                                <span>2月</span>
+                                <span>3月</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 医生评语 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h3 class="text-base font-semibold mb-3">医生评语</h3>
+                            
+                            <div class="flex items-start mb-4">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="医生头像" class="w-10 h-10 rounded-full mr-3">
+                                <div>
+                                    <p class="text-sm font-medium">张医生</p>
+                                    <p class="text-xs text-gray-500">妇产科 · 主任医师</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-sm text-gray-700 mb-4">
+                                根据本次评估结果，您的盆底肌功能恢复情况良好，较上次有明显进步。肌肉力量和耐力都有提升，特别是协调性提升明显。建议继续保持现有训练频率，可以适当增加训练强度。注意训练过程中的呼吸配合，保持规律作息和充足水分摄入。
+                            </p>
+                            
+                            <div class="bg-purple-50 rounded-lg p-3">
+                                <p class="text-sm font-medium text-purple-700 mb-2">下一步建议</p>
+                                <ul class="text-sm text-gray-700 space-y-2">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-500 mt-0.5 mr-2"></i>
+                                        <span>继续每周5次的盆底训练，每次25-30分钟</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-500 mt-0.5 mr-2"></i>
+                                        <span>增加协调性训练，提高肌肉控制能力</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-purple-500 mt-0.5 mr-2"></i>
+                                        <span>一个月后进行下一次评估，跟踪康复进展</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- 操作按钮 -->
+                        <div class="flex space-x-3 mb-6">
+                            <button class="flex-1 bg-purple-500 text-white py-3 rounded-xl font-medium flex items-center justify-center">
+                                <i class="fas fa-calendar-plus mr-2"></i>
+                                预约复查
+                            </button>
+                            <button class="flex-1 bg-white text-purple-600 py-3 rounded-xl font-medium border border-purple-200 flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i>
+                                下载报告
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- 修改底部导航栏样式 -->
+                 <div class="bottom-tab-bar flex items-center justify-around absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2">
+                    <a href="device-management.html" class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-purple-500"></i>
+                        <span class="text-xs text-purple-500">设备</span>
+                    </a>
+                    <a href="health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 底部导航栏点击事件
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    tabItems.forEach(tab => tab.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 设备页面跳转
+                    if (this.querySelector('span').textContent === '设备') {
+                        window.location.href = 'device-management.html';
+                    }
+                    // 健康页面跳转
+                    else if (this.querySelector('span').textContent === '健康') {
+                        window.location.href = 'health.html';
+                    }
+                    // 商城页面跳转
+                    else if (this.querySelector('span').textContent === '商城') {
+                        window.location.href = 'shop.html';
+                    }
+                    // 我的页面跳转
+                    else if (this.querySelector('span').textContent === '我的') {
+                        window.location.href = 'profile.html';
+                    }
+                });
+            });
+            
+            // 绘制康复趋势图
+            const trendCanvas = document.getElementById('trendChart');
+            if (trendCanvas) {
+                const ctx = trendCanvas.getContext('2d');
+                
+                // 清空画布
+                ctx.clearRect(0, 0, trendCanvas.width, trendCanvas.height);
+                
+                // 设置背景
+                ctx.fillStyle = '#f9fafb';
+                ctx.fillRect(0, 0, trendCanvas.width, trendCanvas.height);
+                
+                // 绘制网格线
+                ctx.strokeStyle = '#e5e7eb';
+                ctx.lineWidth = 1;
+                
+                // 横向网格线
+                for (let i = 0; i <= 4; i++) {
+                    const y = 20 + (trendCanvas.height - 40) * (i / 4);
+                    ctx.beginPath();
+                    ctx.moveTo(30, y);
+                    ctx.lineTo(trendCanvas.width - 20, y);
+                    ctx.stroke();
+                }
+                
+                // 纵向网格线
+                for (let i = 0; i <= 6; i++) {
+                    const x = 30 + (trendCanvas.width - 50) * (i / 6);
+                    ctx.beginPath();
+                    ctx.moveTo(x, 20);
+                    ctx.lineTo(x, trendCanvas.height - 20);
+                    ctx.stroke();
+                }
+                
+                // 绘制坐标轴标签
+                ctx.fillStyle = '#6b7280';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'right';
+                
+                // Y轴标签
+                for (let i = 0; i <= 4; i++) {
+                    const y = 20 + (trendCanvas.height - 40) * (i / 4);
+                    const label = 100 - i * 25;
+                    ctx.fillText(label, 25, y + 4);
+                }
+                
+                // 绘制趋势线
+                const data = [45, 52, 58, 63, 68, 72, 75];
+                const dataPoints = data.map((value, index) => {
+                    const x = 30 + (trendCanvas.width - 50) * (index / 6);
+                    const y = trendCanvas.height - 20 - (value / 100) * (trendCanvas.height - 40);
+                    return { x, y };
+                });
+                
+                // 绘制渐变区域
+                const gradient = ctx.createLinearGradient(0, 0, 0, trendCanvas.height);
+                gradient.addColorStop(0, 'rgba(139, 92, 246, 0.5)');
+                gradient.addColorStop(1, 'rgba(139, 92, 246, 0.1)');
+                
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.moveTo(dataPoints[0].x, trendCanvas.height - 20);
+                dataPoints.forEach(point => {
+                    ctx.lineTo(point.x, point.y);
+                });
+                ctx.lineTo(dataPoints[dataPoints.length - 1].x, trendCanvas.height - 20);
+                ctx.closePath();
+                ctx.fill();
+                
+                // 绘制趋势线
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
+                dataPoints.forEach((point, index) => {
+                    if (index > 0) {
+                        ctx.lineTo(point.x, point.y);
+                    }
+                });
+                ctx.stroke();
+                
+                // 绘制数据点
+                dataPoints.forEach(point => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.strokeStyle = '#8B5CF6';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 5, 0, Math.PI * 2);
+                    ctx.stroke();
+                });
+                
+                // 标记最新数据点
+                const lastPoint = dataPoints[dataPoints.length - 1];
+                ctx.fillStyle = '#8B5CF6';
+                ctx.beginPath();
+                ctx.arc(lastPoint.x, lastPoint.y, 6, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 显示最新数据值
+                ctx.fillStyle = '#8B5CF6';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(data[data.length - 1] + '%', lastPoint.x, lastPoint.y - 15);
+            }
+        });
+    </script>
+</body>
+</html>

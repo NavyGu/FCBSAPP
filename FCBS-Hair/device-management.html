@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备管理 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">设备管理</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="page active" id="device-page">
+                        <div class="p-4">
+                            <!-- 设备连接区域 -->
+                            <div class="mb-6">
+                                <div class="bg-white rounded-xl p-4 shadow-sm">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <div class="flex items-center flex-1">
+                                            <div class="relative">
+                                                <img src="https://images.unsplash.com/photo-1585751119414-ef2636f8aede?w=400" 
+                                                     alt="红光生发仪" 
+                                                     class="w-16 h-16 rounded-lg object-cover">
+                                                <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                                </span>
+                                            </div>
+                                            <div class="ml-3">
+                                                <h3 class="font-medium">红光生发仪</h3>
+                                                <div class="flex items-center mt-1 space-x-3">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-battery-full text-green-500 mr-1"></i>
+                                                        <span class="text-sm text-gray-500">95%</span>
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <i class="fab fa-bluetooth-b text-purple-500 mr-1"></i>
+                                                        <span class="text-sm text-gray-500">已连接</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col items-end space-y-2">
+                                            <button class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center hover:from-purple-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group">
+                                                <i class="fas fa-exchange-alt text-xs transform group-hover:rotate-180 transition-transform duration-300"></i>
+                                            </button>
+                                            <button class="w-8 h-8 rounded-full bg-gray-50 hover:bg-purple-50 transition-all duration-300 flex items-center justify-center transform hover:scale-105 hover:shadow-lg group">
+                                                <i class="fas fa-plus text-gray-400 group-hover:text-purple-500 transition-colors duration-300 transform group-hover:rotate-90"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- 修改设备操作按钮区域 -->
+                                    <div class="flex flex-col space-y-3">
+                                        <!-- 开始使用按钮 - 保持紫色主题 -->
+                                        <button id="startUseButton" class="w-full p-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl shadow-lg text-white flex items-center justify-between transition-transform transform hover:scale-105">
+                                            <div class="flex items-center">
+                                                <div class="w-12 h-12 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-4">
+                                                    <i class="fas fa-play text-white text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-lg font-bold">开始使用</h3>
+                                                    <p class="text-sm text-purple-100">立即开始您的生发护理</p>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right text-white text-lg"></i>
+                                        </button>
+                                        
+                                        <!-- 使用指南按钮 - 简化设计 -->
+                                        <button onclick="window.location.href='user-guide.html'" class="flex items-center justify-between w-full p-2 bg-white rounded-lg border border-gray-200">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                                    <i class="fas fa-book-open text-blue-500 text-sm"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-xs font-medium">使用指南</h3>
+                                                    <p class="text-xs text-gray-500">查看设备使用说明</p>
+                                                </div>
+                                            </div>
+                                            <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 护理计划日历区域 - 保持紫色主题 -->
+                            <div class="mb-3 bg-white rounded-xl p-2 shadow-sm">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h2 class="text-sm font-semibold flex items-center whitespace-nowrap">
+                                        <i class="fas fa-calendar-alt text-purple-500 mr-1"></i>
+                                        生发护理计划
+                                    </h2>
+                                    <div class="flex items-center gap-1">
+                                        <div class="flex items-center">
+                                            <button id="prevMonth" class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <i class="fas fa-chevron-left text-gray-500 text-xs"></i>
+                                            </button>
+                                            <span id="currentMonth" class="text-xs text-gray-500 mx-1">2024年3月</span>
+                                            <button id="nextMonth" class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <i class="fas fa-chevron-right text-gray-500 text-xs"></i>
+                                            </button>
+                                        </div>
+                                        <button onclick="window.location.href='rehabilitation-plan.html'" 
+                                                class="text-xs text-purple-500 hover:text-purple-600 flex items-center whitespace-nowrap">
+                                            <span>详细计划</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- 日历部分保持不变 -->
+                                
+                                <!-- 护理计划汇总 - 保持紫色主题 -->
+                                <div class="border-t pt-1">
+                                    <div class="grid grid-cols-3 gap-1 text-center">
+                                        <div>
+                                            <p class="text-base font-bold text-purple-500">21</p>
+                                            <p class="text-xs text-gray-500">持续天数</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-base font-bold text-purple-500">6</p>
+                                            <p class="text-xs text-gray-500">本周完成</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-base font-bold text-purple-500">75%</p>
+                                            <p class="text-xs text-gray-500">计划完成度</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 最近护理记录 - 简化内容 -->
+                            <div class="bg-white rounded-xl p-3 shadow-sm">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h2 class="text-base font-semibold flex items-center">
+                                        <i class="fas fa-history text-purple-500 mr-2"></i>
+                                        最近护理
+                                    </h2>
+                                    <a href="rehabilitation-plan.html" class="text-xs text-purple-500 flex items-center">
+                                        查看全部 <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                    </a>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <!-- 护理记录项1 -->
+                                    <div class="flex items-center p-2 border-b border-gray-100">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                            <i class="fas fa-lightbulb text-purple-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-sm font-medium">红光生发护理</h3>
+                                                <span class="text-xs text-green-500 bg-green-50 px-2 py-0.5 rounded-full">完成</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">今天 15:30</p>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-500 mr-2">20分钟</span>
+                                                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 护理记录项2 -->
+                                    <div class="flex items-center p-2 border-b border-gray-100">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                            <i class="fas fa-lightbulb text-purple-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-sm font-medium">红光生发护理</h3>
+                                                <span class="text-xs text-green-500 bg-green-50 px-2 py-0.5 rounded-full">完成</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">昨天 09:15</p>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-500 mr-2">20分钟</span>
+                                                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 护理记录项3 -->
+                                    <div class="flex items-center p-2">
+                                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                            <i class="fas fa-lightbulb text-purple-500 text-sm"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex justify-between items-center">
+                                                <h3 class="text-sm font-medium">红光生发护理</h3>
+                                                <span class="text-xs text-green-500 bg-green-50 px-2 py-0.5 rounded-full">完成</span>
+                                            </div>
+                                            <div class="flex items-center justify-between mt-1">
+                                                <p class="text-xs text-gray-500">前天 16:45</p>
+                                                <div class="flex items-center">
+                                                    <span class="text-xs text-gray-500 mr-2">20分钟</span>
+                                                    <div class="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                                        <div class="h-full bg-green-500 rounded-full" style="width: 100%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                
+                                <!-- AI护理建议摘要 -->
+                                <div class="mt-3 pt-3 border-t border-gray-100">
+                                    <div class="flex items-start">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2 flex-shrink-0">
+                                            <i class="fas fa-robot text-blue-500 text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-600">根据您的护理情况，建议明天继续进行<span class="text-purple-500">红光生发护理</span>，每周坚持4-5次，有助于促进毛囊活力。</p>
+                                            <button class="mt-2 text-xs text-purple-500 flex items-center">
+                                                查看详细建议 <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 修改底部导航栏样式 -->
+                <div class="bottom-tab-bar flex items-center justify-around absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2">
+                    <a href="device-management.html" class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-purple-500"></i>
+                        <span class="text-xs text-purple-500">设备</span>
+                    </a>
+                    <a href="health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- 修改弹窗组件，确保保持在APP框架内 -->
+     <div id="noRehabPlanModal" class="hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-5 max-w-xs w-11/12 shadow-xl z-50">
+            <div class="text-center mb-4">
+                <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-clipboard-list text-purple-500 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-800">开始使用设备</h3>
+                <p class="text-sm text-gray-600 mt-2">
+                    建议先通过AI对话制定专属康复计划，帮助您更好地达成康复目标。
+                </p>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <button id="confirmRehabPlan" class="w-full py-2 bg-purple-500 text-white rounded-lg text-sm font-medium">
+                    制定康复计划
+                </button>
+                <button id="directUseButton" class="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                    直接使用设备
+                </button>
+                <button id="cancelRehabPlan" class="w-full py-2 text-gray-500 text-sm font-medium">
+                    取消
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取按钮元素
+            const startUseButton = document.getElementById('startUseButton');
+            const cancelRehabPlan = document.getElementById('cancelRehabPlan');
+            const confirmRehabPlan = document.getElementById('confirmRehabPlan');
+            const directUseButton = document.getElementById('directUseButton');
+            
+            // 显示弹窗
+            if (startUseButton) {
+                startUseButton.addEventListener('click', function() {
+                    // 创建弹窗元素
+                    const modalHTML = `
+                        <div id="noRehabPlanModal" class="absolute inset-0 z-50">
+                            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-5 w-4/5 shadow-xl">
+                                <div class="text-center mb-4">
+                                    <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-3">
+                                        <i class="fas fa-clipboard-list text-purple-500 text-2xl"></i>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-gray-800">开始使用设备</h3>
+                                    <p class="text-sm text-gray-600 mt-2">
+                                        建议先通过AI对话制定专属生发护理计划，帮助您更好地达成生发目标。
+                                    </p>
+                                </div>
+                                <div class="flex flex-col space-y-2">
+                                    <button id="confirmRehabPlan" class="w-full py-2 bg-purple-500 text-white rounded-lg text-sm font-medium">
+                                        制定护理计划
+                                    </button>
+                                    <button id="directUseButton" class="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                                        直接使用设备
+                                    </button>
+                                    <button id="cancelRehabPlan" class="w-full py-2 text-gray-500 text-sm font-medium">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 将弹窗添加到内容区域中
+                    const contentArea = document.querySelector('.content-area');
+                    contentArea.insertAdjacentHTML('beforeend', modalHTML);
+                    
+                    // 绑定新创建的按钮事件
+                    document.getElementById('cancelRehabPlan').addEventListener('click', function() {
+                        document.getElementById('noRehabPlanModal').remove();
+                    });
+                    
+                    document.getElementById('confirmRehabPlan').addEventListener('click', function() {
+                        window.location.href = 'ai-conversation.html';
+                    });
+                    
+                    document.getElementById('directUseButton').addEventListener('click', function() {
+                        window.location.href = 'device-usage.html';
+                    });
+                });
+            }
+            
+            // 移除这部分代码，因为已经使用了链接元素
+            // 获取所有导航标签
+            // const healthTab = document.getElementById('health-tab');
+            // const shopTab = document.getElementById('shop-tab');
+            // const profileTab = document.getElementById('profile-tab');
+            
+            // // 添加点击事件
+            // if (healthTab) {
+            //     healthTab.addEventListener('click', function() {
+            //         window.location.href = 'health.html';
+            //     });
+            // }
+            
+            // if (shopTab) {
+            //     shopTab.addEventListener('click', function() {
+            //         window.location.href = 'shop.html';
+            //     });
+            // }
+            
+            // if (profileTab) {
+            //     profileTab.addEventListener('click', function() {
+            //         window.location.href = 'profile.html';
+            //     });
+            // }
+            
+            // 为所有标签添加悬停效果
+            const allTabs = document.querySelectorAll('.tab-item');
+            allTabs.forEach(tab => {
+                if (!tab.classList.contains('active')) {
+                    tab.addEventListener('mouseover', function() {
+                        const icon = this.querySelector('i');
+                        const text = this.querySelector('span');
+                        if (icon) icon.classList.add('text-purple-400');
+                        if (text) text.classList.add('text-purple-400');
+                    });
+                    
+                    tab.addEventListener('mouseout', function() {
+                        const icon = this.querySelector('i');
+                        const text = this.querySelector('span');
+                        if (icon) icon.classList.remove('text-purple-400');
+                        if (text) text.classList.remove('text-purple-400');
+                    });
+                }
+            });
+            
+            // 日历功能实现
+            // 当前显示的年月
+            let currentDate = new Date();
+            let currentYear = currentDate.getFullYear();
+            let currentMonth = currentDate.getMonth();
+            
+            // 初始化日历
+            updateCalendar(currentYear, currentMonth);
+            updateMonthDisplay(currentYear, currentMonth);
+            
+            // 上个月按钮点击事件
+            const prevMonthBtn = document.getElementById('prevMonth');
+            if (prevMonthBtn) {
+                prevMonthBtn.addEventListener('click', function() {
+                    currentMonth--;
+                    if (currentMonth < 0) {
+                        currentMonth = 11;
+                        currentYear--;
+                    }
+                    updateCalendar(currentYear, currentMonth);
+                    updateMonthDisplay(currentYear, currentMonth);
+                });
+            }
+            
+            // 下个月按钮点击事件
+            const nextMonthBtn = document.getElementById('nextMonth');
+            if (nextMonthBtn) {
+                nextMonthBtn.addEventListener('click', function() {
+                    currentMonth++;
+                    if (currentMonth > 11) {
+                        currentMonth = 0;
+                        currentYear++;
+                    }
+                    updateCalendar(currentYear, currentMonth);
+                    updateMonthDisplay(currentYear, currentMonth);
+                });
+            }
+            
+            // 更新月份显示
+            function updateMonthDisplay(year, month) {
+                const monthNames = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+                const currentMonthElement = document.getElementById('currentMonth');
+                if (currentMonthElement) {
+                    currentMonthElement.textContent = `${year}年${monthNames[month]}`;
+                }
+            }
+            
+            // 更新日历内容
+            function updateCalendar(year, month) {
+                const calendarDays = document.getElementById('calendarDays');
+                if (!calendarDays) return;
+                
+                // 清空现有内容，但保留星期标题
+                while (calendarDays.children.length > 7) {
+                    calendarDays.removeChild(calendarDays.lastChild);
+                }
+                
+                // 获取当月第一天是星期几
+                const firstDay = new Date(year, month, 1).getDay();
+                
+                // 获取当月天数
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                
+                // 获取上个月的天数
+                const daysInPrevMonth = new Date(year, month, 0).getDate();
+                
+                // 添加上个月的日期
+                for (let i = 0; i < firstDay; i++) {
+                    const day = daysInPrevMonth - firstDay + i + 1;
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'text-center py-2 text-gray-400';
+                    dayElement.textContent = day;
+                    calendarDays.appendChild(dayElement);
+                }
+                
+                // 添加当月的日期
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dayElement = document.createElement('div');
+                    
+                    // 模拟一些训练数据 - 随机为一些日期添加训练记录
+                    if (Math.random() > 0.6) {
+                        dayElement.className = 'text-center py-2 bg-green-100 rounded-full text-green-600';
+                    } else {
+                        dayElement.className = 'text-center py-2';
+                    }
+                    
+                    dayElement.textContent = i;
+                    calendarDays.appendChild(dayElement);
+                }
+                
+                // 计算需要添加的下个月日期数
+                const totalDaysShown = firstDay + daysInMonth;
+                const remainingCells = 42 - totalDaysShown; // 6行7列 = 42个单元格
+                
+                // 添加下个月的日期
+                for (let i = 1; i <= remainingCells; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'text-center py-2 text-gray-400';
+                    dayElement.textContent = i;
+                    calendarDays.appendChild(dayElement);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">商品详情</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="page active" id="product-detail-page">
+                        <!-- 顶部导航栏 -->
+                        <div class="p-4 flex items-center justify-between bg-white shadow-sm">
+                            <button id="back-button" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
+                                <i class="fas fa-arrow-left text-gray-600"></i>
+                            </button>
+                            <div class="flex space-x-4">
+                                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
+                                    <i class="fas fa-share-alt text-gray-600"></i>
+                                </button>
+                                <button class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100">
+                                    <i class="fas fa-heart text-gray-600"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 商品图片轮播 -->
+                        <div class="relative">
+                            <div class="product-image-slider">
+                                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600" alt="盆底训练仪Pro" class="w-full h-64 object-cover">
+                            </div>
+                            <div class="absolute bottom-2 right-2 flex space-x-1">
+                                <div class="w-2 h-2 bg-white rounded-full opacity-100"></div>
+                                <div class="w-2 h-2 bg-white rounded-full opacity-50"></div>
+                                <div class="w-2 h-2 bg-white rounded-full opacity-50"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 商品信息 -->
+                        <div class="bg-white p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h1 class="text-xl font-bold">盆底训练仪Pro</h1>
+                                    <div class="flex items-center mt-1">
+                                        <div class="flex items-center text-yellow-400 text-xs">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
+                                        </div>
+                                        <span class="text-xs text-gray-500 ml-1">4.5 (42条评价)</span>
+                                    </div>
+                                </div>
+                                <span class="px-2 py-1 bg-red-100 text-red-500 text-xs rounded-full">热销</span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="flex items-baseline">
+                                    <span class="text-2xl font-bold text-purple-600">¥1299</span>
+                                    <span class="text-sm text-gray-400 line-through ml-2">¥1599</span>
+                                    <span class="ml-2 text-xs text-red-500">限时8.1折</span>
+                                </div>
+                                <div class="mt-2 text-xs text-gray-500">
+                                    <span>已售 368 | 库存 132</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 优惠信息 -->
+                        <div class="bg-white mt-2 p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium">优惠</span>
+                                    <div class="ml-4 flex space-x-2">
+                                        <span class="px-1.5 py-0.5 border border-red-500 text-red-500 text-xs rounded">满减</span>
+                                        <span class="px-1.5 py-0.5 border border-orange-500 text-orange-500 text-xs rounded">赠品</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium">服务</span>
+                                    <div class="ml-4 flex space-x-2 text-xs text-gray-500">
+                                        <span>· 30天无理由退换</span>
+                                        <span>· 一年质保</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- 规格选择 -->
+                        <div class="bg-white mt-2 p-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium">规格</span>
+                                    <div class="ml-4 text-xs text-gray-500">
+                                        <span>标准版 / 1个</span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right text-gray-400 text-xs"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- 商品详情 -->
+                        <div class="bg-white mt-2 p-4">
+                            <h2 class="text-lg font-bold mb-3">商品详情</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <h3 class="text-sm font-medium mb-2">产品特点</h3>
+                                    <ul class="text-xs text-gray-600 space-y-2">
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check text-green-500 mt-0.5 mr-2"></i>
+                                            <span>智能感应技术，精准检测盆底肌肉收缩强度</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check text-green-500 mt-0.5 mr-2"></i>
+                                            <span>APP实时监测，科学指导训练过程</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check text-green-500 mt-0.5 mr-2"></i>
+                                            <span>医用级硅胶材质，安全舒适</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <i class="fas fa-check text-green-500 mt-0.5 mr-2"></i>
+                                            <span>长效续航，单次充电可使用15天</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-sm font-medium mb-2">适用人群</h3>
+                                    <p class="text-xs text-gray-600">
+                                        产后女性、中老年女性、长期久坐人群、有尿失禁症状人群
+                                    </p>
+                                </div>
+                                
+                                <div>
+                                    <h3 class="text-sm font-medium mb-2">产品参数</h3>
+                                    <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                                        <div class="flex">
+                                            <span class="w-16 text-gray-400">品牌</span>
+                                            <span>FCBS</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="w-16 text-gray-400">型号</span>
+                                            <span>PFT-Pro</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="w-16 text-gray-400">材质</span>
+                                            <span>医用级硅胶</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="w-16 text-gray-400">电池容量</span>
+                                            <span>300mAh</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="w-16 text-gray-400">防水等级</span>
+                                            <span>IPX7</span>
+                                        </div>
+                                        <div class="flex">
+                                            <span class="w-16 text-gray-400">连接方式</span>
+                                            <span>蓝牙5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 用户评价 -->
+                        <div class="bg-white mt-2 p-4 mb-20">
+                            <div class="flex justify-between items-center mb-3">
+                                <h2 class="text-lg font-bold">用户评价 (42)</h2>
+                                <a href="#" class="text-xs text-purple-500">查看全部 ></a>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="pb-4 border-b border-gray-100">
+                                    <div class="flex items-center">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="用户头像" class="w-8 h-8 rounded-full">
+                                        <div class="ml-2">
+                                            <p class="text-sm font-medium">李女士</p>
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        产后三个月开始使用，配合APP训练，效果很明显，现在已经完全没有漏尿的情况了。材质很舒适，APP指导也很专业，推荐给有需要的姐妹们！
+                                    </p>
+                                    <p class="text-xs text-gray-400 mt-1">2023-05-15</p>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex items-center">
+                                        <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="用户头像" class="w-8 h-8 rounded-full">
+                                        <div class="ml-2">
+                                            <p class="text-sm font-medium">张女士</p>
+                                            <div class="flex items-center text-yellow-400 text-xs">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        使用了一个月，感觉盆底肌力量有所提升，但是APP偶尔会连接不上，希望后续能改进。总体来说还是很满意的产品。
+                                    </p>
+                                    <p class="text-xs text-gray-400 mt-1">2023-04-28</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部购买栏 - 修改定位方式 -->
+                <div class="absolute bottom-0 left-0 right-0 bg-white shadow-md p-3 flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <button class="w-10 h-10 flex flex-col items-center justify-center">
+                            <i class="fas fa-headset text-gray-500 text-sm"></i>
+                            <span class="text-xs text-gray-500 mt-1">客服</span>
+                        </button>
+                        <button class="w-10 h-10 flex flex-col items-center justify-center">
+                            <i class="fas fa-shopping-cart text-gray-500 text-sm"></i>
+                            <span class="text-xs text-gray-500 mt-1">购物车</span>
+                        </button>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="px-4 py-2 bg-orange-500 text-white text-sm rounded-full">加入购物车</button>
+                        <button class="px-4 py-2 bg-purple-600 text-white text-sm rounded-full">立即购买</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 返回按钮点击事件
+            const backButton = document.getElementById('back-button');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    window.location.href = 'shop.html';
+                });
+            }
+            
+            // 加入购物车按钮点击效果
+            const addToCartButton = document.querySelector('.bg-orange-500');
+            if (addToCartButton) {
+                addToCartButton.addEventListener('click', function() {
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        this.classList.remove('animate-pulse');
+                        alert('已加入购物车');
+                    }, 300);
+                });
+            }
+            
+            // 立即购买按钮点击效果
+            const buyNowButton = document.querySelector('.bg-purple-600');
+            if (buyNowButton) {
+                buyNowButton.addEventListener('click', function() {
+                    this.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        this.classList.remove('animate-pulse');
+                        alert('即将跳转到结算页面');
+                    }, 300);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

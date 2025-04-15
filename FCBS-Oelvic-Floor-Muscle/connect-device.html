@@ -75,6 +75,38 @@
                                     </div>
                                 </div>
 
+                                <!-- 生发仪设备 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm border border-green-100 hover:shadow-md transition-all duration-300">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-pump-medical text-green-500"></i>
+                                        </div>
+                                        <div class="ml-4 flex-1 min-w-0">
+                                            <h3 class="font-medium truncate">智能生发修复仪</h3>
+                                            <p class="text-xs text-gray-500 truncate">型号：FCB-HAIR-2024</p>
+                                        </div>
+                                        <button id="connectHairButton" class="bg-green-500 text-white px-4 py-2 rounded-full text-sm hover:bg-green-600 transition-colors flex-shrink-0 ml-2">
+                                            连接
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- 辅助睡眠仪设备 -->
+                                <div class="bg-white rounded-xl p-4 shadow-sm border border-blue-100 hover:shadow-md transition-all duration-300">
+                                    <div class="flex items-center">
+                                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-moon text-blue-500"></i>
+                                        </div>
+                                        <div class="ml-4 flex-1 min-w-0">
+                                            <h3 class="font-medium truncate">辅助睡眠仪</h3>
+                                            <p class="text-xs text-gray-500 truncate">型号：FCB-SLEEP-2024</p>
+                                        </div>
+                                        <button id="connectSleepButton" class="bg-blue-500 text-white px-4 py-2 rounded-full text-sm hover:bg-blue-600 transition-colors flex-shrink-0 ml-2">
+                                            连接
+                                        </button>
+                                    </div>
+                                </div>
+
                                 <!-- 搜索中的设备 -->
                                 <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 opacity-60">
                                     <div class="flex items-center">
@@ -110,8 +142,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 获取连接按钮
             const connectButton = document.getElementById('connectButton');
+            const connectHairButton = document.getElementById('connectHairButton');
+            const connectSleepButton = document.getElementById('connectSleepButton');
             
-            // 添加点击事件
+            // 添加盆底仪点击事件
             if (connectButton) {
                 connectButton.addEventListener('click', function() {
                     // 修改按钮状态，显示连接中
@@ -122,6 +156,40 @@
                     // 1.5秒后跳转到设备管理页面
                     setTimeout(function() {
                         window.location.href = 'device-management.html';
+                    }, 1500);
+                });
+            }
+            
+            // 添加生发仪点击事件
+            if (connectHairButton) {
+                connectHairButton.addEventListener('click', function() {
+                    // 修改按钮状态，显示连接中
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> 连接中';
+                    this.disabled = true;
+                    this.classList.add('opacity-75');
+                    
+                    // 1.5秒后跳转到FCBS-Hair文件夹下的设备管理页面
+                    setTimeout(function() {
+                        // 使用简单的相对路径，确保正确跳转
+                        window.location.href = '../FCBS-Hair/device-management.html';
+                    }, 1500);
+                });
+            }
+            
+            // 添加睡眠仪点击事件
+            if (connectSleepButton) {
+                connectSleepButton.addEventListener('click', function() {
+                    // 修改按钮状态，显示连接中
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> 连接中';
+                    this.disabled = true;
+                    this.classList.add('opacity-75');
+                    
+                    // 目前只显示连接效果，不跳转
+                    setTimeout(function() {
+                        connectSleepButton.innerHTML = '连接';
+                        connectSleepButton.disabled = false;
+                        connectSleepButton.classList.remove('opacity-75');
+                        alert('睡眠仪连接功能即将上线，敬请期待！');
                     }, 1500);
                 });
             }

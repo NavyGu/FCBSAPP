@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用指南 - 医疗设备管理APP</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="device-container">
+        <div>
+            <div class="device-label">使用指南</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <div class="p-4">
+                        <!-- 顶部标题和返回按钮 -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center">
+                                <button id="backButton" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-arrow-left text-gray-500"></i>
+                                </button>
+                                <h1 class="text-2xl font-bold">使用指南</h1>
+                            </div>
+                            <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                                <i class="fas fa-search text-gray-500"></i>
+                            </button>
+                        </div>
+
+                        <!-- 指南目录 -->
+                        <div class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h2 class="text-lg font-semibold mb-4">目录</h2>
+                            <div class="space-y-3">
+                                <a href="#basic-usage" class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-play text-purple-500"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-purple-700">基础使用</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-purple-400"></i>
+                                </a>
+                                <a href="#training-modes" class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-sliders-h text-blue-500"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-blue-700">训练模式</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-blue-400"></i>
+                                </a>
+                                <a href="#maintenance" class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-tools text-green-500"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-green-700">设备维护</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-green-400"></i>
+                                </a>
+                                <a href="#faq" class="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-question-circle text-amber-500"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-amber-700">常见问题</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-amber-400"></i>
+                                </a>
+                                <a href="#contact" class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                            <i class="fas fa-headset text-red-500"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-red-700">联系客服</span>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-red-400"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 基础使用 -->
+                        <div id="basic-usage" class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h2 class="text-lg font-semibold mb-4">基础使用</h2>
+                            
+                            <!-- 使用步骤 -->
+                            <div class="space-y-4 mb-4">
+                                <div class="flex">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                        <span class="text-sm font-medium text-purple-500">1</span>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium">设备连接</h3>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            打开设备电源，确保设备处于待机状态。打开手机蓝牙，在APP中点击"添加设备"，选择对应的设备型号进行连接。
+                                        </p>
+                                        <div class="mt-2 rounded-lg overflow-hidden">
+                                            <img src="https://plus.unsplash.com/premium_photo-1681487814165-018814e29155?w=800&auto=format&fit=crop&q=60" alt="设备连接示意图" class="w-full h-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                        <span class="text-sm font-medium text-purple-500">2</span>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium">佩戴设备</h3>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            确保设备清洁干燥，按照说明书指示正确佩戴设备。初次使用建议选择低强度模式，熟悉后再逐渐增加强度。
+                                        </p>
+                                        <div class="mt-2 rounded-lg overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=800&auto=format&fit=crop&q=60" alt="设备佩戴示意图" class="w-full h-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                        <span class="text-sm font-medium text-purple-500">3</span>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium">开始训练</h3>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            在APP中选择合适的训练模式和时长，点击"开始训练"按钮。训练过程中保持放松，可根据个人感受调整强度。
+                                        </p>
+                                        <div class="mt-2 rounded-lg overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1542751110-97427bbecf20?w=800&auto=format&fit=crop&q=60" alt="训练界面示意图" class="w-full h-auto">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 使用注意事项 -->
+                            <div class="p-3 bg-purple-50 rounded-lg">
+                                <h3 class="text-sm font-medium text-purple-700 mb-2">使用注意事项</h3>
+                                <ul class="text-xs text-purple-600 space-y-1">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs mr-2 mt-0.5"></i>
+                                        <span>首次使用建议从低强度开始，逐渐适应后再增加强度</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs mr-2 mt-0.5"></i>
+                                        <span>训练时间建议控制在15-30分钟，每周使用3-5次</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs mr-2 mt-0.5"></i>
+                                        <span>如感到不适，请立即停止使用并咨询医生</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-circle text-xs mr-2 mt-0.5"></i>
+                                        <span>孕妇、月经期、装有心脏起搏器者禁止使用</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- 训练模式 -->
+                        <div id="training-modes" class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h2 class="text-lg font-semibold mb-4">训练模式</h2>
+                            
+                            <div class="space-y-4">
+                                <!-- 基础训练模式 -->
+                                <div class="p-3 bg-purple-50 rounded-lg">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-baby text-purple-500"></i>
+                                        </div>
+                                        <h3 class="text-sm font-medium text-purple-700 ml-3">基础训练模式</h3>
+                                    </div>
+                                    <p class="text-xs text-purple-600 mb-2">
+                                        适合初次使用的用户，强度较低，以熟悉设备为主。训练频率为每分钟10-15次，建议每次使用15-20分钟。
+                                    </p>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white p-2 rounded-lg border border-purple-100">
+                                            <div class="text-xs text-gray-500">适用人群</div>
+                                            <div class="text-sm font-medium">初次使用者</div>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg border border-purple-100">
+                                            <div class="text-xs text-gray-500">建议使用频率</div>
+                                            <div class="text-sm font-medium">每周2-3次</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 进阶训练模式 -->
+                                <div class="p-3 bg-blue-50 rounded-lg">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-running text-blue-500"></i>
+                                        </div>
+                                        <h3 class="text-sm font-medium text-blue-700 ml-3">进阶训练模式</h3>
+                                    </div>
+                                    <p class="text-xs text-blue-600 mb-2">
+                                        适合有一定训练基础的用户，强度中等，提高肌肉耐力。训练频率为每分钟15-25次，建议每次使用20-30分钟。
+                                    </p>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white p-2 rounded-lg border border-blue-100">
+                                            <div class="text-xs text-gray-500">适用人群</div>
+                                            <div class="text-sm font-medium">有基础训练者</div>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg border border-blue-100">
+                                            <div class="text-xs text-gray-500">建议使用频率</div>
+                                            <div class="text-sm font-medium">每周3-4次</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 专业训练模式 -->
+                                <div class="p-3 bg-green-50 rounded-lg">
+                                    <div class="flex items-center mb-2">
+                                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-dumbbell text-green-500"></i>
+                                        </div>
+                                        <h3 class="text-sm font-medium text-green-700 ml-3">专业训练模式</h3>
+                                    </div>
+                                    <p class="text-xs text-green-600 mb-2">
+                                        适合长期训练的用户，强度较高，提高肌肉力量和控制能力。训练频率为每分钟20-30次，建议每次使用30-45分钟。
+                                    </p>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white p-2 rounded-lg border border-green-100">
+                                            <div class="text-xs text-gray-500">适用人群</div>
+                                            <div class="text-sm font-medium">长期训练者</div>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg border border-green-100">
+                                            <div class="text-xs text-gray-500">建议使用频率</div>
+                                            <div class="text-sm font-medium">每周4-5次</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 设备维护 -->
+                        <div id="maintenance" class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h2 class="text-lg font-semibold mb-4">设备维护</h2>
+                            
+                            <div class="space-y-4">
+                                <!-- 清洁保养 -->
+                                <div class="flex">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-soap text-green-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium">清洁保养</h3>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            每次使用后，请用干净的软布轻轻擦拭设备表面。可使用医用酒精棉片进行消毒，但请避免使用含有腐蚀性的清洁剂。确保设备完全干燥后再存放。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 充电说明 -->
+                                <div class="flex">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-battery-three-quarters text-green-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium">充电说明</h3>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            当设备电量低于20%时，请及时充电。使用原装充电器，充电时间约为2小时。充电时设备指示灯会闪烁，充满后指示灯常亮。建议每月至少完全充放电一次，以延长电池寿命。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 存放方法 -->
+                                <div class="flex">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-box text-green-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium">存放方法</h3>
+                                        <p class="text-xs text-gray-500 mt-1">
+                                            请将设备存放在干燥、通风、避光的环境中，远离高温、潮湿和强磁场。长期不使用时，建议每三个月充电一次，以防电池过度放电损坏。存放前请确保设备清洁干燥。
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 维护周期 -->
+                                <div class="p-3 bg-green-50 rounded-lg">
+                                    <h3 class="text-sm font-medium text-green-700 mb-2">维护周期建议</h3>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="bg-white p-2 rounded-lg border border-green-100">
+                                            <div class="text-xs text-gray-500">日常清洁</div>
+                                            <div class="text-sm font-medium">每次使用后</div>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg border border-green-100">
+                                            <div class="text-xs text-gray-500">深度清洁</div>
+                                            <div class="text-sm font-medium">每周一次</div>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg border border-green-100">
+                                            <div class="text-xs text-gray-500">电池维护</div>
+                                            <div class="text-sm font-medium">每月一次</div>
+                                        </div>
+                                        <div class="bg-white p-2 rounded-lg border border-green-100">
+                                            <div class="text-xs text-gray-500">专业检查</div>
+                                            <div class="text-sm font-medium">每年一次</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 常见问题 -->
+                        <div id="faq" class="bg-white rounded-xl p-4 shadow-sm mb-6">
+                            <h2 class="text-lg font-semibold mb-4">常见问题</h2>
+                            
+                            <div class="space-y-3">
+                                <!-- 问题1 -->
+                                <div class="border border-gray-100 rounded-lg overflow-hidden">
+                                    <button class="faq-question w-full flex items-center justify-between p-3 bg-gray-50 text-left">
+                                        <span class="text-sm font-medium">设备无法连接怎么办？</span>
+                                        <i class="fas fa-chevron-down text-gray-400"></i>
+                                    </button>
+                                    <div class="faq-answer p-3 text-xs text-gray-500">
+                                        <p>请检查以下几点：</p>
+                                        <ol class="list-decimal pl-4 mt-1 space-y-1">
+                                            <li>确保设备电量充足（电量不低于20%）</li>
+                                            <li>确保手机蓝牙已开启且正常工作</li>
+                                            <li>设备与手机的距离不超过10米</li>
+                                            <li>尝试重启设备和手机后再次连接</li>
+                                            <li>检查APP是否为最新版本</li>
+                                        </ol>
+                                        <p class="mt-2">如果以上方法都无法解决，请联系客服获取进一步帮助。</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 问题2 -->
+                                <div class="border border-gray-100 rounded-lg overflow-hidden">
+                                    <button class="faq-question w-full flex items-center justify-between p-3 bg-gray-50 text-left">
+                                        <span class="text-sm font-medium">使用过程中感到不适怎么办？</span>
+                                        <i class="fas fa-chevron-down text-gray-400"></i>
+                                    </button>
+                                    <div class="faq-answer p-3 text-xs text-gray-500 hidden">
+                                        <p>如果在使用过程中感到不适，请立即停止使用。常见不适情况及解决方法：</p>
+                                        <ul class="mt-1 space-y-1">
+                                            <li><span class="font-medium">轻微刺痛：</span>属于正常现象，可适当降低强度</li>
+                                            <li><span class="font-medium">明显疼痛：</span>立即停止使用，检查设备是否正确佩戴</li>
+                                            <li><span class="font-medium">皮肤过敏：</span>停止使用，清洁皮肤，必要时咨询医生</li>
+                                            <li><span class="font-medium">头晕恶心：</span>立即停止使用，休息片刻，如症状持续请就医</li>
+                                        </ul>
+                                        <p class="mt-2">如果不适症状持续存在，请咨询专业医师。</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 问题3 -->
+                                <div class="border border-gray-100 rounded-lg overflow-hidden">
+                                    <button class="faq-question w-full flex items-center justify-between p-3 bg-gray-50 text-left">
+                                        <span class="text-sm font-medium">设备充电后使用时间短怎么办？</span>
+                                        <i class="fas fa-chevron-down text-gray-400"></i>
+                                    </button>
+                                    <div class="faq-answer p-3 text-xs text-gray-500 hidden">
+                                        <p>设备充电后使用时间短可能有以下原因：</p>
+                                        <ul class="mt-1 space-y-1">
+                                            <li>设备未充满电，请确保充电至指示灯常亮</li>
+                                            <li>使用强度过高，高强度模式会消耗更多电量</li>
+                                            <li>电池老化，长期使用后电池容量会有所下降</li>
+                                            <li>环境温度过低，低温环境会影响电池性能</li>
+                                        </ul>
+                                        <p class="mt-2">如果确认是电池问题，请联系售后服务进行电池更换。</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 问题4 -->
+                                <div class="border border-gray-100 rounded-lg overflow-hidden">
+                                    <button class="faq-question w-full flex items-center justify-between p-3 bg-gray-50 text-left">
+                                        <span class="text-sm font-medium">多久能看到训练效果？</span>
+                                        <i class="fas fa-chevron-down text-gray-400"></i>
+                                    </button>
+                                    <div class="faq-answer p-3 text-xs text-gray-500 hidden">
+                                        <p>训练效果因人而异，一般情况下：</p>
+                                        <ul class="mt-1 space-y-1">
+                                            <li><span class="font-medium">2-4周：</span>开始感受到肌肉控制能力的提升</li>
+                                            <li><span class="font-medium">4-8周：</span>肌肉耐力明显增强，控制能力提高</li>
+                                            <li><span class="font-medium">8-12周：</span>肌肉力量显著增强，效果更加明显</li>
+                                        </ul>
+                                        <p class="mt-2">坚持规律训练是看到效果的关键。建议每周训练3-5次，每次15-30分钟，并结合APP中的训练计划进行系统性训练。</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- 问题5 -->
+                                <div class="border border-gray-100 rounded-lg overflow-hidden">
+                                    <button class="faq-question w-full flex items-center justify-between p-3 bg-gray-50 text-left">
+                                        <span class="text-sm font-medium">设备可以在哪些情况下使用？</span>
+                                        <i class="fas fa-chevron-down text-gray-400"></i>
+                                    </button>
+                                    <div class="faq-answer p-3 text-xs text-gray-500 hidden">
+                                        <p>设备适用于以下情况：</p>
+                                        <ul class="mt-1 space-y-1">
+                                            <li>盆底肌肉训练与康复</li>
+                                            <li>产后盆底肌肉恢复</li>
+                                            <li>轻度压力性尿失禁的辅助治疗</li>
+                                            <li>盆底肌肉力量维持与提升</li>
+                                        </ul>
+                                        <p class="mt-2 text-amber-600 font-medium">禁止使用的情况：</p>
+                                        <ul class="mt-1 space-y-1">
+                                            <li>孕妇</li>
+                                            <li>装有心脏起搏器者</li>
+                                            <li>急性炎症期患者</li>
+                                            <li>皮肤有伤口或感染的情况</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 修改底部导航栏样式 -->
+                <div class="bottom-tab-bar flex items-center justify-around absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2">
+                    <a href="device-management.html" class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-purple-500"></i>
+                        <span class="text-xs text-purple-500">设备</span>
+                    </a>
+                    <a href="health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>

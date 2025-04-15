@@ -215,12 +215,24 @@
             // 登录/注册按钮
             if (loginBtn) {
                 loginBtn.addEventListener('click', function() {
-                    if (!phoneInput.value || phoneInput.value.length !== 11) {
-                        alert('请输入正确的手机号码');
+                    console.log('登录按钮被点击');
+                    
+                    if (!phoneInput.value) {
+                        alert('请输入手机号码');
                         return;
                     }
                     
-                    if (!codeInput.value || codeInput.value.length !== 6) {
+                    if (phoneInput.value.length !== 11) {
+                        alert('请输入正确的11位手机号码');
+                        return;
+                    }
+                    
+                    if (!codeInput.value) {
+                        alert('请输入验证码');
+                        return;
+                    }
+                    
+                    if (codeInput.value.length !== 6) {
                         alert('请输入6位验证码');
                         return;
                     }

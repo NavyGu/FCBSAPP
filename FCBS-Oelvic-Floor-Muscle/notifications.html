@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通知中心 - 医疗设备管理APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引用项目中已有的styles.css文件 -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 仅保留页面特有的样式 */
+        body {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        /* 通知项样式 */
+        .notification-item {
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .notification-item.unread {
+            border-left-color: #8B5CF6;
+        }
+        .notification-item:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="device-container">
+        <div>
+            <div class="device-label">消息通知</div>
+            <div class="device-frame">
+                <div class="dynamic-island"></div>
+                <div class="device-button power-button"></div>
+                <div class="device-button volume-up"></div>
+                <div class="device-button volume-down"></div>
+                <div class="status-bar flex items-center justify-between">
+                    <span>9:41</span>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-signal"></i>
+                        <i class="fas fa-wifi"></i>
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                </div>
+                <div class="content-area">
+                    <!-- 顶部导航 -->
+                    <div class="bg-white px-4 py-3 flex items-center border-b sticky top-0 z-10">
+                        <button onclick="window.history.back()" class="mr-4">
+                            <i class="fas fa-arrow-left text-gray-600"></i>
+                        </button>
+                        <h1 class="text-lg font-semibold">消息通知</h1>
+                        <button class="ml-auto text-sm text-gray-500">全部已读</button>
+                    </div>
+
+                    <!-- 消息列表 -->
+                    <div class="divide-y">
+                        <!-- 系统通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-bell text-purple-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">系统通知</h3>
+                                        <span class="text-xs text-gray-500">10分钟前</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">恭喜您获得"金牌达人"称号！</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 预约通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-calendar-check text-blue-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">预约提醒</h3>
+                                        <span class="text-xs text-gray-500">30分钟前</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">您有一个新的视频咨询预约，请及时确认。</p>
+                                    <div class="mt-2 flex space-x-2">
+                                        <button class="px-4 py-1 bg-purple-500 text-white text-sm rounded-full">接受</button>
+                                        <button class="px-4 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">拒绝</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 评价通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-star text-yellow-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">新评价</h3>
+                                        <span class="text-xs text-gray-500">2小时前</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">张女士给您的咨询服务评价了5星！</p>
+                                    <div class="mt-2 text-yellow-400 text-sm">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 收入通知 -->
+                        <div class="bg-white p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-coins text-green-500"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-sm font-medium">收入到账</h3>
+                                        <span class="text-xs text-gray-500">昨天</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 mt-1">您的咨询收入99元已到账</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- 修改底部导航栏样式 -->
+                 <div class="bottom-tab-bar flex items-center justify-around absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2">
+                    <a href="device-management.html" class="tab-item active flex flex-col items-center">
+                        <i class="fas fa-mobile-alt text-xl text-purple-500"></i>
+                        <span class="text-xs text-purple-500">设备</span>
+                    </a>
+                    <a href="health.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-heartbeat text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">健康</span>
+                    </a>
+                    <a href="shop.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-shopping-bag text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">商城</span>
+                    </a>
+                    <a href="profile.html" class="tab-item flex flex-col items-center">
+                        <i class="fas fa-user text-xl text-gray-400"></i>
+                        <span class="text-xs text-gray-400">我的</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // 为所有标签添加悬停效果
+                const allTabs = document.querySelectorAll('.tab-item');
+                allTabs.forEach(tab => {
+                    if (!tab.classList.contains('active')) {
+                        tab.addEventListener('mouseover', function() {
+                            const icon = this.querySelector('i');
+                            const text = this.querySelector('span');
+                            if (icon) icon.classList.add('text-purple-400');
+                            if (text) text.classList.add('text-purple-400');
+                        });
+                        
+                        tab.addEventListener('mouseout', function() {
+                            const icon = this.querySelector('i');
+                            const text = this.querySelector('span');
+                            if (icon) icon.classList.remove('text-purple-400');
+                            if (text) text.classList.remove('text-purple-400');
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+    </html>
