@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监控看板 - FCBS医疗设备管理后台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/admin.css">
+    <!-- 引入图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container p-6">
+        <!-- 数据概览卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <!-- 用户总数卡片 -->
+            <div class="stat-card">
+                <div class="stat-icon bg-purple-100 text-purple-600">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-title">用户总数</h3>
+                    <p class="stat-value">2,458</p>
+                    <div class="stat-change increase">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>12.5%</span>
+                        <span class="text-gray-500">较上月</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 活跃设备卡片 -->
+            <div class="stat-card">
+                <div class="stat-icon bg-blue-100 text-blue-600">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-title">活跃设备</h3>
+                    <p class="stat-value">1,879</p>
+                    <div class="stat-change increase">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>8.3%</span>
+                        <span class="text-gray-500">较上月</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 训练次数卡片 -->
+            <div class="stat-card">
+                <div class="stat-icon bg-green-100 text-green-600">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-title">训练次数</h3>
+                    <p class="stat-value">12,645</p>
+                    <div class="stat-change increase">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>15.2%</span>
+                        <span class="text-gray-500">较上月</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 系统健康度卡片 -->
+            <div class="stat-card">
+                <div class="stat-icon bg-yellow-100 text-yellow-600">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-title">系统健康度</h3>
+                    <p class="stat-value">98.7%</p>
+                    <div class="stat-change decrease">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>0.3%</span>
+                        <span class="text-gray-500">较上月</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 图表区域 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- 用户增长趋势图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">用户增长趋势</h3>
+                    <div class="chart-actions">
+                        <button class="chart-action-btn active" data-period="week">周</button>
+                        <button class="chart-action-btn" data-period="month">月</button>
+                        <button class="chart-action-btn" data-period="year">年</button>
+                        <button class="chart-action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="userGrowthChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 设备使用情况图 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">设备使用情况</h3>
+                    <div class="chart-actions">
+                        <button class="chart-action-btn active" data-period="week">周</button>
+                        <button class="chart-action-btn" data-period="month">月</button>
+                        <button class="chart-action-btn" data-period="year">年</button>
+                        <button class="chart-action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="deviceUsageChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 训练数据和地区分布 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- 训练数据统计 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">训练数据统计</h3>
+                    <div class="chart-actions">
+                        <button class="chart-action-btn">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="chart-action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="trainingStatsChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 用户地区分布 -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">用户地区分布</h3>
+                    <div class="chart-actions">
+                        <button class="chart-action-btn">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="chart-action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="userRegionChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 最近活动和系统状态 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- 最近活动 -->
+            <div class="col-span-2">
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3 class="table-title">最近活动</h3>
+                        <div class="table-actions">
+                            <button class="table-action-btn">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="table-action-btn">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    <th>用户</th>
+                                    <th>活动</th>
+                                    <th>设备</th>
+                                    <th>时间</th>
+                                    <th>状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-2">
+                                                <span class="text-purple-600 font-medium">张</span>
+                                            </div>
+                                            <span>张女士</span>
+                                        </div>
+                                    </td>
+                                    <td>完成盆底肌训练</td>
+                                    <td>盆底紧致修复仪</td>
+                                    <td>10分钟前</td>
+                                    <td><span class="status-badge success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                                <span class="text-blue-600 font-medium">李</span>
+                                            </div>
+                                            <span>李女士</span>
+                                        </div>
+                                    </td>
+                                    <td>开始新的康复计划</td>
+                                    <td>盆底紧致修复仪</td>
+                                    <td>25分钟前</td>
+                                    <td><span class="status-badge success">成功</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                                                <span class="text-green-600 font-medium">王</span>
+                                            </div>
+                                            <span>王女士</span>
+                                        </div>
+                                    </td>
+                                    <td>设备连接</td>
+                                    <td>盆底紧致修复仪</td>
+                                    <td>1小时前</td>
+                                    <td><span class="status-badge warning">延迟</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2">
+                                                <span class="text-red-600 font-medium">赵</span>
+                                            </div>
+                                            <span>赵女士</span>
+                                        </div>
+                                    </td>
+                                    <td>设备固件更新</td>
+                                    <td>盆底紧致修复仪</td>
+                                    <td>2小时前</td>
+                                    <td><span class="status-badge danger">失败</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2">
+                                                <span class="text-yellow-600 font-medium">孙</span>
+                                            </div>
+                                            <span>孙女士</span>
+                                        </div>
+                                    </td>
+                                    <td>完成健康评估</td>
+                                    <td>APP</td>
+                                    <td>3小时前</td>
+                                    <td><span class="status-badge success">成功</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <button class="view-all-btn">查看全部</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 系统状态 -->
+            <div class="col-span-1">
+                <div class="system-status-card">
+                    <div class="system-header">
+                        <h3 class="system-title">系统状态</h3>
+                        <div class="system-actions">
+                            <button class="system-action-btn">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="system-body">
+                        <div class="status-item">
+                            <div class="status-info">
+                                <h4>服务器负载</h4>
+                                <div class="status-value">
+                                    <span>28%</span>
+                                    <span class="text-green-500 text-xs">正常</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 28%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-info">
+                                <h4>内存使用</h4>
+                                <div class="status-value">
+                                    <span>65%</span>
+                                    <span class="text-green-500 text-xs">正常</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 65%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-info">
+                                <h4>存储空间</h4>
+                                <div class="status-value">
+                                    <span>42%</span>
+                                    <span class="text-green-500 text-xs">正常</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 42%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-info">
+                                <h4>网络带宽</h4>
+                                <div class="status-value">
+                                    <span>78%</span>
+                                    <span class="text-yellow-500 text-xs">注意</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-yellow-500" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-info">
+                                <h4>API响应时间</h4>
+                                <div class="status-value">
+                                    <span>210ms</span>
+                                    <span class="text-green-500 text-xs">正常</span>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill bg-green-500" style="width: 35%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="system-alerts mt-4">
+                        <h4 class="text-sm font-medium mb-2">最近警报</h4>
+                        <div class="alert-item warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div class="alert-content">
+                                <p>网络带宽使用率超过75%</p>
+                                <span>30分钟前</span>
+                            </div>
+                        </div>
+                        <div class="alert-item danger">
+                            <i class="fas fa-times-circle"></i>
+                            <div class="alert-content">
+                                <p>数据库连接失败</p>
+                                <span>2小时前</span>
+                            </div>
+                        </div>
+                        <div class="alert-item success">
+                            <i class="fas fa-check-circle"></i>
+                            <div class="alert-content">
+                                <p>系统备份完成</p>
+                                <span>4小时前</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 用户增长趋势图
+            const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+            const userGrowthChart = new Chart(userGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
+                    datasets: [{
+                        label: '新增用户',
+                        data: [120, 190, 230, 290, 320, 390, 450],
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        borderColor: 'rgba(139, 92, 246, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 设备使用情况图
+            const deviceUsageCtx = document.getElementById('deviceUsageChart').getContext('2d');
+            const deviceUsageChart = new Chart(deviceUsageCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [{
+                        label: '活跃设备数',
+                        data: [850, 920, 980, 1050, 1120, 1300, 1250],
+                        backgroundColor: 'rgba(79, 70, 229, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 训练数据统计图
+            const trainingStatsCtx = document.getElementById('trainingStatsChart').getContext('2d');
+            const trainingStatsChart = new Chart(trainingStatsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['基础感知训练', '短促收缩训练', '持续收缩训练', '节律训练', '复合训练'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(79, 70, 229, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+            
+            // 用户地区分布图
+            const userRegionCtx = document.getElementById('userRegionChart').getContext('2d');
+            const userRegionChart = new Chart(userRegionCtx, {
+                type: 'polarArea',
+                data: {
+                    labels: ['华东', '华南', '华北', '西南', '西北', '东北', '华中'],
+                    datasets: [{
+                        data: [30, 25, 20, 10, 5, 5, 5],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(79, 70, 229, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(236, 72, 153, 0.7)',
+                            'rgba(6, 182, 212, 0.7)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+            
+            // 图表切换按钮事件
+            const chartActionBtns = document.querySelectorAll('.chart-action-btn[data-period]');
+            chartActionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除同组按钮的active类
+                    const parentActions = this.closest('.chart-actions');
+                    parentActions.querySelectorAll('.chart-action-btn[data-period]').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    
+                    // 添加当前按钮的active类
+                    this.classList.add('active');
+                    
+                    // 这里可以添加切换图表数据的逻辑
+                    const period = this.getAttribute('data-period');
+                    console.log(`切换到${period}数据`);
+                    
+                    // 模拟数据更新
+                    if (this.closest('.chart-card').querySelector('#userGrowthChart')) {
+                        updateUserGrowthChart(period);
+                    } else if (this.closest('.chart-card').querySelector('#deviceUsageChart')) {
+                        updateDeviceUsageChart(period);
+                    }
+                });
+            });
+            
+            // 模拟更新用户增长图表数据
+            function updateUserGrowthChart(period) {
+                let labels, data;
+                
+                switch(period) {
+                    case 'week':
+                        labels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+                        data = [30, 45, 35, 50, 40, 60, 70];
+                        break;
+                    case 'month':
+                        labels = ['1周', '2周', '3周', '4周'];
+                        data = [120, 180, 160, 210];
+                        break;
+                    case 'year':
+                        labels = ['1月', '2月', '3月', '4月', '5月', '6月', '7月'];
+                        data = [120, 190, 230, 290, 320, 390, 450];
+                        break;
+                }
+                
+                userGrowthChart.data.labels = labels;
+                userGrowthChart.data.datasets[0].data = data;
+                userGrowthChart.update();
+            }
+            
+            // 模拟更新设备使用图表数据
+            function updateDeviceUsageChart(period) {
+                let labels, data;
+                
+                switch(period) {
+                    case 'week':
+                        labels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+                        data = [850, 920, 980, 1050, 1120, 1300, 1250];
+                        break;
+                    case 'month':
+                        labels = ['第1周', '第2周', '第3周', '第4周'];
+                        data = [4500, 5200, 5800, 6100];
+                        break;
+                    case 'year':
+                        labels = ['1月', '2月', '3月', '4月', '5月', '6月', '7月'];
+                        data = [15000, 18000, 21000, 24000, 27000, 30000, 33000];
+                        break;
+                }
+                
+                deviceUsageChart.data.labels = labels;
+                deviceUsageChart.data.datasets[0].data = data;
+                deviceUsageChart.update();
+            }
+        });
+    </script>
+</body>
+</html>

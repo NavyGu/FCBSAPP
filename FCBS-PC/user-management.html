@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <style>
+        /* 用户管理页面特定样式 */
+        .user-list-container {
+            background-color: var(--bg-primary);
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .user-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .user-list-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .user-list-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+        
+        .user-list-filter {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1.25rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .filter-item {
+            margin-right: 1rem;
+        }
+        
+        .filter-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-right: 0.5rem;
+        }
+        
+        .filter-select {
+            padding: 0.375rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+        
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .user-table th {
+            text-align: left;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+        
+        .user-table td {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .user-table tr:hover {
+            background-color: var(--bg-light);
+        }
+        
+        .user-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .user-action-btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .view-btn {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background-color: var(--primary);
+        }
+        
+        /* 用户操作按钮样式 */
+        .user-action-btn {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .view-btn {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        
+        .view-btn:hover {
+            background-color: var(--primary);
+        }
+        
+        .user-info-value {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .device-list-table, .plan-table, .usage-record-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .device-list-table th, .plan-table th, .usage-record-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+        
+        .device-list-table td, .plan-table td, .usage-record-table td {
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .device-list-table tr:hover, .plan-table tr:hover, .usage-record-table tr:hover {
+            background-color: var(--bg-light);
+        }
+        
+        .device-list-table tr.selected {
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        
+        .device-type-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .device-type-badge.type-1 {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .device-type-badge.type-2 {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .device-type-badge.type-3 {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        
+        .usage-status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .usage-status-badge.in-progress {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        
+        .usage-status-badge.paused {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        
+        .usage-status-badge.completed {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        
+        .plan-details, .usage-details {
+            background-color: var(--bg-light);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .plan-details-title, .usage-details-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-details-item, .usage-details-item {
+            margin-bottom: 0.5rem;
+            display: flex;
+        }
+        
+        .plan-details-label, .usage-details-label {
+            font-weight: 500;
+            width: 120px;
+            color: var(--text-primary);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            padding: 1rem 1.25rem;
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .pagination-button {
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .pagination-button:first-child {
+            border-top-left-radius: 0.375rem;
+            border-bottom-left-radius: 0.375rem;
+        }
+        
+        .pagination-button:last-child {
+            border-top-right-radius: 0.375rem;
+            border-bottom-right-radius: 0.375rem;
+        }
+        
+        .pagination-button.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .pagination-button:hover:not(.active) {
+            background-color: var(--bg-light);
+        }
+        
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .empty-state-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-state-message {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 用户列表页面 -->
+    <div id="user-list-page" class="user-list-container">
+        <div class="user-list-header">
+            <h3 class="user-list-title">用户管理</h3>
+            <div class="user-list-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="搜索用户..." class="search-input">
+                </div>
+                <button class="user-action-btn view-btn">
+                    <i class="fas fa-plus"></i> 添加用户
+                </button>
+            </div>
+        </div>
+        
+        <div class="user-list-filter">
+            <div class="filter-item">
+                <span class="filter-label">性别:</span>
+                <select class="filter-select">
+                    <option value="all">全部</option>
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <span class="filter-label">年龄段:</span>
+                <select class="filter-select">
+                    <option value="all">全部</option>
+                    <option value="18-30">18-30岁</option>
+                    <option value="31-45">31-45岁</option>
+                    <option value="46-60">46-60岁</option>
+                    <option value="60+">60岁以上</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <span class="filter-label">设备类型:</span>
+                <select class="filter-select">
+                    <option value="all">全部</option>
+                    <option value="1">盆底紧致修复仪</option>
+                    <option value="2">红光生发仪</option>
+                    <option value="3">睡眠辅助仪</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <span class="filter-label">注册时间:</span>
+                <select class="filter-select">
+                    <option value="all">全部</option>
+                    <option value="7d">最近7天</option>
+                    <option value="30d">最近30天</option>
+                    <option value="90d">最近90天</option>
+                    <option value="365d">最近一年</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="user-list-body">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>用户昵称</th>
+                        <th>手机号码</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>注册时间</th>
+                        <th>设备数量</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="user-detail.html?id=1" class="text-blue-600 hover:underline">张小明</a></td>
+                        <td>138****1234</td>
+                        <td>男</td>
+                        <td>32</td>
+                        <td>2023-05-15 14:30</td>
+                        <td>2</td>
+                        <td>
+                            <a href="user-detail.html?id=1" class="user-action-btn view-btn">
+                                <i class="fas fa-eye"></i> 查看
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="user-detail.html?id=2" class="text-blue-600 hover:underline">李华</a></td>
+                        <td>139****5678</td>
+                        <td>男</td>
+                        <td>45</td>
+                        <td>2023-04-20 09:15</td>
+                        <td>1</td>
+                        <td>
+                            <a href="user-detail.html?id=2" class="user-action-btn view-btn">
+                                <i class="fas fa-eye"></i> 查看
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="user-detail.html?id=3" class="text-blue-600 hover:underline">王丽</a></td>
+                        <td>137****9012</td>
+                        <td>女</td>
+                        <td>28</td>
+                        <td>2023-06-05 16:45</td>
+                        <td>3</td>
+                        <td>
+                            <a href="user-detail.html?id=3" class="user-action-btn view-btn">
+                                <i class="fas fa-eye"></i> 查看
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="user-detail.html?id=4" class="text-blue-600 hover:underline">赵芳</a></td>
+                        <td>136****3456</td>
+                        <td>女</td>
+                        <td>52</td>
+                        <td>2023-03-10 11:20</td>
+                        <td>2</td>
+                        <td>
+                            <a href="user-detail.html?id=4" class="user-action-btn view-btn">
+                                <i class="fas fa-eye"></i> 查看
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="user-detail.html?id=5" class="text-blue-600 hover:underline">陈强</a></td>
+                        <td>135****7890</td>
+                        <td>男</td>
+                        <td>39</td>
+                        <td>2023-05-28 13:10</td>
+                        <td>1</td>
+                        <td>
+                            <a href="user-detail.html?id=5" class="user-action-btn view-btn">
+                                <i class="fas fa-eye"></i> 查看
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pagination">
+            <button class="pagination-button">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="pagination-button active">1</button>
+            <button class="pagination-button">2</button>
+            <button class="pagination-button">3</button>
+            <button class="pagination-button">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+    
+    
+    <!-- JavaScript 代码 -->
+    <script>
+        // 显示用户详情页面
+        function showUserDetail(userId) {
+            document.getElementById('user-list-page').style.display = 'none';
+            document.getElementById('user-detail-page').style.display = 'block';
+            // 这里可以根据userId加载对应的用户数据
+            console.log('显示用户ID: ' + userId + ' 的详情');
+        }
+        
+        // 返回用户列表页面
+        function showUserList() {
+            document.getElementById('user-detail-page').style.display = 'none';
+            document.getElementById('user-list-page').style.display = 'block';
+        }
+        
+        // 选择设备，高亮显示并过滤康复计划和使用记录
+        function selectDevice(deviceId) {
+            // 移除所有设备行的选中状态
+            const deviceRows = document.querySelectorAll('.device-row');
+            deviceRows.forEach(row => row.classList.remove('selected'));
+            
+            // 为当前点击的设备行添加选中状态
+            event.currentTarget.classList.add('selected');
+            
+            // 更新康复计划和使用记录的过滤状态
+            filterPlansByDevice(deviceId);
+            filterUsageRecordsByDevice(deviceId);
+        }
+        
+        // 根据设备ID过滤康复计划
+        function filterPlansByDevice(deviceId) {
+            const planRows = document.querySelectorAll('.plan-row');
+            const planDetails = document.querySelectorAll('.plan-details');
+            const filterLabel = document.getElementById('plan-filter-label');
+            
+            if (deviceId) {
+                // 隐藏所有计划行和详情
+                planRows.forEach(row => row.style.display = 'none');
+                planDetails.forEach(detail => detail.style.display = 'none');
+                
+                // 只显示选中设备的计划
+                const devicePlans = document.querySelectorAll('.plan-device-' + deviceId);
+                devicePlans.forEach(plan => {
+                    if (plan.classList.contains('plan-row')) {
+                        plan.style.display = 'table-row';
+                    }
+                });
+                
+                // 更新过滤标签
+                const deviceType = document.querySelector('.device-row.selected .device-type-badge').textContent;
+                filterLabel.textContent = '显示' + deviceType + '的康复计划';
+            } else {
+                // 显示所有计划行
+                planRows.forEach(row => row.style.display = 'table-row');
+                filterLabel.textContent = '显示全部设备';
+            }
+        }
+        
+        // 根据设备ID过滤使用记录
+        function filterUsageRecordsByDevice(deviceId) {
+            const usageRows = document.querySelectorAll('.usage-row');
+            const usageDetails = document.querySelectorAll('.usage-details');
+            const filterLabel = document.getElementById('usage-filter-label');
+            
+            if (deviceId) {
+                // 隐藏所有使用记录行和详情
+                usageRows.forEach(row => row.style.display = 'none');
+                usageDetails.forEach(detail => detail.style.display = 'none');
+                
+                // 只显示选中设备的使用记录
+                const deviceUsages = document.querySelectorAll('.usage-device-' + deviceId);
+                deviceUsages.forEach(usage => {
+                    if (usage.classList.contains('usage-row')) {
+                        usage.style.display = 'table-row';
+                    }
+                });
+                
+                // 更新过滤标签
+                const deviceType = document.querySelector('.device-row.selected .device-type-badge').textContent;
+                filterLabel.textContent = '显示' + deviceType + '的使用记录';
+            } else {
+                // 显示所有使用记录行
+                usageRows.forEach(row => row.style.display = 'table-row');
+                filterLabel.textContent = '显示全部设备';
+            }
+        }
+        
+        // 切换康复计划详情显示/隐藏
+        function togglePlanDetails(planId) {
+            const detailRow = document.getElementById('plan-details-' + planId);
+            if (detailRow.style.display === 'none') {
+                detailRow.style.display = 'table-row';
+            } else {
+                detailRow.style.display = 'none';
+            }
+            event.stopPropagation(); // 阻止事件冒泡
+        }
+        
+        // 切换使用记录详情显示/隐藏
+        function toggleUsageDetails(usageId) {
+            const detailRow = document.getElementById('usage-details-' + usageId);
+            if (detailRow.style.display === 'none') {
+                detailRow.style.display = 'table-row';
+            } else {
+                detailRow.style.display = 'none';
+            }
+            event.stopPropagation(); // 阻止事件冒泡
+        }
+    </script>
+</body>
+</html>
