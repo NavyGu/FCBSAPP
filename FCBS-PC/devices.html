@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设备管理 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/devices.css">
+</head>
+<body>
+    <!-- 设备列表页面 -->
+    <div id="device-list-page" class="device-list-container">
+        <div class="device-list-header">
+            <h3 class="device-list-title">设备管理</h3>
+            <div class="device-list-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="搜索设备..." class="search-input">
+                </div>
+                <button class="device-action-btn add-btn">
+                    <i class="fas fa-plus"></i> 添加设备
+                </button>
+            </div>
+        </div>
+        
+        <div class="device-list-filter">
+            <div class="filter-item">
+                <span class="filter-label">设备类型:</span>
+                <select class="filter-select" id="device-type-filter">
+                    <option value="all">全部</option>
+                    <option value="1">盆底紧致修复仪</option>
+                    <option value="2">红光生发仪</option>
+                    <option value="3">睡眠辅助仪</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <span class="filter-label">状态:</span>
+                <select class="filter-select" id="device-status-filter">
+                    <option value="all">全部</option>
+                    <option value="active">使用中</option>
+                    <option value="idle">空闲</option>
+                    <option value="maintenance">维护中</option>
+                    <option value="offline">离线</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <span class="filter-label">生产日期:</span>
+                <select class="filter-select" id="device-date-filter">
+                    <option value="all">全部</option>
+                    <option value="30d">最近30天</option>
+                    <option value="90d">最近90天</option>
+                    <option value="180d">最近半年</option>
+                    <option value="365d">最近一年</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <span class="filter-label">固件版本:</span>
+                <select class="filter-select" id="device-firmware-filter">
+                    <option value="all">全部</option>
+                    <option value="latest">最新版本</option>
+                    <option value="outdated">需要更新</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="device-list-body">
+            <table class="device-table">
+                <thead>
+                    <tr>
+                        <th>设备ID</th>
+                        <th>设备类型</th>
+                        <th>生产日期</th>
+                        <th>固件版本</th>
+                        <th>绑定用户</th>
+                        <th>状态</th>
+                        <th>最后活跃</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DEV20230001</td>
+                        <td>
+                            <span class="device-type-badge type-1">盆底紧致修复仪</span>
+                        </td>
+                        <td>2023-01-15</td>
+                        <td>v2.3.5</td>
+                        <td><a href="user-detail.html?id=1" class="text-blue-600 hover:underline">张小明</a></td>
+                        <td>
+                            <span class="device-status-badge active">使用中</span>
+                        </td>
+                        <td>2023-07-18 14:30</td>
+                        <td>
+                            <button class="device-action-btn view-btn" onclick="showDeviceDetail('DEV20230001')">
+                                <i class="fas fa-eye"></i> 查看
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DEV20230002</td>
+                        <td>
+                            <span class="device-type-badge type-2">红光生发仪</span>
+                        </td>
+                        <td>2023-02-20</td>
+                        <td>v1.8.2</td>
+                        <td><a href="user-detail.html?id=2" class="text-blue-600 hover:underline">李华</a></td>
+                        <td>
+                            <span class="device-status-badge idle">空闲</span>
+                        </td>
+                        <td>2023-07-15 09:45</td>
+                        <td>
+                            <button class="device-action-btn view-btn" onclick="showDeviceDetail('DEV20230002')">
+                                <i class="fas fa-eye"></i> 查看
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DEV20230003</td>
+                        <td>
+                            <span class="device-type-badge type-3">睡眠辅助仪</span>
+                        </td>
+                        <td>2023-03-05</td>
+                        <td>v2.0.1 <span class="update-badge">可更新</span></td>
+                        <td><a href="user-detail.html?id=3" class="text-blue-600 hover:underline">王丽</a></td>
+                        <td>
+                            <span class="device-status-badge offline">离线</span>
+                        </td>
+                        <td>2023-07-10 22:15</td>
+                        <td>
+                            <button class="device-action-btn view-btn" onclick="showDeviceDetail('DEV20230003')">
+                                <i class="fas fa-eye"></i> 查看
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DEV20230004</td>
+                        <td>
+                            <span class="device-type-badge type-1">盆底紧致修复仪</span>
+                        </td>
+                        <td>2023-04-12</td>
+                        <td>v2.3.5</td>
+                        <td><a href="user-detail.html?id=4" class="text-blue-600 hover:underline">赵芳</a></td>
+                        <td>
+                            <span class="device-status-badge maintenance">维护中</span>
+                        </td>
+                        <td>2023-07-05 16:20</td>
+                        <td>
+                            <button class="device-action-btn view-btn" onclick="showDeviceDetail('DEV20230004')">
+                                <i class="fas fa-eye"></i> 查看
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DEV20230005</td>
+                        <td>
+                            <span class="device-type-badge type-2">红光生发仪</span>
+                        </td>
+                        <td>2023-05-08</td>
+                        <td>v1.8.2</td>
+                        <td>未绑定</td>
+                        <td>
+                            <span class="device-status-badge idle">空闲</span>
+                        </td>
+                        <td>2023-06-30 11:05</td>
+                        <td>
+                            <button class="device-action-btn view-btn" onclick="showDeviceDetail('DEV20230005')">
+                                <i class="fas fa-eye"></i> 查看
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="pagination">
+            <button class="pagination-button">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="pagination-button active">1</button>
+            <button class="pagination-button">2</button>
+            <button class="pagination-button">3</button>
+            <button class="pagination-button">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- 设备详情页面 -->
+    <div id="device-detail-page" class="device-detail-container" style="display: none;">
+        <div class="device-detail-header">
+            <button class="back-button" onclick="showDeviceList()">
+                <i class="fas fa-arrow-left"></i> 返回设备列表
+            </button>
+            <h3 class="device-detail-title">设备详情</h3>
+        </div>
+        
+        <div class="device-detail-content">
+            <div class="device-info-card">
+                <div class="device-info-header">
+                    <h4 class="device-info-title">基本信息</h4>
+                    <div class="device-status">
+                        <span id="device-status-badge" class="device-status-badge active">使用中</span>
+                    </div>
+                </div>
+                
+                <div class="device-info-body">
+                    <div class="device-info-row">
+                        <div class="device-info-item">
+                            <span class="device-info-label">设备ID</span>
+                            <span id="device-id" class="device-info-value">DEV20230001</span>
+                        </div>
+                        <div class="device-info-item">
+                            <span class="device-info-label">设备类型</span>
+                            <span id="device-type" class="device-info-value">
+                                <span class="device-type-badge type-1">盆底紧致修复仪</span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="device-info-row">
+                        <div class="device-info-item">
+                            <span class="device-info-label">生产日期</span>
+                            <span id="device-production-date" class="device-info-value">2023-01-15</span>
+                        </div>
+                        <div class="device-info-item">
+                            <span class="device-info-label">激活日期</span>
+                            <span id="device-activation-date" class="device-info-value">2023-02-10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="device-info-row">
+                        <div class="device-info-item">
+                            <span class="device-info-label">固件版本</span>
+                            <span id="device-firmware" class="device-info-value">v2.3.5</span>
+                        </div>
+                        <div class="device-info-item">
+                            <span class="device-info-label">硬件版本</span>
+                            <span id="device-hardware" class="device-info-value">v1.0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="device-info-row">
+                        <div class="device-info-item">
+                            <span class="device-info-label">绑定用户</span>
+                            <span id="device-user" class="device-info-value">
+                                <a href="user-detail.html?id=1" class="text-blue-600 hover:underline">张小明</a>
+                            </span>
+                        </div>
+                        <div class="device-info-item">
+                            <span class="device-info-label">绑定时间</span>
+                            <span id="device-bind-time" class="device-info-value">2023-02-10 15:20</span>
+                        </div>
+                    </div>
+                    
+                    <div class="device-info-row">
+                        <div class="device-info-item">
+                            <span class="device-info-label">最后活跃</span>
+                            <span id="device-last-active" class="device-info-value">2023-07-18 14:30</span>
+                        </div>
+                        <div class="device-info-item">
+                            <span class="device-info-label">使用次数</span>
+                            <span id="device-usage-count" class="device-info-value">42次</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="device-actions">
+                    <button class="device-action-btn update-btn">
+                        <i class="fas fa-sync-alt"></i> 更新固件
+                    </button>
+                    <button class="device-action-btn reset-btn">
+                        <i class="fas fa-redo"></i> 重置设备
+                    </button>
+                    <button class="device-action-btn unbind-btn">
+                        <i class="fas fa-unlink"></i> 解绑用户
+                    </button>
+                </div>
+            </div>
+            
+            <div class="device-tabs">
+                <div class="device-tab-header">
+                    <button class="device-tab-btn active" data-tab="usage-history">使用记录</button>
+                    <button class="device-tab-btn" data-tab="maintenance-history">维护记录</button>
+                    <button class="device-tab-btn" data-tab="device-settings">设备设置</button>
+                </div>
+                
+                <div class="device-tab-content">
+                    <!-- 使用记录 -->
+                    <div id="usage-history" class="device-tab-pane active">
+                        <div class="usage-history-header">
+                            <h4 class="usage-history-title">使用记录</h4>
+                            <div class="usage-history-filter">
+                                <span class="filter-label">时间范围:</span>
+                                <select class="filter-select">
+                                    <option value="7d">最近7天</option>
+                                    <option value="30d" selected>最近30天</option>
+                                    <option value="90d">最近90天</option>
+                                    <option value="all">全部记录</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <table class="usage-history-table">
+                            <thead>
+                                <tr>
+                                    <th>使用ID</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>持续时间</th>
+                                    <th>使用模式</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>USE20230718001</td>
+                                    <td>2023-07-18 14:00</td>
+                                    <td>2023-07-18 14:30</td>
+                                    <td>30分钟</td>
+                                    <td>标准模式</td>
+                                    <td>
+                                        <span class="usage-status-badge completed">已完成</span>
+                                    </td>
+                                    <td>
+                                        <button class="device-action-btn view-btn" onclick="toggleUsageDetails('USE20230718001')">
+                                            <i class="fas fa-eye"></i> 查看
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="usage-details-USE20230718001" class="usage-details" style="display: none;">
+                                    <td colspan="7">
+                                        <div class="usage-details-content">
+                                            <h5 class="usage-details-title">使用详情</h5>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">使用目标:</span>
+                                                <span class="usage-details-value">产后盆底肌肉恢复</span>
+                                            </div>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">当前状态:</span>
+                                                <span class="usage-details-value">肌肉收缩力度提升10%，持续时间增加5秒</span>
+                                            </div>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">使用过程:</span>
+                                                <span class="usage-details-value">0~5分钟：低频（热身）；6~20分钟：中频（训练）；21~30分钟：低频（放松）</span>
+                                            </div>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">下次建议:</span>
+                                                <span class="usage-details-value">保持当前训练强度，逐渐增加训练时间</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>USE20230716002</td>
+                                    <td>2023-07-16 19:15</td>
+                                    <td>2023-07-16 19:45</td>
+                                    <td>30分钟</td>
+                                    <td>强化模式</td>
+                                    <td>
+                                        <span class="usage-status-badge completed">已完成</span>
+                                    </td>
+                                    <td>
+                                        <button class="device-action-btn view-btn" onclick="toggleUsageDetails('USE20230716002')">
+                                            <i class="fas fa-eye"></i> 查看
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="usage-details-USE20230716002" class="usage-details" style="display: none;">
+                                    <td colspan="7">
+                                        <div class="usage-details-content">
+                                            <h5 class="usage-details-title">使用详情</h5>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">使用目标:</span>
+                                                <span class="usage-details-value">产后盆底肌肉恢复</span>
+                                            </div>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">当前状态:</span>
+                                                <span class="usage-details-value">肌肉收缩力度提升8%，持续时间增加3秒</span>
+                                            </div>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">使用过程:</span>
+                                                <span class="usage-details-value">0~5分钟：低频（热身）；6~25分钟：中高频（强化训练）；26~30分钟：低频（放松）</span>
+                                            </div>
+                                            <div class="usage-details-item">
+                                                <span class="usage-details-label">下次建议:</span>
+                                                <span class="usage-details-value">可以尝试增加训练强度</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 维护记录 -->
+                    <div id="maintenance-history" class="device-tab-pane">
+                        <div class="maintenance-history-header">
+                            <h4 class="maintenance-history-title">维护记录</h4>
+                        </div>
+                        
+                        <table class="maintenance-history-table">
+                            <thead>
+                                <tr>
+                                    <th>维护ID</th>
+                                    <th>维护类型</th>
+                                    <th>维护时间</th>
+                                    <th>维护人员</th>
+                                    <th>维护结果</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>MAINT20230615001</td>
+                                    <td>固件更新</td>
+                                    <td>2023-06-15 10:30</td>
+                                    <td>技术员A</td>
+                                    <td>
+                                        <span class="maintenance-status-badge success">成功</span>
+                                    </td>
+                                    <td>
+                                        <button class="device-action-btn view-btn" onclick="toggleMaintenanceDetails('MAINT20230615001')">
+                                            <i class="fas fa-eye"></i> 查看
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="maintenance-details-MAINT20230615001" class="maintenance-details" style="display: none;">
+                                    <td colspan="6">
+                                        <div class="maintenance-details-content">
+                                            <h5 class="maintenance-details-title">维护详情</h5>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">维护原因:</span>
+                                                <span class="maintenance-details-value">常规固件更新</span>
+                                            </div>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">更新内容:</span>
+                                                <span class="maintenance-details-value">从v2.3.0更新至v2.3.5，修复了蓝牙连接稳定性问题，优化了电池管理</span>
+                                            </div>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">维护过程:</span>
+                                                <span class="maintenance-details-value">OTA远程更新，用时5分钟</span>
+                                            </div>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">备注:</span>
+                                                <span class="maintenance-details-value">更新后设备运行正常，无异常报告</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>MAINT20230520002</td>
+                                    <td>硬件检查</td>
+                                    <td>2023-05-20 14:15</td>
+                                    <td>技术员B</td>
+                                    <td>
+                                        <span class="maintenance-status-badge success">正常</span>
+                                    </td>
+                                    <td>
+                                        <button class="device-action-btn view-btn" onclick="toggleMaintenanceDetails('MAINT20230520002')">
+                                            <i class="fas fa-eye"></i> 查看
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="maintenance-details-MAINT20230520002" class="maintenance-details" style="display: none;">
+                                    <td colspan="6">
+                                        <div class="maintenance-details-content">
+                                            <h5 class="maintenance-details-title">维护详情</h5>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">维护原因:</span>
+                                                <span class="maintenance-details-value">用户报告设备发热异常</span>
+                                            </div>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">检查内容:</span>
+                                                <span class="maintenance-details-value">电池状态、散热系统、电路板</span>
+                                            </div>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">维护过程:</span>
+                                                <span class="maintenance-details-value">远程诊断+用户自检</span>
+                                            </div>
+                                            <div class="maintenance-details-item">
+                                                <span class="maintenance-details-label">备注:</span>
+                                                <span class="maintenance-details-value">设备工作正常，发热在正常范围内，已向用户解释正常使用状态</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- 设备设置 -->
+                    <div id="device-settings" class="device-tab-pane">
+                        <div class="device-settings-header">
+                            <h4 class="device-settings-title">设备设置</h4>
+                        </div>
+                        
+                        <div class="device-settings-content">
+                            <div class="device-setting-group">
+                                <h5 class="device-setting-group-title">基本设置</h5>
+                                
+                                <div class="device-setting-item">
+                                    <div class="device-setting-label">设备名称</div>
+                                    <div class="device-setting-control">
+                                        <input type="text" class="device-setting-input" value="我的盆底紧致修复仪">
+                                    </div>
+                                </div>
+                                
+                                <div class="device-setting-item">
+                                    <div class="device-setting-label">自动关机时间</div>
+                                    <div class="device-setting-control">
+                                        <select class="device-setting-select">
+                                            <option value="5">5分钟</option>
+                                            <option value="10" selected>10分钟</option>
+                                            <option value="15">15分钟</option>
+                                            <option value="30">30分钟</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="device-setting-item">
+                                    <div class="device-setting-label">声音提示</div>
+                                    <div class="device-setting-control">
+                                        <label class="device-setting-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="device-setting-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="device-setting-group">
+                                <h5 class="device-setting-group-title">高级设置</h5>
+                                
+                                <div class="device-setting-item">
+                                    <div class="device-setting-label">自动更新固件</div>
+                                    <div class="device-setting-control">
+                                        <label class="device-setting-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="device-setting-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="device-setting-item">
+                                    <div class="device-setting-label">数据同步频率</div>
+                                    <div class="device-setting-control">
+                                        <select class="device-setting-select">
+                                            <option value="realtime">实时同步</option>
+                                            <option value="hourly">每小时</option>
+                                            <option value="daily" selected>每天</option>
+                                            <option value="manual">手动同步</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="device-setting-item">
+                                    <div class="device-setting-label">调试模式</div>
+                                    <div class="device-setting-control">
+                                        <label class="device-setting-switch">
+                                            <input type="checkbox">
+                                            <span class="device-setting-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="device-settings-actions">
+                                <button class="device-action-btn save-btn">
+                                    <i class="fas fa-save"></i> 保存设置
+                                </button>
+                                <button class="device-action-btn reset-btn">
+                                    <i class="fas fa-undo"></i> 恢复默认
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript 代码 -->
+    <script src="scripts/devices.js"></script>
+</body>
+</html>
