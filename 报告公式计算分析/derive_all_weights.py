@@ -1,43 +1,49 @@
 import numpy as np
+import pandas as pd
 
-# 用户提供的数据
-# 各阶段得分
-pre_baseline_scores = np.array([28.43, 59.31, 46.92, 61.22, 0])
-fast_twitch_scores = np.array([91.16, 3.88, 3.52, 1.56, 97.06])
-tonic_scores = np.array([69.59, 10.3, 12.99, 10.11, 79.28])
-endurance_scores = np.array([77.8, 40.88, 46.27, 43.49, 94.6])
-post_baseline_scores = np.array([9.45, 2.27, 47.64, 59.81, 18.69])
+# 从CSV文件读取数据
+csv_file_path = '/Users/gunavy/Project/TRAE/FCBSAPP/报告公式计算分析/glazer_assessment_reports.csv'
+df = pd.read_csv(csv_file_path, sep=' ', header=None, index_col=0)
 
-# 总得分
-total_scores = np.array([67.57, 18.59, 23.66, 24.3, 73.69])
+# 提取各项数据
+total_scores = df.loc['总得分'].values.astype(float)
+pre_baseline_scores = df.loc['前静息阶段得分'].values.astype(float)
+fast_twitch_scores = df.loc['快肌纤维阶段得分'].values.astype(float)
+tonic_scores = df.loc['慢肌纤维阶段得分'].values.astype(float)
+endurance_scores = df.loc['耐力测试阶段得分'].values.astype(float)
+post_baseline_scores = df.loc['后静息阶段得分'].values.astype(float)
 
 # 原始指标数据
 # 前静息阶段
-pre_avg_values = np.array([8.46, 5.34, 6.27, 5.22, 108.37])
-pre_variability = np.array([0.2, 0.18, 0.16, 0.17, 2.82])
+pre_avg_values = df.loc['前静息平均值(μV)'].values.astype(float)
+pre_variability = df.loc['前静息变异性'].values.astype(float)
 
 # 快肌纤维阶段
-fast_max_values = np.array([94.61, 7.03, 9.14, 6.83, 104.15])
-fast_rise_times = np.array([0.4, 1.62, 2, 2, 0.36])
-fast_recovery_times = np.array([0.18, 3.22, 4, 4, 0.13])
+fast_max_values = df.loc['快肌纤维最大值(μV)'].values.astype(float)
+fast_rise_times = df.loc['快肌纤维上升时间(s)'].values.astype(float)
+fast_recovery_times = df.loc['快肌纤维恢复时间(s)'].values.astype(float)
 
 # 慢肌纤维阶段
-tonic_avg_values = np.array([33.8, 5.35, 6.12, 5.29, 43.02])
-tonic_rise_times = np.array([0.15, 2, 2, 2, 2])
-tonic_recovery_times = np.array([0.49, 4, 4, 4, 4])
-tonic_variability = np.array([0.32, 0.17, 0.13, 0.16, 0.09])
+tonic_avg_values = df.loc['慢肌纤维平均值(μV)'].values.astype(float)
+tonic_rise_times = df.loc['慢肌纤维上升时间(s)'].values.astype(float)
+tonic_recovery_times = df.loc['慢肌纤维恢复时间(s)'].values.astype(float)
+tonic_variability = df.loc['慢肌纤维变异性'].values.astype(float)
 
 # 耐力测试阶段
-endurance_avg_values = np.array([32.84, 10.45, 6.2, 5.29, 40.66])
-endurance_variability = np.array([0.36, 0.47, 0.16, 0.17, 0.03])
-endurance_fatigue_index = np.array([0.99, 1.03, 1.01, 1, 1.04])
+endurance_avg_values = df.loc['耐力测试平均值(μV)'].values.astype(float)
+endurance_variability = df.loc['耐力测试变异性'].values.astype(float)
+endurance_fatigue_index = df.loc['耐力测试后10秒比值'].values.astype(float)
 
 # 后静息阶段
-post_avg_values = np.array([8.82, 10.36, 6.23, 5.29, 104.25])
-post_variability = np.array([0.53, 0.47, 0.15, 0.19, 0.11])
+post_avg_values = df.loc['后静息平均值(μV)'].values.astype(float)
+post_variability = df.loc['后静息变异性'].values.astype(float)
+
+print(f"成功从CSV文件读取了 {len(total_scores)} 个样本的数据")
+print(f"总得分: {total_scores}")
+print(f"各阶段得分数据已成功加载")
 
 # 第一部分：推导总得分的阶段权重
-print("===== 第一部分：推导总得分的阶段权重 =====")
+print("\n===== 第一部分：推导总得分的阶段权重 =====")
 
 # 构建系数矩阵A
 A = np.column_stack([
@@ -276,35 +282,195 @@ for i, (pred, actual) in enumerate(zip(predicted_post_scores, post_baseline_scor
 
 print(f"残差平方和: {np.sum((predicted_post_scores - post_baseline_scores) ** 2):.6f}")
 
-# 总结所有权重
-print("\n\n===== 权重推导总结 =====")
-print("\n1. 总得分阶段权重：")
-print(f"前静息阶段权重: {stage_weights_normalized[0]:.4f} (现有: {existing_weights[0]:.4f})")
-print(f"快肌纤维阶段权重: {stage_weights_normalized[1]:.4f} (现有: {existing_weights[1]:.4f})")
-print(f"慢肌纤维阶段权重: {stage_weights_normalized[2]:.4f} (现有: {existing_weights[2]:.4f})")
-print(f"耐力测试阶段权重: {stage_weights_normalized[3]:.4f} (现有: {existing_weights[3]:.4f})")
-print(f"后静息阶段权重: {stage_weights_normalized[4]:.4f} (现有: {existing_weights[4]:.4f})")
+# 添加详细的验证结果偏差分析
+print("\n\n===== 详细验证结果偏差分析 =====")
 
-print("\n2. 前静息阶段内部指标权重：")
-print(f"平均值权重: {pre_weights_normalized[0]:.4f} (现有: 0.7000)")
-print(f"变异性权重: {pre_weights_normalized[1]:.4f} (现有: 0.3000)")
+# 1. 总得分预测偏差分析
+print("\n1. 总得分预测偏差分析")
+print("="*50)
 
-print("\n3. 快肌纤维阶段内部指标权重：")
-print(f"最大值权重: {fast_weights_normalized[0]:.4f} (现有: 0.5000)")
-print(f"上升时间权重: {fast_weights_normalized[1]:.4f} (现有: 0.3000)")
-print(f"恢复时间权重: {fast_weights_normalized[2]:.4f} (现有: 0.2000)")
+# 使用推导权重的预测结果
+predicted_total_derived = A.dot(stage_weights_normalized)
+errors_derived = predicted_total_derived - total_scores
 
-print("\n4. 慢肌纤维阶段内部指标权重：")
-print(f"平均值权重: {tonic_weights_normalized[0]:.4f} (现有: 0.4000)")
-print(f"上升时间权重: {tonic_weights_normalized[1]:.4f} (现有: 0.2500)")
-print(f"恢复时间权重: {tonic_weights_normalized[2]:.4f} (现有: 0.2500)")
-print(f"变异性权重: {tonic_weights_normalized[3]:.4f} (现有: 0.1000)")
+# 使用现有权重的预测结果
+predicted_total_existing = A.dot(existing_weights)
+errors_existing = predicted_total_existing - total_scores
 
-print("\n5. 耐力测试阶段内部指标权重：")
-print(f"平均值权重: {endurance_weights_normalized[0]:.4f} (现有: 0.4500)")
-print(f"变异性权重: {endurance_weights_normalized[1]:.4f} (现有: 0.1500)")
-print(f"疲劳指数权重: {endurance_weights_normalized[2]:.4f} (现有: 0.4000)")
+# 计算统计指标
+def calculate_metrics(errors, actual_scores, predicted_scores):
+    mae = np.mean(np.abs(errors))  # 平均绝对误差
+    mse = np.mean(errors ** 2)     # 均方误差
+    rmse = np.sqrt(mse)            # 均方根误差
+    mape = np.mean(np.abs(errors / actual_scores)) * 100  # 平均绝对百分比误差
+    
+    # R²决定系数
+    ss_res = np.sum(errors ** 2)
+    ss_tot = np.sum((actual_scores - np.mean(actual_scores)) ** 2)
+    r2 = 1 - (ss_res / ss_tot)
+    
+    return mae, mse, rmse, mape, r2
 
-print("\n6. 后静息阶段内部指标权重：")
-print(f"平均值权重: {post_weights_normalized[0]:.4f} (现有: 0.7000)")
-print(f"变异性权重: {post_weights_normalized[1]:.4f} (现有: 0.3000)")
+# 推导权重的统计指标
+mae_derived, mse_derived, rmse_derived, mape_derived, r2_derived = calculate_metrics(
+    errors_derived, total_scores, predicted_total_derived)
+
+# 现有权重的统计指标
+mae_existing, mse_existing, rmse_existing, mape_existing, r2_existing = calculate_metrics(
+    errors_existing, total_scores, predicted_total_existing)
+
+print("\n推导权重性能指标：")
+print(f"  平均绝对误差 (MAE): {mae_derived:.4f}")
+print(f"  均方误差 (MSE): {mse_derived:.4f}")
+print(f"  均方根误差 (RMSE): {rmse_derived:.4f}")
+print(f"  平均绝对百分比误差 (MAPE): {mape_derived:.2f}%")
+print(f"  决定系数 (R²): {r2_derived:.4f}")
+
+print("\n现有权重性能指标：")
+print(f"  平均绝对误差 (MAE): {mae_existing:.4f}")
+print(f"  均方误差 (MSE): {mse_existing:.4f}")
+print(f"  均方根误差 (RMSE): {rmse_existing:.4f}")
+print(f"  平均绝对百分比误差 (MAPE): {mape_existing:.2f}%")
+print(f"  决定系数 (R²): {r2_existing:.4f}")
+
+# 性能改善分析
+print("\n性能改善分析：")
+print(f"  MAE改善: {((mae_existing - mae_derived) / mae_existing * 100):.2f}%")
+print(f"  MSE改善: {((mse_existing - mse_derived) / mse_existing * 100):.2f}%")
+print(f"  RMSE改善: {((rmse_existing - rmse_derived) / rmse_existing * 100):.2f}%")
+print(f"  MAPE改善: {((mape_existing - mape_derived) / mape_existing * 100):.2f}%")
+print(f"  R²改善: {((r2_derived - r2_existing) / abs(r2_existing) * 100):.2f}%")
+
+# 2. 各阶段预测偏差分析
+print("\n\n2. 各阶段预测偏差分析")
+print("="*50)
+
+# 分析各阶段的预测性能
+stages = ['前静息', '快肌纤维', '慢肌纤维', '耐力测试', '后静息']
+stage_scores = [pre_baseline_scores, fast_twitch_scores, tonic_scores, endurance_scores, post_baseline_scores]
+stage_predictions = [predicted_pre_scores, predicted_fast_scores, predicted_tonic_scores, 
+                    predicted_endurance_scores, predicted_post_scores]
+
+for i, (stage_name, actual, predicted) in enumerate(zip(stages, stage_scores, stage_predictions)):
+    errors = predicted - actual
+    mae, mse, rmse, mape, r2 = calculate_metrics(errors, actual, predicted)
+    
+    print(f"\n{stage_name}阶段：")
+    print(f"  平均绝对误差 (MAE): {mae:.4f}")
+    print(f"  均方根误差 (RMSE): {rmse:.4f}")
+    print(f"  平均绝对百分比误差 (MAPE): {mape:.2f}%")
+    print(f"  决定系数 (R²): {r2:.4f}")
+    
+    # 找出最大偏差的样本
+    max_error_idx = np.argmax(np.abs(errors))
+    print(f"  最大偏差样本: 样本{max_error_idx+1}, 偏差: {errors[max_error_idx]:.4f}")
+
+# 3. 样本级别的详细偏差分析
+print("\n\n3. 样本级别的详细偏差分析")
+print("="*50)
+
+print("\n总得分预测详细对比：")
+print("样本\t实际得分\t推导权重预测\t现有权重预测\t推导权重误差\t现有权重误差")
+print("-" * 80)
+for i in range(len(total_scores)):
+    print(f"{i+1}\t{total_scores[i]:.2f}\t\t{predicted_total_derived[i]:.2f}\t\t{predicted_total_existing[i]:.2f}\t\t{errors_derived[i]:.2f}\t\t{errors_existing[i]:.2f}")
+
+# 4. 权重合理性分析
+print("\n\n4. 权重合理性分析")
+print("="*50)
+
+print("\n阶段权重对比分析：")
+stage_names = ['前静息', '快肌纤维', '慢肌纤维', '耐力测试', '后静息']
+print("阶段\t\t推导权重\t现有权重\t权重差异\t相对变化")
+print("-" * 60)
+for i, stage_name in enumerate(stage_names):
+    diff = stage_weights_normalized[i] - existing_weights[i]
+    rel_change = (diff / existing_weights[i]) * 100 if existing_weights[i] != 0 else float('inf')
+    print(f"{stage_name}\t\t{stage_weights_normalized[i]:.4f}\t\t{existing_weights[i]:.4f}\t\t{diff:.4f}\t\t{rel_change:.1f}%")
+
+# 5. 模型稳定性分析
+print("\n\n5. 模型稳定性分析")
+print("="*50)
+
+# 计算权重的标准差和变异系数
+stage_weights_std = np.std(stage_weights_normalized)
+stage_weights_cv = stage_weights_std / np.mean(stage_weights_normalized)
+
+print(f"\n阶段权重分布特征：")
+print(f"  权重标准差: {stage_weights_std:.4f}")
+print(f"  权重变异系数: {stage_weights_cv:.4f}")
+print(f"  权重范围: [{np.min(stage_weights_normalized):.4f}, {np.max(stage_weights_normalized):.4f}]")
+
+# 计算条件数，评估矩阵的数值稳定性
+cond_number = np.linalg.cond(A)
+print(f"\n系数矩阵条件数: {cond_number:.2f}")
+if cond_number > 100:
+    print("  警告: 条件数较大，可能存在多重共线性问题")
+elif cond_number > 30:
+    print("  注意: 条件数中等，建议检查数据质量")
+else:
+    print("  良好: 条件数较小，数值稳定性良好")
+
+# 6. 残差分布分析
+print("\n\n6. 残差分布分析")
+print("="*50)
+
+# 分析残差的统计特征
+print("\n推导权重残差统计：")
+print(f"  残差均值: {np.mean(errors_derived):.4f}")
+print(f"  残差标准差: {np.std(errors_derived):.4f}")
+print(f"  残差偏度: {np.mean(((errors_derived - np.mean(errors_derived)) / np.std(errors_derived)) ** 3):.4f}")
+print(f"  残差峰度: {np.mean(((errors_derived - np.mean(errors_derived)) / np.std(errors_derived)) ** 4):.4f}")
+
+print("\n现有权重残差统计：")
+print(f"  残差均值: {np.mean(errors_existing):.4f}")
+print(f"  残差标准差: {np.std(errors_existing):.4f}")
+print(f"  残差偏度: {np.mean(((errors_existing - np.mean(errors_existing)) / np.std(errors_existing)) ** 3):.4f}")
+print(f"  残差峰度: {np.mean(((errors_existing - np.mean(errors_existing)) / np.std(errors_existing)) ** 4):.4f}")
+
+# 7. 预测区间分析
+print("\n\n7. 预测区间分析")
+print("="*50)
+
+# 计算预测的置信区间（基于残差标准差）
+confidence_level = 0.95
+z_score = 1.96  # 95%置信区间的z值
+
+print(f"\n{confidence_level*100:.0f}%置信区间分析（推导权重）：")
+for i in range(len(total_scores)):
+    margin_error = z_score * np.std(errors_derived)
+    lower_bound = predicted_total_derived[i] - margin_error
+    upper_bound = predicted_total_derived[i] + margin_error
+    in_interval = lower_bound <= total_scores[i] <= upper_bound
+    print(f"  样本{i+1}: [{lower_bound:.2f}, {upper_bound:.2f}], 实际值: {total_scores[i]:.2f}, 在区间内: {in_interval}")
+
+# 8. 总结和建议
+print("\n\n8. 总结和建议")
+print("="*50)
+
+print("\n模型性能总结：")
+if r2_derived > r2_existing:
+    print(f"✓ 推导权重的R²({r2_derived:.4f})优于现有权重({r2_existing:.4f})")
+else:
+    print(f"✗ 推导权重的R²({r2_derived:.4f})不如现有权重({r2_existing:.4f})")
+
+if rmse_derived < rmse_existing:
+    print(f"✓ 推导权重的RMSE({rmse_derived:.4f})优于现有权重({rmse_existing:.4f})")
+else:
+    print(f"✗ 推导权重的RMSE({rmse_derived:.4f})不如现有权重({rmse_existing:.4f})")
+
+print("\n改进建议：")
+if cond_number > 30:
+    print("• 考虑使用正则化方法（如Ridge回归）来处理多重共线性")
+if mape_derived > 10:
+    print("• 平均绝对百分比误差较大，建议增加更多样本数据")
+if np.max(np.abs(errors_derived)) > 20:
+    print("• 存在较大的异常值，建议检查数据质量或使用鲁棒回归方法")
+if stage_weights_cv > 1:
+    print("• 权重分布不均匀，建议重新评估各阶段的重要性")
+
+print("\n数据质量建议：")
+print(f"• 当前样本数量: {len(total_scores)}个")
+print("• 建议收集更多样本数据以提高模型稳定性")
+print("• 建议对异常值进行进一步分析和处理")
+print("• 考虑使用交叉验证来评估模型的泛化能力")
