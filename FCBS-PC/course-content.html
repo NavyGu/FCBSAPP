@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课节内容管理 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/course-content.css">
+</head>
+<body>
+    <div class="course-content-container">
+        <!-- 顶部操作栏 -->
+        <div class="course-content-header">
+            <div class="course-content-title-section">
+                <h3 class="course-content-title">课节内容管理</h3>
+                <div class="course-filter">
+                    <select id="course-category" class="course-select">
+                        <option value="all">全部课节</option>
+                        <option value="assessment">盆底肌评估</option>
+                        <option value="type1">I类肌训练</option>
+                        <option value="type2">II类肌训练</option>
+                        <option value="mixed">混合训练</option>
+                        <option value="relaxation">放松训练</option>
+                        <option value="stimulation">电刺激训练</option>
+                        <option value="game">游戏训练</option>
+                    </select>
+                    <select id="course-level" class="course-select">
+                        <option value="all">全部等级</option>
+                        <option value="1">初级</option>
+                        <option value="2">中级</option>
+                        <option value="3">高级</option>
+                    </select>
+                </div>
+            </div>
+            <div class="course-content-actions">
+                <button id="new-course-btn" class="course-action-btn create-btn">
+                    <i class="fas fa-plus"></i> 新建课节
+                </button>
+                <button id="import-course-btn" class="course-action-btn import-btn">
+                    <i class="fas fa-upload"></i> 导入课节
+                </button>
+                <button id="export-course-btn" class="course-action-btn export-btn">
+                    <i class="fas fa-download"></i> 导出课节
+                </button>
+            </div>
+        </div>
+        
+        <!-- 课节列表 -->
+        <div class="course-content-main">
+            <div class="course-list">
+                <!-- 盆底肌评估课节 -->
+                <div class="course-card assessment-card">
+                    <div class="course-card-header">
+                        <div class="course-thumbnail">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <div class="course-info">
+                            <h4 class="course-title">盆底肌评估</h4>
+                            <p class="course-description">全面评估盆底肌功能状态，为后续训练制定个性化方案</p>
+                            <div class="course-meta">
+                                <span class="course-category assessment">评估</span>
+                                <span class="course-duration">15分钟</span>
+                                <span class="course-level level-1">基础</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-details">
+                            <div class="detail-row">
+                                <span class="detail-label">训练效果:</span>
+                                <span class="detail-value">功能评估、基线建立</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">盆底电波:</span>
+                                <span class="detail-value">频率: 20Hz, 强度: 10mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">腹直肌电波:</span>
+                                <span class="detail-value">频率: 35Hz, 强度: 8mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">使用次数:</span>
+                                <span class="detail-value usage-count">1,256次</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-footer">
+                        <button class="course-btn edit-btn">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="course-btn preview-btn">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                        <button class="course-btn copy-btn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="course-btn delete-btn">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- II型肌初步训练 -->
+                <div class="course-card type2-card">
+                    <div class="course-card-header">
+                        <div class="course-thumbnail">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="course-info">
+                            <h4 class="course-title">II型肌初步训练</h4>
+                            <p class="course-description">针对II型快肌纤维的基础收缩训练</p>
+                            <div class="course-meta">
+                                <span class="course-category type2">II型肌</span>
+                                <span class="course-duration">20分钟</span>
+                                <span class="course-level level-1">初级</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-details">
+                            <div class="detail-row">
+                                <span class="detail-label">训练效果:</span>
+                                <span class="detail-value">快肌纤维激活、爆发力提升</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">盆底电波:</span>
+                                <span class="detail-value">频率: 50Hz, 强度: 15mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">腹直肌电波:</span>
+                                <span class="detail-value">频率: 45Hz, 强度: 12mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">使用次数:</span>
+                                <span class="detail-value usage-count">892次</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-footer">
+                        <button class="course-btn edit-btn">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="course-btn preview-btn">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                        <button class="course-btn copy-btn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="course-btn delete-btn">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- I类肌高强度训练 -->
+                <div class="course-card type1-card">
+                    <div class="course-card-header">
+                        <div class="course-thumbnail">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="course-info">
+                            <h4 class="course-title">I类肌高强度训练</h4>
+                            <p class="course-description">I型慢肌纤维的高强度耐力训练</p>
+                            <div class="course-meta">
+                                <span class="course-category type1">I类肌</span>
+                                <span class="course-duration">35分钟</span>
+                                <span class="course-level level-3">高级</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-details">
+                            <div class="detail-row">
+                                <span class="detail-label">训练效果:</span>
+                                <span class="detail-value">耐力增强、持续收缩能力</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">盆底电波:</span>
+                                <span class="detail-value">频率: 20Hz, 强度: 25mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">腹直肌电波:</span>
+                                <span class="detail-value">频率: 30Hz, 强度: 20mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">使用次数:</span>
+                                <span class="detail-value usage-count">567次</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-footer">
+                        <button class="course-btn edit-btn">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="course-btn preview-btn">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                        <button class="course-btn copy-btn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="course-btn delete-btn">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 混合肌训练 -->
+                <div class="course-card mixed-card">
+                    <div class="course-card-header">
+                        <div class="course-thumbnail">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="course-info">
+                            <h4 class="course-title">混合肌增强训练</h4>
+                            <p class="course-description">综合I型和II型肌纤维的协调训练</p>
+                            <div class="course-meta">
+                                <span class="course-category mixed">混合训练</span>
+                                <span class="course-duration">30分钟</span>
+                                <span class="course-level level-2">中级</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-details">
+                            <div class="detail-row">
+                                <span class="detail-label">训练效果:</span>
+                                <span class="detail-value">协调性提升、综合能力增强</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">盆底电波:</span>
+                                <span class="detail-value">频率: 35Hz, 强度: 18mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">腹直肌电波:</span>
+                                <span class="detail-value">频率: 40Hz, 强度: 15mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">使用次数:</span>
+                                <span class="detail-value usage-count">734次</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-footer">
+                        <button class="course-btn edit-btn">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="course-btn preview-btn">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                        <button class="course-btn copy-btn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="course-btn delete-btn">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 游戏训练 - 欢乐娃娃机 -->
+                <div class="course-card game-card">
+                    <div class="course-card-header">
+                        <div class="course-thumbnail">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="course-info">
+                            <h4 class="course-title">欢乐娃娃机</h4>
+                            <p class="course-description">趣味游戏化训练，提升训练积极性</p>
+                            <div class="course-meta">
+                                <span class="course-category game">游戏训练</span>
+                                <span class="course-duration">25分钟</span>
+                                <span class="course-level level-1">初级</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-details">
+                            <div class="detail-row">
+                                <span class="detail-label">训练效果:</span>
+                                <span class="detail-value">趣味训练、动机提升</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">盆底电波:</span>
+                                <span class="detail-value">频率: 25Hz, 强度: 12mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">腹直肌电波:</span>
+                                <span class="detail-value">频率: 30Hz, 强度: 10mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">使用次数:</span>
+                                <span class="detail-value usage-count">1,123次</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-footer">
+                        <button class="course-btn edit-btn">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="course-btn preview-btn">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                        <button class="course-btn copy-btn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="course-btn delete-btn">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 音乐放松训练 -->
+                <div class="course-card relaxation-card">
+                    <div class="course-card-header">
+                        <div class="course-thumbnail">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="course-info">
+                            <h4 class="course-title">音乐放松01</h4>
+                            <p class="course-description">配合舒缓音乐的肌肉放松训练</p>
+                            <div class="course-meta">
+                                <span class="course-category relaxation">放松训练</span>
+                                <span class="course-duration">15分钟</span>
+                                <span class="course-level level-1">初级</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-body">
+                        <div class="course-details">
+                            <div class="detail-row">
+                                <span class="detail-label">训练效果:</span>
+                                <span class="detail-value">肌肉放松、压力缓解</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">盆底电波:</span>
+                                <span class="detail-value">频率: 10Hz, 强度: 5mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">腹直肌电波:</span>
+                                <span class="detail-value">频率: 15Hz, 强度: 6mA</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">使用次数:</span>
+                                <span class="detail-value usage-count">2,045次</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-card-footer">
+                        <button class="course-btn edit-btn">
+                            <i class="fas fa-edit"></i> 编辑
+                        </button>
+                        <button class="course-btn preview-btn">
+                            <i class="fas fa-eye"></i> 预览
+                        </button>
+                        <button class="course-btn copy-btn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="course-btn delete-btn">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 课节详情模态框 -->
+    <div id="course-detail-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">课节详情</h3>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>课节名称</label>
+                            <input type="text" class="form-input" id="course-name">
+                        </div>
+                        <div class="form-group">
+                            <label>课节类型</label>
+                            <select class="form-select" id="course-type">
+                                <option value="assessment">盆底肌评估</option>
+                                <option value="type1">I类肌训练</option>
+                                <option value="type2">II类肌训练</option>
+                                <option value="mixed">混合训练</option>
+                                <option value="relaxation">放松训练</option>
+                                <option value="game">游戏训练</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>训练时长（分钟）</label>
+                            <input type="number" class="form-input" id="course-duration">
+                        </div>
+                        <div class="form-group">
+                            <label>训练等级</label>
+                            <select class="form-select" id="course-level-select">
+                                <option value="1">初级</option>
+                                <option value="2">中级</option>
+                                <option value="3">高级</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>训练效果</label>
+                        <textarea class="form-textarea" id="course-effect" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>盆底电波频率（Hz）</label>
+                            <input type="number" class="form-input" id="pelvic-frequency">
+                        </div>
+                        <div class="form-group">
+                            <label>盆底电波强度（mA）</label>
+                            <input type="number" class="form-input" id="pelvic-intensity">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>腹直肌电波频率（Hz）</label>
+                            <input type="number" class="form-input" id="abdominal-frequency">
+                        </div>
+                        <div class="form-group">
+                            <label>腹直肌电波强度（mA）</label>
+                            <input type="number" class="form-input" id="abdominal-intensity">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-cancel">取消</button>
+                <button class="btn btn-primary" id="modal-save">保存</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="scripts/course-content.js"></script>
+</body>
+</html>

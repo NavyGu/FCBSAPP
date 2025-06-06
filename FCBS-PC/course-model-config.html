@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程生成模型配置 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/course-model-config.css">
+</head>
+<body>
+    <div class="model-config-container">
+        <!-- 顶部操作栏 -->
+        <div class="model-config-header">
+            <div class="model-config-title-section">
+                <h3 class="model-config-title">课程生成模型配置</h3>
+                <div class="model-selector">
+                    <select id="model-template" class="model-select">
+                        <option value="default">默认模板</option>
+                        <option value="pelvic">盆底康复模板</option>
+                        <option value="hair">生发治疗模板</option>
+                        <option value="sleep">睡眠改善模板</option>
+                    </select>
+                </div>
+            </div>
+            <div class="model-config-actions">
+                <button id="test-model-btn" class="model-action-btn test-btn">
+                    <i class="fas fa-flask"></i> 测试模型
+                </button>
+                <button id="save-config-btn" class="model-action-btn save-btn">
+                    <i class="fas fa-save"></i> 保存配置
+                </button>
+                <button id="deploy-model-btn" class="model-action-btn deploy-btn">
+                    <i class="fas fa-rocket"></i> 部署模型
+                </button>
+            </div>
+        </div>
+        
+        <!-- 配置面板 -->
+        <div class="model-config-main">
+            <!-- 左侧配置区 -->
+            <div class="config-panel">
+                <div class="config-section">
+                    <h4 class="config-section-title">基础配置</h4>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label class="form-label">模型名称</label>
+                            <input type="text" class="form-input" placeholder="输入模型名称" value="课程生成模型v1.0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">模型类型</label>
+                            <select class="form-select">
+                                <option value="gpt4">GPT-4</option>
+                                <option value="gpt35">GPT-3.5 Turbo</option>
+                                <option value="claude">Claude 3</option>
+                                <option value="gemini">Gemini Pro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">温度参数</label>
+                            <input type="range" class="form-range" min="0" max="1" step="0.1" value="0.7">
+                            <span class="range-value">0.7</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">最大令牌数</label>
+                            <input type="number" class="form-input" placeholder="4000" value="4000">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4 class="config-section-title">提示词配置</h4>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label class="form-label">系统提示词</label>
+                            <textarea class="form-textarea" rows="6" placeholder="输入系统提示词...">你是一个专业的医疗康复课程设计师，专门为FCBS医疗设备用户设计个性化的康复训练课程。请根据用户的具体情况和需求，生成科学、安全、有效的康复训练方案。</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">课程结构模板</label>
+                            <textarea class="form-textarea" rows="4" placeholder="输入课程结构模板...">课程应包含：1. 热身准备 2. 主要训练 3. 放松恢复 4. 注意事项</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h4 class="config-section-title">生成规则</h4>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" checked>
+                                <span class="checkbox-mark"></span>
+                                包含安全提醒
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" checked>
+                                <span class="checkbox-mark"></span>
+                                个性化推荐
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox">
+                                <span class="checkbox-mark"></span>
+                                包含视频链接
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" checked>
+                                <span class="checkbox-mark"></span>
+                                进度跟踪
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧预览区 -->
+            <div class="preview-panel">
+                <div class="preview-header">
+                    <h4 class="preview-title">生成预览</h4>
+                    <button id="generate-preview-btn" class="preview-btn">
+                        <i class="fas fa-sync-alt"></i> 重新生成
+                    </button>
+                </div>
+                <div class="preview-content">
+                    <div class="preview-course">
+                        <h5 class="preview-course-title">示例课程：盆底肌强化训练</h5>
+                        <div class="preview-course-content">
+                            <div class="course-section">
+                                <h6>1. 热身准备 (5分钟)</h6>
+                                <p>深呼吸练习，放松身心，为训练做好准备...</p>
+                            </div>
+                            <div class="course-section">
+                                <h6>2. 主要训练 (20分钟)</h6>
+                                <p>盆底肌收缩练习，配合呼吸节奏...</p>
+                            </div>
+                            <div class="course-section">
+                                <h6>3. 放松恢复 (5分钟)</h6>
+                                <p>缓慢拉伸，帮助肌肉恢复...</p>
+                            </div>
+                            <div class="course-section">
+                                <h6>4. 注意事项</h6>
+                                <p>训练过程中如有不适请立即停止...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="scripts/course-model-config.js"></script>
+</body>
+</html>
