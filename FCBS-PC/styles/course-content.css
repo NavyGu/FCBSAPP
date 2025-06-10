@@ -64,10 +64,331 @@
     color: white;
 }
 
-.course-list {
+/* 替换原有的 .course-list 样式 */
+.course-list-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.table-header {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-    gap: 20px;
+    grid-template-columns: 2fr 1fr 0.8fr 0.8fr 1.5fr 1.2fr 1fr 1.2fr;
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.header-cell {
+    padding: 16px 12px;
+    text-align: left;
+    border-right: 1px solid #e2e8f0;
+}
+
+.header-cell:last-child {
+    border-right: none;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 0.8fr 0.8fr 1.5fr 1.2fr 1fr 1.2fr;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+    border-left: 4px solid #e2e8f0;
+}
+
+.table-row:hover {
+    background-color: #f8fafc;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+/* 不同类型课节的边框颜色 */
+.assessment-row {
+    border-left-color: #f59e0b;
+}
+
+.type1-row {
+    border-left-color: #10b981;
+}
+
+.type2-row {
+    border-left-color: #3b82f6;
+}
+
+.mixed-row {
+    border-left-color: #8b5cf6;
+}
+
+.game-row {
+    border-left-color: #ef4444;
+}
+
+.relaxation-row {
+    border-left-color: #06b6d4;
+}
+
+.table-cell {
+    padding: 16px 12px;
+    border-right: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.table-cell:last-child {
+    border-right: none;
+}
+
+.course-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.course-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.course-icon i {
+    font-size: 18px;
+}
+
+.course-icon.assessment {
+    background: #fef3c7;
+    color: #f59e0b;
+}
+
+.course-icon.type1 {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.course-icon.type2 {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.course-icon.mixed {
+    background: #f3e8ff;
+    color: #8b5cf6;
+}
+
+.course-icon.game {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.course-icon.relaxation {
+    background: #cffafe;
+    color: #06b6d4;
+}
+
+.course-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.course-title {
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0 0 4px 0;
+    font-size: 15px;
+}
+
+.course-description {
+    color: #64748b;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.course-category {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+}
+
+.course-category.assessment {
+    background: #f59e0b;
+}
+
+.course-category.type1 {
+    background: #10b981;
+}
+
+.course-category.type2 {
+    background: #3b82f6;
+}
+
+.course-category.mixed {
+    background: #8b5cf6;
+}
+
+.course-category.game {
+    background: #ef4444;
+}
+
+.course-category.relaxation {
+    background: #06b6d4;
+}
+
+.course-level {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+}
+
+.course-level.level-1 {
+    background: #10b981;
+}
+
+.course-level.level-2 {
+    background: #f59e0b;
+}
+
+.course-level.level-3 {
+    background: #ef4444;
+}
+
+.stimulation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stimulation-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+}
+
+.stimulation-label {
+    color: #64748b;
+    font-weight: 500;
+    min-width: 50px;
+}
+
+.stimulation-value {
+    color: #374151;
+    font-weight: 600;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.usage-count {
+    font-weight: 600;
+    color: #374151;
+}
+
+.course-actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+}
+
+.edit-btn {
+    background: #3b82f6;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #2563eb;
+}
+
+.preview-btn {
+    background: #10b981;
+    color: white;
+}
+
+.preview-btn:hover {
+    background: #059669;
+}
+
+.copy-btn {
+    background: #8b5cf6;
+    color: white;
+}
+
+.copy-btn:hover {
+    background: #7c3aed;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .table-header,
+    .table-row {
+        grid-template-columns: 2fr 1fr 0.8fr 0.8fr 1.2fr 1fr 0.8fr 1fr;
+    }
+    
+    .course-description {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-header,
+    .table-row {
+        grid-template-columns: 1.5fr 0.8fr 0.6fr 0.8fr 1fr;
+    }
+    
+    .course-effect-cell,
+    .course-stimulation-cell,
+    .course-usage-cell {
+        display: none;
+    }
+    
+    .header-cell.course-effect,
+    .header-cell.course-stimulation,
+    .header-cell.course-usage {
+        display: none;
+    }
 }
 
 .course-card {
@@ -511,4 +832,44 @@
     .form-row {
         grid-template-columns: 1fr;
     }
+}
+
+/* 新增课程类型样式 */
+.function-row {
+    border-left-color: #f97316;
+}
+
+.stimulation-row {
+    border-left-color: #84cc16;
+}
+
+.incontinence-row {
+    border-left-color: #6366f1;
+}
+
+.course-icon.function {
+    background: #fed7aa;
+    color: #f97316;
+}
+
+.course-icon.stimulation {
+    background: #dcfce7;
+    color: #84cc16;
+}
+
+.course-icon.incontinence {
+    background: #e0e7ff;
+    color: #6366f1;
+}
+
+.course-category.function {
+    background: #f97316;
+}
+
+.course-category.stimulation {
+    background: #84cc16;
+}
+
+.course-category.incontinence {
+    background: #6366f1;
 }
