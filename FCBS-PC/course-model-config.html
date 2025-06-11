@@ -3,160 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>课程生成模型配置 - FCBS医疗设备管理后台</title>
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- 自定义样式 -->
-    <link rel="stylesheet" href="styles/admin.css">
+    <title>课程生成模型配置 - FCBS管理系统</title>
     <link rel="stylesheet" href="styles/course-model-config.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="model-config-container">
-        <!-- 顶部操作栏 -->
-        <div class="model-config-header">
-            <div class="model-config-title-section">
-                <h3 class="model-config-title">课程生成模型配置</h3>
-                <div class="model-selector">
-                    <select id="model-template" class="model-select">
-                        <option value="default">默认模板</option>
-                        <option value="pelvic">盆底康复模板</option>
-                        <option value="hair">生发治疗模板</option>
-                        <option value="sleep">睡眠改善模板</option>
-                    </select>
-                </div>
+    <div class="course-model-container">
+        <!-- 页面头部 -->
+        <div class="page-header">
+            <div class="header-left">
+                <h1 class="page-title">课程生成模型配置</h1>
+                <p class="page-subtitle">管理和配置课程生成模型参数</p>
             </div>
-            <div class="model-config-actions">
-                <button id="test-model-btn" class="model-action-btn test-btn">
-                    <i class="fas fa-flask"></i> 测试模型
+            <div class="header-actions">
+                <button class="action-btn primary-btn" onclick="showAddCourseModal()">
+                    <i class="fas fa-plus"></i>
+                    添加课程
                 </button>
-                <button id="save-config-btn" class="model-action-btn save-btn">
-                    <i class="fas fa-save"></i> 保存配置
-                </button>
-                <button id="deploy-model-btn" class="model-action-btn deploy-btn">
-                    <i class="fas fa-rocket"></i> 部署模型
+                <button class="action-btn secondary-btn" onclick="exportConfig()">
+                    <i class="fas fa-download"></i>
+                    导出配置
                 </button>
             </div>
         </div>
-        
-        <!-- 配置面板 -->
-        <div class="model-config-main">
-            <!-- 左侧配置区 -->
-            <div class="config-panel">
-                <div class="config-section">
-                    <h4 class="config-section-title">基础配置</h4>
-                    <div class="config-form">
-                        <div class="form-group">
-                            <label class="form-label">模型名称</label>
-                            <input type="text" class="form-input" placeholder="输入模型名称" value="课程生成模型v1.0">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">模型类型</label>
-                            <select class="form-select">
-                                <option value="gpt4">GPT-4</option>
-                                <option value="gpt35">GPT-3.5 Turbo</option>
-                                <option value="claude">Claude 3</option>
-                                <option value="gemini">Gemini Pro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">温度参数</label>
-                            <input type="range" class="form-range" min="0" max="1" step="0.1" value="0.7">
-                            <span class="range-value">0.7</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">最大令牌数</label>
-                            <input type="number" class="form-input" placeholder="4000" value="4000">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="config-section">
-                    <h4 class="config-section-title">提示词配置</h4>
-                    <div class="config-form">
-                        <div class="form-group">
-                            <label class="form-label">系统提示词</label>
-                            <textarea class="form-textarea" rows="6" placeholder="输入系统提示词...">你是一个专业的医疗康复课程设计师，专门为FCBS医疗设备用户设计个性化的康复训练课程。请根据用户的具体情况和需求，生成科学、安全、有效的康复训练方案。</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">课程结构模板</label>
-                            <textarea class="form-textarea" rows="4" placeholder="输入课程结构模板...">课程应包含：1. 热身准备 2. 主要训练 3. 放松恢复 4. 注意事项</textarea>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="config-section">
-                    <h4 class="config-section-title">生成规则</h4>
-                    <div class="config-form">
-                        <div class="form-group">
-                            <label class="form-checkbox">
-                                <input type="checkbox" checked>
-                                <span class="checkbox-mark"></span>
-                                包含安全提醒
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-checkbox">
-                                <input type="checkbox" checked>
-                                <span class="checkbox-mark"></span>
-                                个性化推荐
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-checkbox">
-                                <input type="checkbox">
-                                <span class="checkbox-mark"></span>
-                                包含视频链接
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-checkbox">
-                                <input type="checkbox" checked>
-                                <span class="checkbox-mark"></span>
-                                进度跟踪
-                            </label>
-                        </div>
-                    </div>
-                </div>
+
+        <!-- 搜索和筛选 -->
+        <div class="search-filter-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="搜索课程名称、适应症...">
             </div>
-            
-            <!-- 右侧预览区 -->
-            <div class="preview-panel">
-                <div class="preview-header">
-                    <h4 class="preview-title">生成预览</h4>
-                    <button id="generate-preview-btn" class="preview-btn">
-                        <i class="fas fa-sync-alt"></i> 重新生成
+            <div class="filter-group">
+                <select id="userTypeFilter">
+                    <option value="">全部用户类型</option>
+                    <option value="初学者">初学者</option>
+                    <option value="进阶者">进阶者</option>
+                    <option value="专业用户">专业用户</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="">全部状态</option>
+                    <option value="active">已启用</option>
+                    <option value="inactive">已禁用</option>
+                    <option value="draft">草稿</option>
+                </select>
+                <button class="filter-btn" onclick="resetFilters()">
+                    <i class="fas fa-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </div>
+
+        <!-- 课程列表 -->
+        <div class="course-list-section">
+            <div class="list-header">
+                <div class="list-stats">
+                    <span class="stat-item">
+                        <span class="stat-number" id="totalCourses">12</span>
+                        <span class="stat-label">总课程数</span>
+                    </span>
+                    <span class="stat-item">
+                        <span class="stat-number" id="activeCourses">8</span>
+                        <span class="stat-label">已启用</span>
+                    </span>
+                    <span class="stat-item">
+                        <span class="stat-number" id="draftCourses">4</span>
+                        <span class="stat-label">草稿</span>
+                    </span>
+                </div>
+                <div class="view-options">
+                    <button class="view-btn active" data-view="table">
+                        <i class="fas fa-table"></i>
+                    </button>
+                    <button class="view-btn" data-view="grid">
+                        <i class="fas fa-th-large"></i>
                     </button>
                 </div>
-                <div class="preview-content">
-                    <div class="preview-course">
-                        <h5 class="preview-course-title">示例课程：盆底肌强化训练</h5>
-                        <div class="preview-course-content">
-                            <div class="course-section">
-                                <h6>1. 热身准备 (5分钟)</h6>
-                                <p>深呼吸练习，放松身心，为训练做好准备...</p>
-                            </div>
-                            <div class="course-section">
-                                <h6>2. 主要训练 (20分钟)</h6>
-                                <p>盆底肌收缩练习，配合呼吸节奏...</p>
-                            </div>
-                            <div class="course-section">
-                                <h6>3. 放松恢复 (5分钟)</h6>
-                                <p>缓慢拉伸，帮助肌肉恢复...</p>
-                            </div>
-                            <div class="course-section">
-                                <h6>4. 注意事项</h6>
-                                <p>训练过程中如有不适请立即停止...</p>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+
+            <!-- 表格视图 -->
+            <div class="table-container" id="tableView">
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>课程名称</th>
+                            <th>适应用户画像</th>
+                            <th>课节数</th>
+                            <th>课程概述</th>
+                            <th>状态</th>
+                            <th>更新时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseTableBody">
+                        <!-- 动态生成课程列表 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 网格视图 -->
+            <div class="grid-container hidden" id="gridView">
+                <div id="courseGridContainer">
+                    <!-- 动态生成课程卡片 -->
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    <span>显示 <span id="currentStart">1</span>-<span id="currentEnd">5</span> 条，共 <span id="totalItems">12</span> 条</span>
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <!-- 动态生成分页按钮 -->
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- JavaScript -->
+
+    <!-- 添加/编辑课程模态框 -->
+    <div class="modal-overlay" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">添加课程</h3>
+                <button class="close-btn" onclick="closeCourseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="courseForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>课程名称 *</label>
+                            <input type="text" id="courseName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>适应用户画像 *</label>
+                            <select id="userProfile" required>
+                                <option value="">请选择</option>
+                                <option value="初学者">初学者</option>
+                                <option value="进阶者">进阶者</option>
+                                <option value="专业用户">专业用户</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>课节数 *</label>
+                            <input type="number" id="sessionCount" min="1" max="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>课程状态</label>
+                            <select id="courseStatus">
+                                <option value="draft">草稿</option>
+                                <option value="active">已启用</option>
+                                <option value="inactive">已禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>课程概述 *</label>
+                        <textarea id="courseOverview" rows="4" required placeholder="请输入课程概述..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>适应症</label>
+                        <textarea id="indications" rows="3" placeholder="请输入适应症..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>课程标签</label>
+                        <div class="tag-input-container">
+                            <input type="text" id="tagInput" placeholder="输入标签后按回车添加">
+                            <div class="tags-display" id="tagsDisplay">
+                                <!-- 动态生成标签 -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary-btn" onclick="closeCourseModal()">取消</button>
+                <button class="btn primary-btn" onclick="saveCourse()">保存</button>
+            </div>
+        </div>
+    </div>
+
     <script src="scripts/course-model-config.js"></script>
 </body>
 </html>
