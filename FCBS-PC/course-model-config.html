@@ -11,23 +11,7 @@
 <body>
     <div class="course-model-container">
         <!-- 页面头部 -->
-        <div class="page-header">
-            <div class="header-left">
-                <h1 class="page-title">课程生成模型配置</h1>
-                <p class="page-subtitle">管理和配置课程生成模型参数</p>
-            </div>
-            <div class="header-actions">
-                <button class="action-btn primary-btn" onclick="showAddCourseModal()">
-                    <i class="fas fa-plus"></i>
-                    添加课程
-                </button>
-                <button class="action-btn secondary-btn" onclick="exportConfig()">
-                    <i class="fas fa-download"></i>
-                    导出配置
-                </button>
-            </div>
-        </div>
-
+    
         <!-- 搜索和筛选 -->
         <div class="search-filter-section">
             <div class="search-box">
@@ -50,6 +34,10 @@
                 <button class="filter-btn" onclick="resetFilters()">
                     <i class="fas fa-refresh"></i>
                     重置
+                </button>
+                <button class="action-btn primary-btn" onclick="showAddCourseModal()">
+                    <i class="fas fa-plus"></i>
+                    添加课程
                 </button>
             </div>
         </div>

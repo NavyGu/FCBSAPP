@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/decision-tree-course-generator.js"></script>
+    <title>决策树课程生成规则配置 - FCBS管理系统</title>
+    <link rel="stylesheet" href="styles/decision-tree-course-generator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="decision-tree-container">
+        <!-- 页面头部 -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-sitemap"></i> 决策树课程生成规则配置</h1>
+                    <p>基于决策树算法的智能课程生成规则配置系统</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn secondary-btn" onclick="importRules()">
+                        <i class="fas fa-upload"></i> 导入规则
+                    </button>
+                    <button class="btn secondary-btn" onclick="exportRules()">
+                        <i class="fas fa-download"></i> 导出规则
+                    </button>
+                    <button class="btn primary-btn" onclick="saveConfiguration()">
+                        <i class="fas fa-save"></i> 保存配置
+                    </button>
+                </div>
+            </div>
+        </div>
+
+                <!-- 配置步骤导航 -->
+                <div class="step-navigation">
+                    <div class="step-item active clickable" data-step="1" onclick="navigateToStep(1)">
+                        <div class="step-number">1</div>
+                        <div class="step-label">参数配置</div>
+                    </div>
+                    <div class="step-item clickable" data-step="2" onclick="navigateToStep(2)">
+                        <div class="step-number">2</div>
+                        <div class="step-label">决策树规则</div>
+                    </div>
+                    <div class="step-item clickable" data-step="3" onclick="navigateToStep(3)">
+                        <div class="step-number">3</div>
+                        <div class="step-label">规则验证</div>
+                    </div>
+                    <div class="step-item clickable" data-step="4" onclick="navigateToStep(4)">
+                        <div class="step-number">4</div>
+                        <div class="step-label">课程生成</div>
+                    </div>
+                </div>
+
+        <!-- 配置内容区域 -->
+        <div class="config-content">
+            <!-- 步骤1: 参数配置 -->
+            <div class="config-step active" id="step1">
+                <div class="step-header">
+                    <h2>参数配置</h2>
+                    <p>配置决策树可引用的数据参数</p>
+                </div>
+
+                <!-- 用户基本信息参数 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-user"></i> 用户基本信息参数</h3>
+                    <div class="parameter-grid">
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="user.age"> 年龄
+                            </label>
+                            <div class="param-config">
+                                <select data-type="age">
+                                    <option value="range">年龄段</option>
+                                    <option value="exact">精确年龄</option>
+                                </select>
+                                <input type="text" placeholder="如: 18-30, 31-50, 51+" data-ranges="age">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="user.gender"> 性别
+                            </label>
+                            <div class="param-config">
+                                <select data-type="gender">
+                                    <option value="binary">男/女</option>
+                                    <option value="all">全部</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="user.level"> 训练水平
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 初学者,进阶者,专业用户" data-ranges="level">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="user.bmi"> BMI指数
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: <18.5, 18.5-24.9, 25-29.9, ≥30" data-ranges="bmi">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="user.healthConditions"> 健康状况
+                            </label>
+                            <div class="param-config">
+                                <textarea placeholder="健康状况列表，每行一个" data-list="healthConditions"></textarea>
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="user.goals"> 训练目标
+                            </label>
+                            <div class="param-config">
+                                <textarea placeholder="训练目标列表，每行一个" data-list="goals"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 历史训练数据参数 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-chart-line"></i> 历史训练数据参数</h3>
+                    <div class="parameter-grid">
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="history.totalSessions"> 总训练次数
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 0-10, 11-50, 51-100, 100+" data-ranges="totalSessions">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="history.completionRate"> 完成率
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: <60%, 60-80%, 80-95%, >95%" data-ranges="completionRate">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="history.averageIntensity"> 平均训练强度
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 低(1-3), 中(4-6), 高(7-10)" data-ranges="averageIntensity">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="history.preferredDuration"> 偏好训练时长
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 短(≤20分钟), 中(21-40分钟), 长(>40分钟)" data-ranges="preferredDuration">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="history.progressTrend"> 进步趋势
+                            </label>
+                            <div class="param-config">
+                                <select data-type="progressTrend">
+                                    <option value="improving">持续改善</option>
+                                    <option value="stable">稳定</option>
+                                    <option value="declining">下降</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="history.trainingFrequency"> 训练频率
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 低(≤2次/周), 中(3-4次/周), 高(≥5次/周)" data-ranges="trainingFrequency">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 当前课程内容参数 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-book"></i> 当前课程内容参数</h3>
+                    <div class="parameter-grid">
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="course.availableTypes"> 可用训练类型
+                            </label>
+                            <div class="param-config">
+                                <textarea placeholder="训练类型列表，每行一个" data-list="availableTypes"></textarea>
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="course.difficultyLevels"> 难度等级
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 初级, 中级, 高级" data-ranges="difficultyLevels">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="course.equipment"> 所需设备
+                            </label>
+                            <div class="param-config">
+                                <textarea placeholder="设备列表，每行一个" data-list="equipment"></textarea>
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="course.duration"> 课程时长
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 短期(≤4周), 中期(5-8周), 长期(>8周)" data-ranges="duration">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 训练感受参数 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-heart"></i> 训练感受参数</h3>
+                    <div class="parameter-grid">
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="feedback.comfort"> 舒适度评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 低(1-4), 中(5-7), 高(8-10)" data-ranges="comfort">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="feedback.fatigue"> 疲劳度评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 轻微(1-3), 中等(4-6), 严重(7-10)" data-ranges="fatigue">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="feedback.satisfaction"> 满意度评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 不满意(1-4), 一般(5-7), 满意(8-10)" data-ranges="satisfaction">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="feedback.difficulty"> 难度感知
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 太简单, 合适, 太难" data-ranges="difficulty">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="feedback.commonIssues"> 常见问题
+                            </label>
+                            <div class="param-config">
+                                <textarea placeholder="常见问题列表，每行一个" data-list="commonIssues"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评估报告参数 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-clipboard-check"></i> 评估报告参数</h3>
+                    <div class="parameter-grid">
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="assessment.strength"> 肌力评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 弱(1-3), 中(4-6), 强(7-10)" data-ranges="strength">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="assessment.endurance"> 耐力评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 差(1-3), 中(4-6), 好(7-10)" data-ranges="endurance">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="assessment.flexibility"> 柔韧性评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 差(1-3), 中(4-6), 好(7-10)" data-ranges="flexibility">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" checked data-param="assessment.coordination"> 协调性评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 差(1-3), 中(4-6), 好(7-10)" data-ranges="coordination">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="assessment.balance"> 平衡能力评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 差(1-3), 中(4-6), 好(7-10)" data-ranges="balance">
+                            </div>
+                        </div>
+                        <div class="parameter-item">
+                            <label>
+                                <input type="checkbox" data-param="assessment.overallScore"> 综合评分
+                            </label>
+                            <div class="param-config">
+                                <input type="text" placeholder="如: 低(≤40), 中(41-70), 高(>70)" data-ranges="overallScore">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤2: 决策树规则配置 -->
+            <div class="config-step" id="step2">
+                <div class="step-header">
+                    <h2>决策树规则配置</h2>
+                    <p>构建决策树规则，定义课程生成逻辑</p>
+                </div>
+
+                <!-- 决策树可视化区域 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-sitemap"></i> 决策树可视化</h3>
+                    <div class="tree-toolbar">
+                        <button class="btn secondary-btn" onclick="addRootNode()">
+                            <i class="fas fa-plus"></i> 添加根节点
+                        </button>
+                        <button class="btn secondary-btn" onclick="expandAll()">
+                            <i class="fas fa-expand-arrows-alt"></i> 展开全部
+                        </button>
+                        <button class="btn secondary-btn" onclick="collapseAll()">
+                            <i class="fas fa-compress-arrows-alt"></i> 收起全部
+                        </button>
+                        <button class="btn secondary-btn" onclick="validateTree()">
+                            <i class="fas fa-check-circle"></i> 验证规则
+                        </button>
+                    </div>
+                    <div class="decision-tree-canvas" id="treeCanvas">
+                        <!-- 决策树节点将在这里动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 规则节点编辑器 -->
+                <div class="config-card" id="nodeEditor" style="display: none;">
+                    <h3><i class="fas fa-edit"></i> 节点编辑器</h3>
+                    <div class="node-editor-content">
+                        <div class="editor-section">
+                            <label>节点类型</label>
+                            <select id="nodeType">
+                                <option value="condition">条件节点</option>
+                                <option value="action">动作节点</option>
+                                <option value="result">结果节点</option>
+                            </select>
+                        </div>
+                        
+                        <div class="editor-section" id="conditionConfig">
+                            <label>条件配置</label>
+                            <div class="condition-builder">
+                                <select id="conditionParam">
+                                    <option value="">选择参数</option>
+                                    <!-- 动态生成参数选项 -->
+                                </select>
+                                <select id="conditionOperator">
+                                    <option value="==">等于</option>
+                                    <option value="!=">不等于</option>
+                                    <option value=">">大于</option>
+                                    <option value="<">小于</option>
+                                    <option value=">=">大于等于</option>
+                                    <option value="<=">小于等于</option>
+                                    <option value="in">包含于</option>
+                                    <option value="not_in">不包含于</option>
+                                </select>
+                                <input type="text" id="conditionValue" placeholder="条件值">
+                            </div>
+                        </div>
+                        
+                        <div class="editor-section" id="actionConfig" style="display: none;">
+                            <label>动作配置</label>
+                            <div class="action-builder">
+                                <select id="actionType">
+                                    <option value="set_session_count">设置课节数</option>
+                                    <option value="set_difficulty">设置难度</option>
+                                    <option value="set_training_types">设置训练类型</option>
+                                    <option value="set_duration">设置时长</option>
+                                    <option value="set_intensity">设置强度</option>
+                                    <option value="add_special_content">添加特殊内容</option>
+                                </select>
+                                <input type="text" id="actionValue" placeholder="动作值">
+                            </div>
+                        </div>
+                        
+                        <div class="editor-section" id="resultConfig" style="display: none;">
+                            <label>结果配置</label>
+                            <div class="result-builder">
+                                <textarea id="resultContent" placeholder="课程生成结果描述"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="editor-actions">
+                            <button class="btn primary-btn" onclick="saveNode()">
+                                <i class="fas fa-save"></i> 保存节点
+                            </button>
+                            <button class="btn secondary-btn" onclick="cancelEdit()">
+                                <i class="fas fa-times"></i> 取消
+                            </button>
+                            <button class="btn danger-btn" onclick="deleteNode()">
+                                <i class="fas fa-trash"></i> 删除节点
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预设规则模板 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-templates"></i> 预设规则模板</h3>
+                    <div class="template-grid">
+                        <div class="template-item" onclick="loadTemplate('beginner')">
+                            <div class="template-icon"><i class="fas fa-seedling"></i></div>
+                            <div class="template-name">初学者规则</div>
+                            <div class="template-desc">适用于新手用户的基础规则模板</div>
+                        </div>
+                        <div class="template-item" onclick="loadTemplate('intermediate')">
+                            <div class="template-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="template-name">进阶者规则</div>
+                            <div class="template-desc">适用于有经验用户的进阶规则模板</div>
+                        </div>
+                        <div class="template-item" onclick="loadTemplate('advanced')">
+                            <div class="template-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="template-name">专业用户规则</div>
+                            <div class="template-desc">适用于专业用户的高级规则模板</div>
+                        </div>
+                        <div class="template-item" onclick="loadTemplate('rehabilitation')">
+                            <div class="template-icon"><i class="fas fa-heartbeat"></i></div>
+                            <div class="template-name">康复训练规则</div>
+                            <div class="template-desc">适用于康复训练的专用规则模板</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤3: 规则验证 -->
+            <div class="config-step" id="step3">
+                <div class="step-header">
+                    <h2>规则验证</h2>
+                    <p>验证决策树规则的完整性和逻辑性</p>
+                </div>
+
+                <!-- 验证结果 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-check-circle"></i> 验证结果</h3>
+                    <div class="validation-results" id="validationResults">
+                        <!-- 验证结果将在这里显示 -->
+                    </div>
+                </div>
+
+                <!-- 测试用例 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-vial"></i> 测试用例</h3>
+                    <div class="test-cases">
+                        <div class="test-case-input">
+                            <h4>添加测试用例</h4>
+                            <div class="test-input-grid">
+                                <div class="input-group">
+                                    <label>用户类型</label>
+                                    <select id="testUserType">
+                                        <option value="初学者">初学者</option>
+                                        <option value="进阶者">进阶者</option>
+                                        <option value="专业用户">专业用户</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>年龄</label>
+                                    <input type="number" id="testAge" placeholder="年龄">
+                                </div>
+                                <div class="input-group">
+                                    <label>训练次数</label>
+                                    <input type="number" id="testSessions" placeholder="历史训练次数">
+                                </div>
+                                <div class="input-group">
+                                    <label>完成率</label>
+                                    <input type="number" id="testCompletionRate" placeholder="完成率(%)">
+                                </div>
+                            </div>
+                            <button class="btn primary-btn" onclick="runTestCase()">
+                                <i class="fas fa-play"></i> 运行测试
+                            </button>
+                        </div>
+                        <div class="test-results" id="testResults">
+                            <!-- 测试结果将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤4: 课程生成 -->
+            <div class="config-step" id="step4">
+                <div class="step-header">
+                    <h2>课程生成</h2>
+                    <p>基于配置的决策树规则生成完整课程</p>
+                </div>
+
+                <!-- 生成配置 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-cogs"></i> 生成配置</h3>
+                    <div class="generation-config">
+                        <div class="config-row">
+                            <div class="config-item">
+                                <label>课程名称模板</label>
+                                <input type="text" id="courseNameTemplate" placeholder="如: {用户类型}专用{训练类型}课程" value="个性化盆底肌训练课程">
+                            </div>
+                            <div class="config-item">
+                                <label>课节名称模板</label>
+                                <input type="text" id="sessionNameTemplate" placeholder="如: 第{序号}节 - {主题}" value="第{序号}节 - {训练类型}训练">
+                            </div>
+                        </div>
+                        <div class="config-row">
+                            <div class="config-item">
+                                <label>默认课节时长</label>
+                                <input type="number" id="defaultDuration" value="25" min="5" max="60"> 分钟
+                            </div>
+                            <div class="config-item">
+                                <label>生成模式</label>
+                                <select id="generationMode">
+                                    <option value="complete">完整生成</option>
+                                    <option value="outline">大纲生成</option>
+                                    <option value="template">模板生成</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 用户数据输入 -->
+                <div class="config-card">
+                    <h3><i class="fas fa-user-edit"></i> 用户数据输入</h3>
+                    <div class="user-data-input">
+                        <div class="input-tabs">
+                            <button class="tab-btn active" data-tab="basic">基本信息</button>
+                            <button class="tab-btn" data-tab="history">历史数据</button>
+                            <button class="tab-btn" data-tab="feedback">训练感受</button>
+                            <button class="tab-btn" data-tab="assessment">评估报告</button>
+                        </div>
+                        
+                        <div class="tab-content active" id="basicTab">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label>年龄</label>
+                                    <input type="number" id="inputAge" placeholder="年龄">
+                                </div>
+                                <div class="input-group">
+                                    <label>性别</label>
+                                    <select id="inputGender">
+                                        <option value="女性">女性</option>
+                                        <option value="男性">男性</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>训练水平</label>
+                                    <select id="inputLevel">
+                                        <option value="初学者">初学者</option>
+                                        <option value="进阶者">进阶者</option>
+                                        <option value="专业用户">专业用户</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>健康状况</label>
+                                    <textarea id="inputHealthConditions" placeholder="请描述相关健康状况"></textarea>
+                                </div>
+                                <div class="input-group">
+                                    <label>训练目标</label>
+                                    <textarea id="inputGoals" placeholder="请描述训练目标"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="historyTab">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label>总训练次数</label>
+                                    <input type="number" id="inputTotalSessions" placeholder="总训练次数">
+                                </div>
+                                <div class="input-group">
+                                    <label>完成率</label>
+                                    <input type="number" id="inputCompletionRate" placeholder="完成率(%)" min="0" max="100">
+                                </div>
+                                <div class="input-group">
+                                    <label>平均训练强度</label>
+                                    <input type="number" id="inputAverageIntensity" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>偏好训练时长</label>
+                                    <input type="number" id="inputPreferredDuration" placeholder="分钟" min="5" max="60">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="feedbackTab">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label>舒适度评分</label>
+                                    <input type="number" id="inputComfort" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>疲劳度评分</label>
+                                    <input type="number" id="inputFatigue" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>满意度评分</label>
+                                    <input type="number" id="inputSatisfaction" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>常见问题</label>
+                                    <textarea id="inputCommonIssues" placeholder="请描述训练中的常见问题"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="assessmentTab">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label>肌力评分</label>
+                                    <input type="number" id="inputStrength" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>耐力评分</label>
+                                    <input type="number" id="inputEndurance" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>柔韧性评分</label>
+                                    <input type="number" id="inputFlexibility" placeholder="1-10" min="1" max="10">
+                                </div>
+                                <div class="input-group">
+                                    <label>协调性评分</label>
+                                    <input type="number" id="inputCoordination" placeholder="1-10" min="1" max="10">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="generation-actions">
+                        <button class="btn primary-btn" onclick="generateCourse()">
+                            <i class="fas fa-magic"></i> 生成课程
+                        </button>
+                        <button class="btn secondary-btn" onclick="loadSampleData()">
+                            <i class="fas fa-database"></i> 加载示例数据
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 生成结果 -->
+                <div class="config-card" id="generationResult" style="display: none;">
+                    <h3><i class="fas fa-graduation-cap"></i> 生成结果</h3>
+                    <div class="course-result">
+                        <div class="course-summary" id="courseSummary">
+                            <!-- 课程概要信息 -->
+                        </div>
+                        <div class="course-sessions" id="courseSessions">
+                            <!-- 课节详细信息 -->
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button class="btn primary-btn" onclick="saveCourse()">
+                            <i class="fas fa-save"></i> 保存课程
+                        </button>
+                        <button class="btn secondary-btn" onclick="previewCourse()">
+                            <i class="fas fa-eye"></i> 预览课程
+                        </button>
+                        <button class="btn secondary-btn" onclick="exportCourse()">
+                            <i class="fas fa-download"></i> 导出课程
+                        </button>
+                        <button class="btn secondary-btn" onclick="regenerateCourse()">
+                            <i class="fas fa-redo"></i> 重新生成
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 步骤导航按钮 -->
+        <div class="step-controls">
+            <button class="btn secondary-btn" id="prevBtn" onclick="previousStep()" disabled>
+                <i class="fas fa-chevron-left"></i> 上一步
+            </button>
+            <button class="btn primary-btn" id="nextBtn" onclick="nextStep()">
+                下一步 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">正在生成课程...</div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

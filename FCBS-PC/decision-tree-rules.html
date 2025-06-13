@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/decision-tree-course-generator.js"></script>
+    <title>决策树规则配置 - FCBS课程生成器</title>
+    <link rel="stylesheet" href="styles/decision-tree-course-generator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="decision-tree-container">
+        <!-- 页面头部 -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-sitemap"></i> 决策树规则配置</h1>
+                    <p>构建决策树规则，定义课程生成逻辑</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn secondary-btn" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> 返回参数配置
+                    </button>
+                    <button class="btn secondary-btn" onclick="saveRules()">
+                        <i class="fas fa-save"></i> 保存规则
+                    </button>
+                    <button class="btn primary-btn" onclick="validateAndNext()">
+                        <i class="fas fa-check"></i> 验证并继续
+                    </button>
+                </div>
+            </div>
+        </div>
+
+                <!-- 配置步骤导航 -->
+                <div class="step-navigation">
+                    <div class="step-item active clickable" data-step="1" onclick="navigateToStep(1)">
+                        <div class="step-number">1</div>
+                        <div class="step-label">参数配置</div>
+                    </div>
+                    <div class="step-item clickable" data-step="2" onclick="navigateToStep(2)">
+                        <div class="step-number">2</div>
+                        <div class="step-label">决策树规则</div>
+                    </div>
+                    <div class="step-item clickable" data-step="3" onclick="navigateToStep(3)">
+                        <div class="step-number">3</div>
+                        <div class="step-label">规则验证</div>
+                    </div>
+                    <div class="step-item clickable" data-step="4" onclick="navigateToStep(4)">
+                        <div class="step-number">4</div>
+                        <div class="step-label">课程生成</div>
+                    </div>
+                </div>
+
+        <!-- 决策树可视化区域 -->
+        <div class="config-card">
+            <h3><i class="fas fa-sitemap"></i> 决策树可视化</h3>
+            <div class="tree-toolbar">
+                <button class="btn secondary-btn" onclick="addRootNode()">
+                    <i class="fas fa-plus"></i> 添加根节点
+                </button>
+                <button class="btn secondary-btn" onclick="addConditionNode()">
+                    <i class="fas fa-question-circle"></i> 添加条件节点
+                </button>
+                <button class="btn secondary-btn" onclick="addActionNode()">
+                    <i class="fas fa-cog"></i> 添加动作节点
+                </button>
+                <button class="btn secondary-btn" onclick="addResultNode()">
+                    <i class="fas fa-flag"></i> 添加结果节点
+                </button>
+                <button class="btn secondary-btn" onclick="expandAll()">
+                    <i class="fas fa-expand-arrows-alt"></i> 展开全部
+                </button>
+                <button class="btn secondary-btn" onclick="collapseAll()">
+                    <i class="fas fa-compress-arrows-alt"></i> 收起全部
+                </button>
+                <button class="btn secondary-btn" onclick="validateTree()">
+                    <i class="fas fa-check-circle"></i> 验证规则
+                </button>
+            </div>
+            <div class="decision-tree-canvas" id="treeCanvas">
+                <div class="empty-state" id="emptyTreeState">
+                    <i class="fas fa-sitemap"></i>
+                    <h3>开始构建决策树</h3>
+                    <p>点击上方按钮添加根节点开始构建您的决策树规则</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 规则节点编辑器 -->
+        <div class="config-card" id="nodeEditor" style="display: none;">
+            <h3><i class="fas fa-edit"></i> 节点编辑器</h3>
+            <div class="node-editor-content">
+                <div class="editor-section">
+                    <label>节点类型</label>
+                    <select id="nodeType">
+                        <option value="condition">条件节点</option>
+                        <option value="action">动作节点</option>
+                        <option value="result">结果节点</option>
+                    </select>
+                </div>
+                
+                <div class="editor-section" id="conditionConfig">
+                    <label>条件配置</label>
+                    <div class="condition-builder">
+                        <select id="conditionParam">
+                            <option value="">选择参数</option>
+                            <option value="basic.age">年龄</option>
+                            <option value="basic.trainingLevel">训练水平</option>
+                            <option value="history.totalSessions">总训练次数</option>
+                            <option value="history.completionRate">完成率</option>
+                            <option value="assessment.strength">肌力评分</option>
+                        </select>
+                        <select id="conditionOperator">
+                            <option value="==">等于</option>
+                            <option value="!=">不等于</option>
+                            <option value=">">大于</option>
+                            <option value="<">小于</option>
+                            <option value=">=">大于等于</option>
+                            <option value="<=">小于等于</option>
+                            <option value="in">包含于</option>
+                            <option value="not_in">不包含于</option>
+                        </select>
+                        <input type="text" id="conditionValue" placeholder="条件值">
+                    </div>
+                </div>
+                
+                <div class="editor-section" id="actionConfig" style="display: none;">
+                    <label>动作配置</label>
+                    <div class="action-builder">
+                        <select id="actionType">
+                            <option value="set_session_count">设置课节数</option>
+                            <option value="set_difficulty">设置难度</option>
+                            <option value="set_training_types">设置训练类型</option>
+                            <option value="set_duration">设置时长</option>
+                            <option value="set_intensity">设置强度</option>
+                            <option value="add_special_content">添加特殊内容</option>
+                        </select>
+                        <input type="text" id="actionValue" placeholder="动作值">
+                    </div>
+                </div>
+                
+                <div class="editor-section" id="resultConfig" style="display: none;">
+                    <label>结果配置</label>
+                    <div class="result-builder">
+                        <textarea id="resultContent" placeholder="课程生成结果描述"></textarea>
+                    </div>
+                </div>
+                
+                <div class="editor-actions">
+                    <button class="btn primary-btn" onclick="saveNode()">
+                        <i class="fas fa-save"></i> 保存节点
+                    </button>
+                    <button class="btn secondary-btn" onclick="cancelEdit()">
+                        <i class="fas fa-times"></i> 取消
+                    </button>
+                    <button class="btn danger-btn" onclick="deleteNode()">
+                        <i class="fas fa-trash"></i> 删除节点
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 预设规则模板 -->
+        <div class="config-card">
+            <h3><i class="fas fa-templates"></i> 预设规则模板</h3>
+            <div class="template-grid">
+                <div class="template-item" onclick="loadTemplate('beginner')">
+                    <div class="template-icon"><i class="fas fa-seedling"></i></div>
+                    <div class="template-name">初学者规则</div>
+                    <div class="template-desc">适用于新手用户的基础规则模板</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('intermediate')">
+                    <div class="template-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="template-name">进阶者规则</div>
+                    <div class="template-desc">适用于有经验用户的进阶规则模板</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('advanced')">
+                    <div class="template-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="template-name">专业用户规则</div>
+                    <div class="template-desc">适用于专业用户的高级规则模板</div>
+                </div>
+                <div class="template-item" onclick="loadTemplate('rehabilitation')">
+                    <div class="template-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="template-name">康复训练规则</div>
+                    <div class="template-desc">适用于康复训练的专用规则模板</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 规则预览 -->
+        <div class="config-card">
+            <h3><i class="fas fa-eye"></i> 规则预览</h3>
+            <div class="rule-preview" id="rulePreview">
+                <div class="empty-state">
+                    <i class="fas fa-code"></i>
+                    <h3>规则预览</h3>
+                    <p>构建决策树后，这里将显示生成的规则代码</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/decision-tree-rules.js"></script>
+</body>
+</html>

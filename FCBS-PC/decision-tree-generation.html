@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/decision-tree-course-generator.js"></script>
+    <title>课程生成 - FCBS课程生成器</title>
+    <link rel="stylesheet" href="styles/decision-tree-course-generator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="decision-tree-container">
+        <!-- 页面头部 -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-magic"></i> 课程生成</h1>
+                    <p>基于配置的决策树规则生成完整课程</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn secondary-btn" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> 返回验证
+                    </button>
+                    <button class="btn secondary-btn" onclick="exportCourse()">
+                        <i class="fas fa-download"></i> 导出课程
+                    </button>
+                    <button class="btn primary-btn" onclick="saveCourse()">
+                        <i class="fas fa-save"></i> 保存课程
+                    </button>
+                </div>
+            </div>
+        </div>
+
+               <!-- 配置步骤导航 -->
+               <div class="step-navigation">
+                <div class="step-item active clickable" data-step="1" onclick="navigateToStep(1)">
+                    <div class="step-number">1</div>
+                    <div class="step-label">参数配置</div>
+                </div>
+                <div class="step-item clickable" data-step="2" onclick="navigateToStep(2)">
+                    <div class="step-number">2</div>
+                    <div class="step-label">决策树规则</div>
+                </div>
+                <div class="step-item clickable" data-step="3" onclick="navigateToStep(3)">
+                    <div class="step-number">3</div>
+                    <div class="step-label">规则验证</div>
+                </div>
+                <div class="step-item clickable" data-step="4" onclick="navigateToStep(4)">
+                    <div class="step-number">4</div>
+                    <div class="step-label">课程生成</div>
+                </div>
+            </div>
+
+        <!-- 生成配置 -->
+        <div class="config-card">
+            <h3><i class="fas fa-cogs"></i> 生成配置</h3>
+            <div class="generation-config">
+                <div class="config-row">
+                    <div class="config-item">
+                        <label>课程名称模板</label>
+                        <input type="text" id="courseNameTemplate" placeholder="如: {用户类型}专用{训练类型}课程" value="个性化盆底肌训练课程">
+                    </div>
+                    <div class="config-item">
+                        <label>课节名称模板</label>
+                        <input type="text" id="sessionNameTemplate" placeholder="如: 第{序号}节 - {主题}" value="第{序号}节 - {训练类型}训练">
+                    </div>
+                </div>
+                <div class="config-row">
+                    <div class="config-item">
+                        <label>默认课节时长</label>
+                        <input type="number" id="defaultDuration" value="25" min="5" max="60"> 分钟
+                    </div>
+                    <div class="config-item">
+                        <label>生成模式</label>
+                        <select id="generationMode">
+                            <option value="complete">完整生成</option>
+                            <option value="outline">大纲生成</option>
+                            <option value="template">模板生成</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户数据输入 -->
+        <div class="config-card">
+            <h3><i class="fas fa-user-edit"></i> 用户数据输入</h3>
+            <div class="user-data-input">
+                <div class="input-tabs">
+                    <button class="tab-btn active" data-tab="basic">基本信息</button>
+                    <button class="tab-btn" data-tab="history">历史数据</button>
+                    <button class="tab-btn" data-tab="feedback">训练感受</button>
+                    <button class="tab-btn" data-tab="assessment">评估报告</button>
+                </div>
+                
+                <div class="tab-content active" id="basicTab">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>年龄</label>
+                            <input type="number" id="inputAge" placeholder="年龄" value="35">
+                        </div>
+                        <div class="input-group">
+                            <label>性别</label>
+                            <select id="inputGender">
+                                <option value="女性" selected>女性</option>
+                                <option value="男性">男性</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>训练水平</label>
+                            <select id="inputLevel">
+                                <option value="初学者" selected>初学者</option>
+                                <option value="进阶者">进阶者</option>
+                                <option value="专业用户">专业用户</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>健康状况</label>
+                            <textarea id="inputHealthConditions" placeholder="请描述相关健康状况">产后6个月，轻微盆底肌松弛</textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>训练目标</label>
+                            <textarea id="inputGoals" placeholder="请描述训练目标">改善盆底肌力量，预防尿失禁</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="historyTab">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>总训练次数</label>
+                            <input type="number" id="inputTotalSessions" placeholder="总训练次数" value="15">
+                        </div>
+                        <div class="input-group">
+                            <label>完成率</label>
+                            <input type="number" id="inputCompletionRate" placeholder="完成率(%)" value="85" min="0" max="100">
+                        </div>
+                        <div class="input-group">
+                            <label>平均训练强度</label>
+                            <input type="number" id="inputAverageIntensity" placeholder="1-10" value="6" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>偏好训练时长</label>
+                            <input type="number" id="inputPreferredDuration" placeholder="分钟" value="25" min="5" max="60">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="feedbackTab">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>舒适度评分</label>
+                            <input type="number" id="inputComfort" placeholder="1-10" value="7" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>疲劳度评分</label>
+                            <input type="number" id="inputFatigue" placeholder="1-10" value="4" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>满意度评分</label>
+                            <input type="number" id="inputSatisfaction" placeholder="1-10" value="8" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>常见问题</label>
+                            <textarea id="inputCommonIssues" placeholder="请描述训练中的常见问题">偶尔感到动作不够标准</textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="assessmentTab">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>肌力评分</label>
+                            <input type="number" id="inputStrength" placeholder="1-10" value="6" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>耐力评分</label>
+                            <input type="number" id="inputEndurance" placeholder="1-10" value="5" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>柔韧性评分</label>
+                            <input type="number" id="inputFlexibility" placeholder="1-10" value="7" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>协调性评分</label>
+                            <input type="number" id="inputCoordination" placeholder="1-10" value="6" min="1" max="10">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="generation-actions">
+                <button class="btn primary-btn" onclick="generateCourse()">
+                    <i class="fas fa-magic"></i> 生成课程
+                </button>
+                <button class="btn secondary-btn" onclick="loadSampleData()">
+                    <i class="fas fa-database"></i> 加载示例数据
+                </button>
+                <button class="btn secondary-btn" onclick="previewGeneration()">
+                    <i class="fas fa-eye"></i> 预览生成
+                </button>
+            </div>
+        </div>
+
+        <!-- 生成结果 -->
+        <div class="config-card" id="generationResult">
+            <h3><i class="fas fa-graduation-cap"></i> 生成结果</h3>
+            <div class="course-result">
+                <div class="course-summary" id="courseSummary">
+                    <h4>个性化盆底肌训练课程</h4>
+                    <p>基于用户特征和决策树规则生成的专属训练方案</p>
+                    <div class="summary-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">课节数</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">25</div>
+                            <div class="stat-label">平均时长(分钟)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3</div>
+                            <div class="stat-label">难度等级</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">训练类型</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-sessions" id="courseSessions">
+                    <div class="session-item">
+                        <div class="session-header">
+                            <div class="session-number">1</div>
+                            <div class="session-name">第1节 - 基础认知训练</div>
+                            <div class="session-duration">25分钟</div>
+                        </div>
+                        <div class="session-content">
+                            <div class="training-types">
+                                <span class="type-tag">认知训练</span>
+                                <span class="type-tag">基础动作</span>
+                            </div>
+                            <div class="session-objectives">
+                                <strong>训练目标：</strong>建立盆底肌意识，学习基础收缩动作<br>
+                                <strong>主要内容：</strong>盆底肌解剖认知、基础收缩练习、呼吸配合训练
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="session-item">
+                        <div class="session-header">
+                            <div class="session-number">2</div>
+                            <div class="session-name">第2节 - 力量基础训练</div>
+                            <div class="session-duration">25分钟</div>
+                        </div>
+                        <div class="session-content">
+                            <div class="training-types">
+                                <span class="type-tag">力量训练</span>
+                                <span class="type-tag">持续收缩</span>
+                            </div>
+                            <div class="session-objectives">
+                                <strong>训练目标：</strong>提升盆底肌基础力量<br>
+                                <strong>主要内容：</strong>持续收缩练习、力量递增训练、放松技巧
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="session-item">
+                        <div class="session-header">
+                            <div class="session-number">3</div>
+                            <div class="session-name">第3节 - 耐力提升训练</div>
+                            <div class="session-duration">25分钟</div>
+                        </div>
+                        <div class="session-content">
+                            <div class="training-types">
+                                <span class="type-tag">耐力训练</span>
+                                <span class="type-tag">间歇训练</span>
+                            </div>
+                            <div class="session-objectives">
+                                <strong>训练目标：</strong>增强盆底肌耐力<br>
+                                <strong>主要内容：</strong>长时间收缩保持、间歇性训练、疲劳管理
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-actions">
+                <button class="btn primary-btn" onclick="saveCourse()">
+                    <i class="fas fa-save"></i> 保存课程
+                </button>
+                <button class="btn secondary-btn" onclick="previewCourse()">
+                    <i class="fas fa-eye"></i> 预览课程
+                </button>
+                <button class="btn secondary-btn" onclick="exportCourse()">
+                    <i class="fas fa-download"></i> 导出课程
+                </button>
+                <button class="btn secondary-btn" onclick="regenerateCourse()">
+                    <i class="fas fa-redo"></i> 重新生成
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载遮罩 -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">正在生成课程...</div>
+        </div>
+    </div>
+
+    <script src="scripts/decision-tree-generation.js"></script>
+</body>
+</html>
