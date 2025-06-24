@@ -407,8 +407,13 @@ class CourseContentManager {
             version: course.version
         });
         
-        // 跳转到训练方案设计页面
-        window.location.href = `training-plan-design.html?${params.toString()}`;
+        // 判断是否为第二个列表数据（索引为1），如果是则跳转到详细设计页面
+        if (index === 1) {
+            window.location.href = `training-plan-detail-design.html?${params.toString()}`;
+        } else {
+            // 其他情况跳转到训练方案设计页面
+            window.location.href = `training-plan-design.html?${params.toString()}`;
+        }
     }
 
 

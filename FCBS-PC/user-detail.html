@@ -172,6 +172,23 @@
         </div>
     </div>
     
+    <!-- 康复计划详情弹窗 -->
+    <div id="plan-detail-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">康复计划详情</h3>
+                <button class="modal-close-btn" onclick="closePlanDetailModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content" id="plan-detail-content">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i> 加载中...
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- JavaScript 代码 -->
     <script src="scripts/user-detail.js"></script>
 </body>
