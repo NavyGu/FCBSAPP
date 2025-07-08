@@ -1,0 +1,502 @@
+/* 课程内容管理页面样式 */
+.course-content-container {
+    background-color: var(--bg-primary);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 1.5rem;
+    height: 100%;
+}
+
+.course-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.course-content-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.course-content-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.search-input {
+    padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    width: 250px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+}
+
+.course-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.course-action-btn.add-btn {
+    background-color: var(--primary);
+    color: white;
+}
+
+.course-action-btn.add-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.course-action-btn.view-btn {
+    background-color: var(--bg-secondary);
+    color: var(--primary);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.course-action-btn.view-btn:hover {
+    background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+.course-action-btn.edit-btn {
+    background-color: var(--info);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.course-action-btn.edit-btn:hover {
+    background-color: var(--info-dark);
+}
+
+.course-action-btn.delete-btn {
+    background-color: var(--danger);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+.course-action-btn.delete-btn:hover {
+    background-color: var(--danger-dark);
+}
+
+.course-action-btn.save-btn {
+    background-color: var(--success);
+    color: white;
+}
+
+.course-action-btn.save-btn:hover {
+    background-color: var(--success-dark);
+}
+
+.course-action-btn.cancel-btn {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.course-action-btn.cancel-btn:hover {
+    background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+.course-content-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 0.5rem;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+}
+
+.filter-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+    white-space: nowrap;
+}
+
+.filter-select {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    background-color: white;
+    min-width: 120px;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* 课程表格样式 */
+.course-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.course-table th {
+    text-align: left;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.course-table th:first-child {
+    border-top-left-radius: 0.5rem;
+}
+
+.course-table th:last-child {
+    border-top-right-radius: 0.5rem;
+}
+
+.course-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+
+.course-table tr:hover {
+    background-color: var(--bg-hover);
+}
+
+.course-table tr:last-child td {
+    border-bottom: none;
+}
+
+.course-table tr:last-child td:first-child {
+    border-bottom-left-radius: 0.5rem;
+}
+
+.course-table tr:last-child td:last-child {
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* 训练类型标签 */
+.training-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.training-type-badge.type-electrical {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #1e40af;
+}
+
+.training-type-badge.type-kegel {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #065f46;
+}
+
+.training-type-badge.type-music {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #92400e;
+}
+
+.training-type-badge.type-game {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: #5b21b6;
+}
+
+/* 方案分类标签 */
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.category-badge.cat-electrical {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #1e40af;
+}
+
+.category-badge.cat-trigger {
+    background-color: rgba(236, 72, 153, 0.1);
+    color: #be185d;
+}
+
+.category-badge.cat-kegel {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #065f46;
+}
+
+.category-badge.cat-music {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #92400e;
+}
+
+.category-badge.cat-game {
+    background-color: rgba(139, 92, 246, 0.1);
+    color: #5b21b6;
+}
+
+/* 时长标签 */
+.duration-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(156, 163, 175, 0.1);
+    color: #4b5563;
+    white-space: nowrap;
+}
+
+/* 版本号样式 */
+.version-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #15803d;
+    white-space: nowrap;
+}
+
+/* 分页样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.pagination-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.pagination-button:hover {
+    background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+.pagination-button.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.design-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.design-btn:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* 模态框样式 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* 表单样式 */
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .course-table {
+        font-size: 0.8rem;
+    }
+    
+    .course-table th,
+    .course-table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .course-content-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .course-content-actions {
+        justify-content: space-between;
+    }
+    
+    .search-input {
+        width: 200px;
+    }
+    
+    .course-content-filter {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .filter-item {
+        justify-content: space-between;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+}

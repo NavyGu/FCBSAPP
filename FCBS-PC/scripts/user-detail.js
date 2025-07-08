@@ -197,23 +197,14 @@
                         </td>
                         <td>
                             <div class="progress-bar">
-                                <div class="progress-value" style="width: ${plan.progress}%;"></div>
+                                <div class="progress-value" style="width: ${plan.progress};"></div>
                             </div>
-                            <div class="progress-text">${plan.progress}%</div>
+                            <div class="progress-text">${plan.progress}</div>
                         </td>
                         <td>
-                            <button class="user-action-btn view-btn" onclick="togglePlanDetails(${index})">
+                            <button class="user-action-btn view-btn" onclick="showPlanDetailModal(${index})">
                                 <i class="fas fa-eye"></i> 查看
                             </button>
-                        </td>
-                    </tr>
-                    <tr id="plan-details-${index}" class="plan-details plan-device-${plan.deviceType}" style="display: none;">
-                        <td colspan="7">
-                            <div id="plan-details-content-${index}" class="plan-details-content">
-                                <div class="text-center py-4">
-                                    <i class="fas fa-spinner fa-spin"></i> 加载计划详情中...
-                                </div>
-                            </div>
                         </td>
                     </tr>
                 `;
@@ -638,27 +629,84 @@
         event.stopPropagation(); // 阻止事件冒泡
     }
 
-    // 切换显示/隐藏康复计划详情
-    function togglePlanDetails(index) {
-        console.log('togglePlanDetails 被调用，index =', index);
-        const detailsRow = document.getElementById(`plan-details-${index}`);
-        const detailsContent = document.getElementById(`plan-details-content-${index}`);
+    // 修改：显示康复计划详情弹窗
+    function showPlanDetailModal(planIndex) {
+        const modal = document.getElementById('plan-detail-modal');
+        const content = document.getElementById('plan-detail-content');
         
-        if (!detailsRow) {
-            console.error(`找不到计划详情行: plan-details-${index}`);
-            return;
-        }
+        // 显示弹窗
+        modal.style.display = 'flex';
         
-        if (detailsRow.style.display === 'none') {
-            detailsRow.style.display = 'table-row';
-            
-            // 如果内容尚未加载，则加载计划详情
-            if (detailsContent && !detailsContent.hasAttribute('data-loaded')) {
-                loadPlanDetailsTemplate(index);
-            }
-        } else {
-            detailsRow.style.display = 'none';
-        }
+        // 显示加载状态
+        content.innerHTML = `
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> 加载康复计划详情中...
+            </div>
+        `;
+        
+        // 尝试加载rehabilitation-plan-detail.html的内容
+        // 使用绝对路径或者检查当前路径
+        const currentPath = window.location.pathname;
+        const basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+        const targetUrl = basePath + 'rehabilitation-plan-detail.html';
+        
+        fetch(targetUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                // 提取body内容
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const bodyContent = doc.querySelector('.rehabilitation-plan-container');
+                
+                if (bodyContent) {
+                    content.innerHTML = bodyContent.outerHTML;
+                    
+                    // 加载对应的CSS文件
+                    if (!document.querySelector('link[href="styles/rehabilitation-plan-detail.css"]')) {
+                        const link = document.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = 'styles/rehabilitation-plan-detail.css';
+                        document.head.appendChild(link);
+                    }
+                    
+                    // 加载对应的JS文件（如果存在）
+                    if (!window.rehabilitationPlanDetailLoaded) {
+                        const script = document.createElement('script');
+                        script.src = 'scripts/rehabilitation-plan-detail.js';
+                        script.onerror = () => {
+                            console.log('rehabilitation-plan-detail.js not found, continuing without it');
+                        };
+                        document.head.appendChild(script);
+                        window.rehabilitationPlanDetailLoaded = true;
+                    }
+                } else {
+                    content.innerHTML = '<div class="error-message">无法找到康复计划详情内容</div>';
+                }
+            })
+            .catch(error => {
+                console.error('加载康复计划详情失败:', error);
+                
+                // 如果fetch失败，使用备用方案：直接跳转到页面
+                content.innerHTML = `
+                    <div class="error-message">
+                        <p>无法在弹窗中加载内容</p>
+                        <button class="user-action-btn view-btn" onclick="window.open('rehabilitation-plan-detail.html', '_blank')">
+                            <i class="fas fa-external-link-alt"></i> 在新窗口中打开
+                        </button>
+                    </div>
+                `;
+            });
+    }
+
+    // 新增：关闭康复计划详情弹窗
+    function closePlanDetailModal() {
+        const modal = document.getElementById('plan-detail-modal');
+        modal.style.display = 'none';
     }
 
     // 修改 loadPlanDetailsTemplate 函数，添加阶段内容渲染
@@ -1100,7 +1148,8 @@ function updateEventDetails(planIndex, date) {
 
     // 将需要在全局访问的函数暴露到全局作用域
     window.goBackToUserList = goBackToUserList;
-    window.togglePlanDetails = togglePlanDetails;
+    window.showPlanDetailModal = showPlanDetailModal;
+    window.closePlanDetailModal = closePlanDetailModal;
     window.toggleUsageDetails = toggleUsageDetails;
     window.selectDevice = selectDevice;
     window.loadPlanDetailsTemplate = loadPlanDetailsTemplate;

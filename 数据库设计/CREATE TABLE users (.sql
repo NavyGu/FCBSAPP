@@ -1,0 +1,20 @@
+CREATE TABLE users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    username VARCHAR(50) UNIQUE NOT NULL COMMENT '用户名',
+    phone VARCHAR(20) UNIQUE COMMENT '手机号码',
+    email VARCHAR(100) UNIQUE COMMENT '邮箱',
+    password_hash VARCHAR(255) NOT NULL COMMENT '密码哈希',
+    nickname VARCHAR(50) COMMENT '昵称',
+    avatar_url VARCHAR(500) COMMENT '头像URL',
+    gender TINYINT COMMENT '性别：0-未知，1-男，2-女',
+    birth_date DATE COMMENT '出生日期',
+    age INT COMMENT '年龄',
+    height DECIMAL(5,2) COMMENT '身高(cm)',
+    weight DECIMAL(5,2) COMMENT '体重(kg)',
+    medical_history TEXT COMMENT '病史信息',
+    user_type ENUM('patient', 'doctor', 'admin') DEFAULT 'patient' COMMENT '用户类型',
+    status ENUM('active', 'inactive', 'suspended') DEFAULT 'active' COMMENT '用户状态',
+    last_login_time DATETIME COMMENT '最后登录时间',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) COMMENT='用户主表';

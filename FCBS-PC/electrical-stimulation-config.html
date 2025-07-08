@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电刺激配置 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/electrical-stimulation-config.css">
+</head>
+<body>
+    <div class="config-container">
+        <!-- 页面头部 -->
+        <div class="config-header">
+            <div class="header-left">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="header-info">
+                    <h1 class="page-title">电刺激配置</h1>
+                    <p class="course-info" id="courseInfo">加载中...</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn save-btn" onclick="saveConfig()">
+                    <i class="fas fa-save"></i> 保存配置
+                </button>
+                <button class="action-btn preview-btn" onclick="previewConfig()">
+                    <i class="fas fa-play"></i> 预览效果
+                </button>
+            </div>
+        </div>
+
+        <!-- 配置内容 -->
+        <div class="config-content">
+            <!-- 基本描述信息 -->
+            <div class="config-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        基本描述信息
+                    </h2>
+                </div>
+                <div class="section-content">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>训练类型</label>
+                            <input type="text" id="trainingType" placeholder="请输入训练类型">
+                        </div>
+                        <div class="form-group">
+                            <label>课程名称</label>
+                            <input type="text" id="courseName" placeholder="请输入课程名称">
+                        </div>
+                        <div class="form-group">
+                            <label>方案分类</label>
+                            <select id="category">
+                                <option value="电刺激">电刺激</option>
+                                <option value="触发电刺激">触发电刺激</option>
+                                <option value="凯格尔训练">凯格尔训练</option>
+                                <option value="游戏互动">游戏互动</option>
+                                <option value="音乐放松">音乐放松</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>适应症</label>
+                            <textarea id="indications" rows="2" placeholder="请输入适应症描述"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>方案描述</label>
+                            <textarea id="overview" rows="3" placeholder="请输入方案描述"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>版本号</label>
+                            <input type="text" id="version" placeholder="请输入版本号">
+                        </div>
+                        <div class="form-group">
+                            <label>更新人</label>
+                            <input type="text" id="updater" placeholder="请输入更新人">
+                        </div>
+                        <div class="form-group">
+                            <label>更新时间</label>
+                            <input type="text" id="updateTime" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 课节配置信息 -->
+            <div class="config-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        课节配置信息
+                    </h2>
+                </div>
+                <div class="section-content">
+                    <div class="config-tabs">
+                        <button class="tab-btn active" onclick="switchTab('basic')">
+                            <i class="fas fa-sliders-h"></i> 基础参数
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('advanced')">
+                            <i class="fas fa-wave-square"></i> 高级参数
+                        </button>
+                    </div>
+                    
+                    <!-- 基础参数 -->
+                    <div class="tab-content active" id="basicTab">
+                        <div class="param-grid">
+                            <div class="param-group">
+                                <label>训练时长 (分钟)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="totalDuration" min="1" max="60" value="10">
+                                    <span class="unit">分钟</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>电压范围 (V)</label>
+                                <div class="range-input">
+                                    <input type="number" id="voltageMin" min="0" max="100" value="0" placeholder="最小值">
+                                    <span>-</span>
+                                    <input type="number" id="voltageMax" min="0" max="100" value="50" placeholder="最大值">
+                                    <span class="unit">V</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>单次循环时间 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="cycleTime" min="1" max="60" value="10">
+                                    <span class="unit">秒</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>电刺激频率 (Hz)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="frequency" min="1" max="200" value="50">
+                                    <span class="unit">Hz</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>电刺激脉宽 (μs)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="pulseWidth" min="50" max="500" value="200">
+                                    <span class="unit">μs</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>工作时间 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="workTime" min="1" max="30" value="4">
+                                    <span class="unit">秒</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>休息时间 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="restTime" min="1" max="30" value="6">
+                                    <span class="unit">秒</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>上升时间 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="riseTime" min="0.1" max="5" step="0.1" value="1">
+                                    <span class="unit">秒</span>
+                                </div>
+                            </div>
+                            <div class="param-group">
+                                <label>下降时间 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="fallTime" min="0.1" max="5" step="0.1" value="1">
+                                    <span class="unit">秒</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 高级参数 -->
+                    <div class="tab-content" id="advancedTab">
+                        <div class="param-grid">
+                            <div class="param-group full-width">
+                                <label class="switch-label">
+                                    <input type="checkbox" id="variableFreq" onchange="toggleVariableFreq()">
+                                    <span class="switch-slider"></span>
+                                    是否变频
+                                </label>
+                            </div>
+                            <div class="variable-freq-params" id="variableFreqParams" style="display: none;">
+                                <div class="param-group">
+                                    <label>变频1频率 (Hz)</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="freq1" min="1" max="200" value="30">
+                                        <span class="unit">Hz</span>
+                                    </div>
+                                </div>
+                                <div class="param-group">
+                                    <label>变频1脉宽 (μs)</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="pulse1" min="50" max="500" value="150">
+                                        <span class="unit">μs</span>
+                                    </div>
+                                </div>
+                                <div class="param-group">
+                                    <label>变频2频率 (Hz)</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="freq2" min="1" max="200" value="80">
+                                        <span class="unit">Hz</span>
+                                    </div>
+                                </div>
+                                <div class="param-group">
+                                    <label>变频2脉宽 (μs)</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="pulse2" min="50" max="500" value="250">
+                                        <span class="unit">μs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 脉冲波形图预览 -->
+            <div class="config-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-line"></i>
+                        脉冲波形图预览
+                    </h2>
+                    <button class="refresh-btn" onclick="updateWaveform()">
+                        <i class="fas fa-sync-alt"></i> 刷新波形
+                    </button>
+                </div>
+                <div class="section-content">
+                    <div class="waveform-container">
+                        <canvas id="waveformChart"></canvas>
+                    </div>
+                    <div class="waveform-info">
+                        <div class="info-item">
+                            <span class="info-label">总循环数:</span>
+                            <span class="info-value" id="totalCycles">60</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">活动区域:</span>
+                            <span class="info-value active-zone">电刺激工作期</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">休息区域:</span>
+                            <span class="info-value rest-zone">肌肉放松期</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 语音播放配置 -->
+            <div class="config-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-volume-up"></i>
+                        语音播放配置
+                    </h2>
+                    <button class="add-btn" onclick="addVoicePrompt()">
+                        <i class="fas fa-plus"></i> 添加语音提示
+                    </button>
+                </div>
+                <div class="section-content">
+                    <div class="voice-prompts" id="voicePrompts">
+                        <!-- 语音提示项将通过JavaScript动态添加 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 语音提示模态框 -->
+    <div id="voiceModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="voiceModalTitle">添加语音提示</h4>
+                <button class="modal-close" onclick="closeVoiceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>触发时间 (秒)</label>
+                    <input type="number" id="voiceTime" min="0" step="0.1" placeholder="在循环的第几秒触发">
+                </div>
+                <div class="form-group">
+                    <label>语音内容</label>
+                    <textarea id="voiceText" rows="3" placeholder="请输入语音播放的文字内容"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>提示类型</label>
+                    <select id="voiceType">
+                        <option value="instruction">指导提示</option>
+                        <option value="encouragement">鼓励提示</option>
+                        <option value="warning">注意提示</option>
+                        <option value="countdown">倒计时提示</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn cancel-btn" onclick="closeVoiceModal()">取消</button>
+                <button class="action-btn save-btn" onclick="saveVoicePrompt()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/electrical-stimulation-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>训练方案详细设计 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/training-plan-design.css">
+</head>
+<body>
+    <div class="training-design-container">
+        <!-- 页面头部 -->
+        <div class="design-header">
+            <div class="header-left">
+                <button class="back-button" onclick="history.back()">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+                <div class="header-info">
+                    <h2 class="design-title" id="planTitle">训练方案详细设计</h2>
+                    <div class="design-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            <span id="planCategory">康复训练</span>
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="planDuration">待设计</span>
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-code-branch"></i>
+                            <span id="planVersion">v1.0.0</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn preview-btn" onclick="previewPlan()">
+                    <i class="fas fa-play"></i> 预览
+                </button>
+                <button class="action-btn save-btn" onclick="savePlan()">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+                <button class="action-btn publish-btn" onclick="publishPlan()">
+                    <i class="fas fa-upload"></i> 发布
+                </button>
+            </div>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="design-content">
+            <!-- 左侧配置面板 -->
+            <div class="config-panel">
+                <!-- 基本信息 -->
+                <div class="config-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-info-circle"></i> 基本信息</h3>
+                        <button class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>方案名称</label>
+                            <input type="text" id="planName" value="新训练方案" placeholder="请输入方案名称">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>训练类型</label>
+                                <select id="trainingType">
+                                    <option value="">请选择训练类型</option>
+                                    <option value="I类肌">I类肌</option>
+                                    <option value="II类肌">II类肌</option>
+                                    <option value="混合肌">混合肌</option>
+                                    <option value="促血流">促血流</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>方案分类</label>
+                                <select id="planCategory">
+                                    <option value="">请选择方案分类</option>
+                                    <option value="电刺激">电刺激</option>
+                                    <option value="凯格尔训练">凯格尔训练</option>
+                                    <option value="音乐放松">音乐放松</option>
+                                    <option value="游戏互动">游戏互动</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>总时长 (分钟)</label>
+                                <input type="number" id="totalDuration" value="" min="1" max="60" placeholder="请输入时长">
+                            </div>
+                            <div class="form-group">
+                                <label>难度等级</label>
+                                <select id="difficultyLevel">
+                                    <option value="">请选择难度</option>
+                                    <option value="初级">初级</option>
+                                    <option value="中级">中级</option>
+                                    <option value="高级">高级</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>适应症</label>
+                            <textarea id="indications" rows="3" placeholder="请输入适应症描述"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>方案描述</label>
+                            <textarea id="planDescription" rows="4" placeholder="请输入详细的方案描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+              
+            <!-- 右侧预期效果面板 -->
+            <div class="effects-panel">
+                <div class="effects-section">
+                    <div class="effects-header">
+                        <h3><i class="fas fa-target"></i> 预期效果</h3>
+                    </div>
+                    <div class="effects-container">
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>肌力提升</h4>
+                                <p>根据训练方案设计，预期提升目标肌群力量</p>
+                                <div class="effect-input">
+                                    <input type="text" placeholder="预期提升百分比" id="strengthImprovement">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>血液循环</h4>
+                                <p>改善局部血液循环，促进组织修复</p>
+                                <div class="effect-input">
+                                    <input type="text" placeholder="循环改善描述" id="circulationImprovement">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>功能恢复</h4>
+                                <p>逐步恢复目标功能</p>
+                                <div class="effect-input">
+                                    <input type="text" placeholder="功能恢复目标" id="functionRecovery">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>训练效果</h4>
+                                <p>整体训练效果评估</p>
+                                <div class="effect-input">
+                                    <textarea placeholder="请描述预期的整体训练效果" id="overallEffect" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

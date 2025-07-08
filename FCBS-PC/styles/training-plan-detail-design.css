@@ -1,0 +1,89 @@
+/* 继承training-plan-design.css的所有样式，并添加以下补充样式 */
+
+/* 效果输入框样式 */
+.effect-input {
+    margin-top: 0.5rem;
+}
+
+.effect-input input,
+.effect-input textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.effect-input input:focus,
+.effect-input textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+/* 评估指标容器 */
+.metrics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metric-item label {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.metric-item textarea,
+.metric-item select {
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.metric-item textarea:focus,
+.metric-item select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .design-content {
+        flex-direction: column;
+    }
+    
+    .config-panel,
+    .effects-panel {
+        width: 100%;
+    }
+}
+
+/* 表单验证样式 */
+.form-group input:invalid,
+.form-group textarea:invalid,
+.form-group select:invalid {
+    border-color: var(--danger);
+}
+
+.form-group input:valid,
+.form-group textarea:valid,
+.form-group select:valid {
+    border-color: var(--success);
+}
+
+/* 占位符样式 */
+::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}

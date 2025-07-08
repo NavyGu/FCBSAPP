@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程生成模型配置 - FCBS管理系统</title>
+    <link rel="stylesheet" href="styles/course-model-config.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="course-model-container">
+        <!-- 页面头部 -->
+    
+        <!-- 搜索和筛选 -->
+        <div class="search-filter-section">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="搜索课程名称、适应症...">
+            </div>
+            <div class="filter-group">
+                <select id="userTypeFilter">
+                    <option value="">全部用户类型</option>
+                    <option value="初学者">初学者</option>
+                    <option value="进阶者">进阶者</option>
+                    <option value="专业用户">专业用户</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="">全部状态</option>
+                    <option value="active">已启用</option>
+                    <option value="inactive">已禁用</option>
+                    <option value="draft">草稿</option>
+                </select>
+                <button class="filter-btn" onclick="resetFilters()">
+                    <i class="fas fa-refresh"></i>
+                    重置
+                </button>
+                <button class="action-btn primary-btn" onclick="showAddCourseModal()">
+                    <i class="fas fa-plus"></i>
+                    添加课程
+                </button>
+            </div>
+        </div>
+
+        <!-- 课程列表 -->
+        <div class="course-list-section">
+            <div class="list-header">
+                <div class="list-stats">
+                    <span class="stat-item">
+                        <span class="stat-number" id="totalCourses">12</span>
+                        <span class="stat-label">总课程数</span>
+                    </span>
+                    <span class="stat-item">
+                        <span class="stat-number" id="activeCourses">8</span>
+                        <span class="stat-label">已启用</span>
+                    </span>
+                    <span class="stat-item">
+                        <span class="stat-number" id="draftCourses">4</span>
+                        <span class="stat-label">草稿</span>
+                    </span>
+                </div>
+                <div class="view-options">
+                    <button class="view-btn active" data-view="table">
+                        <i class="fas fa-table"></i>
+                    </button>
+                    <button class="view-btn" data-view="grid">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 表格视图 -->
+            <div class="table-container" id="tableView">
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>课程名称</th>
+                            <th>适应用户画像</th>
+                            <th>课节数</th>
+                            <th>课程概述</th>
+                            <th>状态</th>
+                            <th>更新时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseTableBody">
+                        <!-- 动态生成课程列表 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 网格视图 -->
+            <div class="grid-container hidden" id="gridView">
+                <div id="courseGridContainer">
+                    <!-- 动态生成课程卡片 -->
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    <span>显示 <span id="currentStart">1</span>-<span id="currentEnd">5</span> 条，共 <span id="totalItems">12</span> 条</span>
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <!-- 动态生成分页按钮 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加/编辑课程模态框 -->
+    <div class="modal-overlay" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">添加课程</h3>
+                <button class="close-btn" onclick="closeCourseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="courseForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>课程名称 *</label>
+                            <input type="text" id="courseName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>适应用户画像 *</label>
+                            <select id="userProfile" required>
+                                <option value="">请选择</option>
+                                <option value="初学者">初学者</option>
+                                <option value="进阶者">进阶者</option>
+                                <option value="专业用户">专业用户</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>课节数 *</label>
+                            <input type="number" id="sessionCount" min="1" max="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>课程状态</label>
+                            <select id="courseStatus">
+                                <option value="draft">草稿</option>
+                                <option value="active">已启用</option>
+                                <option value="inactive">已禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>课程概述 *</label>
+                        <textarea id="courseOverview" rows="4" required placeholder="请输入课程概述..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>适应症</label>
+                        <textarea id="indications" rows="3" placeholder="请输入适应症..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>课程标签</label>
+                        <div class="tag-input-container">
+                            <input type="text" id="tagInput" placeholder="输入标签后按回车添加">
+                            <div class="tags-display" id="tagsDisplay">
+                                <!-- 动态生成标签 -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary-btn" onclick="closeCourseModal()">取消</button>
+                <button class="btn primary-btn" onclick="saveCourse()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/course-model-config.js"></script>
+</body>
+</html>

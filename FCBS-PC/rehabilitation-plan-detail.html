@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康复训练计划详情 - FCBS管理系统</title>
+    <link rel="stylesheet" href="styles/rehabilitation-plan-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="rehabilitation-plan-container">
+        <!-- 页面头部 -->
+        <div class="plan-header">
+            <div class="header-top">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h1 class="plan-title">18节完整训练计划</h1>
+                <div class="header-actions">
+                    <button class="action-btn" onclick="showHistory()">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <button class="action-btn" onclick="shareTrainingPlan()">
+                        <i class="fas fa-share"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 训练阶段进度 -->
+        <div class="training-stages">
+            <h2 class="section-title">当前训练阶段</h2>
+            <div class="stages-progress">
+                <div class="stage-item active">
+                    <div class="stage-circle completed">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="stage-label">基础阶段</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-item current">
+                    <div class="stage-circle current">
+                        <span>2</span>
+                    </div>
+                    <div class="stage-label">进阶阶段</div>
+                    <div class="stage-line"></div>
+                </div>
+                <div class="stage-item">
+                    <div class="stage-circle">
+                        <span>3</span>
+                    </div>
+                    <div class="stage-label">高级阶段</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 训练计划概览 -->
+        <div class="plan-overview">
+            <h2 class="section-title">训练计划概览</h2>
+            <div class="overview-stats">
+                <div class="stat-item">
+                    <div class="stat-value">
+                        <span class="stat-number">8</span>
+                        <span class="stat-unit">小时</span>
+                        <span class="stat-sub">21分钟</span>
+                    </div>
+                    <div class="stat-label">总训练时间</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">
+                        <span class="stat-number">18</span>
+                        <span class="stat-unit">节课</span>
+                    </div>
+                    <div class="stat-label">训练课程</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">
+                        <span class="stat-number">11</span>
+                        <span class="stat-unit">%</span>
+                    </div>
+                    <div class="stat-label">完成进度</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 课程时间表 -->
+        <div class="course-schedule">
+            <h2 class="section-title">课程时间表</h2>
+            <div class="schedule-list">
+                <!-- 第1节课 -->
+                <div class="lesson-item completed">
+                    <div class="lesson-timeline">
+                        <div class="lesson-number">第1节</div>
+                        <div class="lesson-date">06/12</div>
+                        <div class="timeline-dot completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-header">
+                            <div class="lesson-tags">
+                                <span class="stage-tag basic">基础阶段</span>
+                                <span class="type-tag cognitive">凯格尔训练</span>
+                            </div>
+                            <div class="lesson-status completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>已完成</span>
+                            </div>
+                        </div>
+                        <h3 class="lesson-title">盆底肌认知训练</h3>
+                        <p class="lesson-description">学习正确的盆底肌收缩方法，建立肌肉感知</p>
+                        <div class="lesson-details">
+                            <div class="lesson-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>20分钟</span>
+                            </div>
+                            <button class="customize-btn" onclick="customizeLesson(1)">
+                                <i class="fas fa-cog"></i>
+                                定制课节
+                            </button>
+                        </div>
+                        <div class="training-items">
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">基础收缩练习</span>
+                                    <span class="item-duration">10分钟</span>
+                                </div>
+                                <div class="item-status completed">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">肌肉感知训练</span>
+                                    <span class="item-duration">10分钟</span>
+                                </div>
+                                <div class="item-status completed">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第2节课 -->
+                <div class="lesson-item completed">
+                    <div class="lesson-timeline">
+                        <div class="lesson-number">第2节</div>
+                        <div class="lesson-date">06/14</div>
+                        <div class="timeline-dot completed">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-header">
+                            <div class="lesson-tags">
+                                <span class="stage-tag basic">基础阶段</span>
+                                <span class="type-tag breathing">呼吸训练</span>
+                            </div>
+                            <div class="lesson-status completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>已完成</span>
+                            </div>
+                        </div>
+                        <h3 class="lesson-title">基础呼吸训练</h3>
+                        <p class="lesson-description">学习腹式呼吸，为后续训练打基础</p>
+                        <div class="lesson-details">
+                            <div class="lesson-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>15分钟</span>
+                            </div>
+                            <button class="customize-btn" onclick="customizeLesson(2)">
+                                <i class="fas fa-cog"></i>
+                                定制课节
+                            </button>
+                        </div>
+                        <div class="training-items">
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">腹式呼吸练习</span>
+                                    <span class="item-duration">8分钟</span>
+                                </div>
+                                <div class="item-status completed">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">呼吸节奏训练</span>
+                                    <span class="item-duration">7分钟</span>
+                                </div>
+                                <div class="item-status completed">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第3节课 -->
+                <div class="lesson-item current">
+                    <div class="lesson-timeline">
+                        <div class="lesson-number">第3节</div>
+                        <div class="lesson-date">06/16</div>
+                        <div class="timeline-dot current">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-header">
+                            <div class="lesson-tags">
+                                <span class="stage-tag basic">基础阶段</span>
+                                <span class="type-tag cognitive">凯格尔训练</span>
+                            </div>
+                            <div class="lesson-status current">
+                                <i class="fas fa-clock"></i>
+                                <span>进行中</span>
+                            </div>
+                        </div>
+                        <h3 class="lesson-title">盆底肌基础收缩</h3>
+                        <p class="lesson-description">进行基础的盆底肌收缩练习，每次收缩保持3-5秒</p>
+                        <div class="lesson-details">
+                            <div class="lesson-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>18分钟</span>
+                            </div>
+                            <button class="customize-btn" onclick="customizeLesson(3)">
+                                <i class="fas fa-cog"></i>
+                                定制课节
+                            </button>
+                        </div>
+                        <div class="training-items">
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">慢速收缩练习</span>
+                                    <span class="item-duration">10分钟</span>
+                                </div>
+                                <div class="item-status current">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">快速收缩练习</span>
+                                    <span class="item-duration">8分钟</span>
+                                </div>
+                                <div class="item-status pending">
+                                    <i class="fas fa-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lesson-actions">
+                            <button class="start-btn" onclick="startLesson(3)">
+                                <i class="fas fa-play"></i>
+                                开始训练
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第4节课 -->
+                <div class="lesson-item upcoming">
+                    <div class="lesson-timeline">
+                        <div class="lesson-number">第4节</div>
+                        <div class="lesson-date">06/18</div>
+                        <div class="timeline-dot upcoming">
+                            <span>4</span>
+                        </div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="lesson-content">
+                        <div class="lesson-header">
+                            <div class="lesson-tags">
+                                <span class="stage-tag basic">基础阶段</span>
+                                <span class="type-tag strength">力量训练</span>
+                            </div>
+                            <div class="lesson-status upcoming">
+                                <i class="fas fa-calendar"></i>
+                                <span>待开始</span>
+                            </div>
+                        </div>
+                        <h3 class="lesson-title">盆底肌力量训练</h3>
+                        <p class="lesson-description">增强盆底肌力量，提高收缩持续时间</p>
+                        <div class="lesson-details">
+                            <div class="lesson-duration">
+                                <i class="fas fa-clock"></i>
+                                <span>22分钟</span>
+                            </div>
+                            <button class="customize-btn" onclick="customizeLesson(4)">
+                                <i class="fas fa-cog"></i>
+                                定制课节
+                            </button>
+                        </div>
+                        <div class="training-items">
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">持续收缩训练</span>
+                                    <span class="item-duration">12分钟</span>
+                                </div>
+                                <div class="item-status pending">
+                                    <i class="fas fa-circle"></i>
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="item-info">
+                                    <span class="item-name">间歇性训练</span>
+                                    <span class="item-duration">10分钟</span>
+                                </div>
+                                <div class="item-status pending">
+                                    <i class="fas fa-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部操作区 -->
+        <div class="bottom-actions">
+            <button class="action-btn secondary" onclick="exportPlan()">
+                <i class="fas fa-download"></i>
+                导出计划
+            </button>
+            <button class="action-btn primary" onclick="continueTreatment()">
+                <i class="fas fa-play"></i>
+                继续训练
+            </button>
+        </div>
+    </div>
+
+    <!-- 课节定制弹窗 -->
+    <div class="modal-overlay" id="customizeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>定制课节内容</h3>
+                <button class="close-btn" onclick="closeCustomizeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="customize-form">
+                    <div class="form-group">
+                        <label>课节名称</label>
+                        <input type="text" id="lessonName" placeholder="请输入课节名称">
+                    </div>
+                    <div class="form-group">
+                        <label>训练时长</label>
+                        <div class="duration-input">
+                            <input type="number" id="lessonDuration" min="5" max="60" value="20">
+                            <span>分钟</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>训练类型</label>
+                        <select id="trainingType">
+                            <option value="cognitive">凯格尔训练</option>
+                            <option value="breathing">呼吸训练</option>
+                            <option value="strength">力量训练</option>
+                            <option value="endurance">耐力训练</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>训练内容</label>
+                        <div class="training-content-list">
+                            <div class="content-item">
+                                <input type="text" placeholder="训练项目名称">
+                                <input type="number" placeholder="时长(分钟)" min="1" max="30">
+                                <button class="remove-btn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="add-content-btn" onclick="addTrainingContent()">
+                            <i class="fas fa-plus"></i>
+                            添加训练内容
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label>课节描述</label>
+                        <textarea id="lessonDescription" placeholder="请输入课节描述" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" onclick="closeCustomizeModal()">取消</button>
+                <button class="btn primary" onclick="saveCustomization()">保存定制</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/rehabilitation-plan-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/decision-tree-course-generator.js"></script>
+    <title>规则验证 - FCBS课程生成器</title>
+    <link rel="stylesheet" href="styles/decision-tree-course-generator.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="decision-tree-container">
+        <!-- 页面头部 -->
+        <div class="page-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-check-circle"></i> 规则验证</h1>
+                    <p>验证决策树规则的完整性和逻辑性</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn secondary-btn" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i> 返回规则配置
+                    </button>
+                    <button class="btn secondary-btn" onclick="runValidation()">
+                        <i class="fas fa-play"></i> 重新验证
+                    </button>
+                    <button class="btn primary-btn" onclick="proceedToGeneration()">
+                        <i class="fas fa-arrow-right"></i> 进入课程生成
+                    </button>
+                </div>
+            </div>
+        </div>
+
+                <!-- 配置步骤导航 -->
+                <div class="step-navigation">
+                    <div class="step-item active clickable" data-step="1" onclick="navigateToStep(1)">
+                        <div class="step-number">1</div>
+                        <div class="step-label">参数配置</div>
+                    </div>
+                    <div class="step-item clickable" data-step="2" onclick="navigateToStep(2)">
+                        <div class="step-number">2</div>
+                        <div class="step-label">决策树规则</div>
+                    </div>
+                    <div class="step-item clickable" data-step="3" onclick="navigateToStep(3)">
+                        <div class="step-number">3</div>
+                        <div class="step-label">规则验证</div>
+                    </div>
+                    <div class="step-item clickable" data-step="4" onclick="navigateToStep(4)">
+                        <div class="step-number">4</div>
+                        <div class="step-label">课程生成</div>
+                    </div>
+                </div>
+
+        <!-- 验证结果 -->
+        <div class="config-card">
+            <h3><i class="fas fa-check-circle"></i> 验证结果</h3>
+            <div class="validation-results" id="validationResults">
+                <div class="validation-item">
+                    <div class="validation-icon success">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="validation-text">
+                        <strong>决策树结构完整</strong>
+                        <p>所有节点都有有效的父子关系</p>
+                    </div>
+                </div>
+                <div class="validation-item">
+                    <div class="validation-icon success">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="validation-text">
+                        <strong>条件逻辑正确</strong>
+                        <p>所有条件节点都有明确的判断逻辑</p>
+                    </div>
+                </div>
+                <div class="validation-item">
+                    <div class="validation-icon warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="validation-text">
+                        <strong>建议优化</strong>
+                        <p>某些分支可能存在重复逻辑，建议合并</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 测试用例 -->
+        <div class="config-card">
+            <h3><i class="fas fa-vial"></i> 测试用例</h3>
+            <div class="test-cases">
+                <div class="test-case-input">
+                    <h4>添加测试用例</h4>
+                    <div class="test-input-grid">
+                        <div class="input-group">
+                            <label>用户类型</label>
+                            <select id="testUserType">
+                                <option value="初学者">初学者</option>
+                                <option value="进阶者">进阶者</option>
+                                <option value="专业用户">专业用户</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>年龄</label>
+                            <input type="number" id="testAge" placeholder="年龄" value="35">
+                        </div>
+                        <div class="input-group">
+                            <label>训练次数</label>
+                            <input type="number" id="testSessions" placeholder="历史训练次数" value="15">
+                        </div>
+                        <div class="input-group">
+                            <label>完成率</label>
+                            <input type="number" id="testCompletionRate" placeholder="完成率(%)" value="85">
+                        </div>
+                        <div class="input-group">
+                            <label>肌力评分</label>
+                            <input type="number" id="testStrength" placeholder="1-10" value="6" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label>健康状况</label>
+                            <select id="testHealthStatus">
+                                <option value="良好">良好</option>
+                                <option value="一般">一般</option>
+                                <option value="需要关注">需要关注</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="test-actions">
+                        <button class="btn primary-btn" onclick="runTestCase()">
+                            <i class="fas fa-play"></i> 运行测试
+                        </button>
+                        <button class="btn secondary-btn" onclick="addToTestSuite()">
+                            <i class="fas fa-plus"></i> 添加到测试套件
+                        </button>
+                        <button class="btn secondary-btn" onclick="loadSampleData()">
+                            <i class="fas fa-database"></i> 加载示例数据
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="test-results" id="testResults">
+                    <h4>测试结果</h4>
+                    <div class="test-result-item">
+                        <div class="test-input-summary">
+                            <strong>测试用例 #1</strong>
+                            <span class="test-status success">通过</span>
+                        </div>
+                        <div class="test-output">
+                            <p><strong>输入：</strong>初学者，35岁，15次训练，85%完成率，肌力6分</p>
+                            <p><strong>输出：</strong>生成12节基础训练课程，每节25分钟，难度等级2</p>
+                            <p><strong>执行路径：</strong>根节点 → 训练水平判断 → 年龄分组 → 课程配置</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 规则覆盖率分析 -->
+        <div class="config-card">
+            <h3><i class="fas fa-chart-pie"></i> 规则覆盖率分析</h3>
+            <div class="coverage-analysis">
+                <div class="coverage-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">规则覆盖率</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">测试用例</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">执行路径</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">未覆盖分支</div>
+                    </div>
+                </div>
+                
+                <div class="coverage-details">
+                    <h4>未覆盖的规则分支</h4>
+                    <div class="uncovered-branches">
+                        <div class="branch-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>高级用户 + 康复训练场景</span>
+                        </div>
+                        <div class="branch-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>特殊健康状况处理分支</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 性能分析 -->
+        <div class="config-card">
+            <h3><i class="fas fa-tachometer-alt"></i> 性能分析</h3>
+            <div class="performance-analysis">
+                <div class="performance-metrics">
+                    <div class="metric-item">
+                        <div class="metric-label">平均执行时间</div>
+                        <div class="metric-value">12ms</div>
+                        <div class="metric-status good">优秀</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">最大决策深度</div>
+                        <div class="metric-value">5层</div>
+                        <div class="metric-status good">合理</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">规则复杂度</div>
+                        <div class="metric-value">中等</div>
+                        <div class="metric-status warning">可优化</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/decision-tree-validation.js"></script>
+</body>
+</html>

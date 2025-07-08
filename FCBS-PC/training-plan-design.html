@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>训练方案详细设计 - FCBS医疗设备管理后台</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles/training-plan-design.css">
+</head>
+<body>
+    <div class="training-design-container">
+        <!-- 页面头部 -->
+        <div class="design-header">
+            <div class="header-left">
+                <button class="back-button" onclick="history.back()">
+                    <i class="fas fa-arrow-left"></i> 返回
+                </button>
+                <div class="header-info">
+                    <h2 class="design-title" id="planTitle">I类肌高强度训练方案设计</h2>
+                    <div class="design-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            <span id="planCategory">电刺激</span>
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="planDuration">10分钟</span>
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-code-branch"></i>
+                            <span id="planVersion">v2.0.0</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="action-btn preview-btn" onclick="previewPlan()">
+                    <i class="fas fa-play"></i> 预览
+                </button>
+                <button class="action-btn save-btn" onclick="savePlan()">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+                <button class="action-btn publish-btn" onclick="publishPlan()">
+                    <i class="fas fa-upload"></i> 发布
+                </button>
+            </div>
+        </div>
+
+        <!-- 主要内容区域 -->
+        <div class="design-content">
+            <!-- 左侧配置面板 -->
+            <div class="config-panel">
+                <!-- 基本信息 -->
+                <div class="config-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-info-circle"></i> 基本信息</h3>
+                        <button class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label>方案名称</label>
+                            <input type="text" id="planName" value="I类肌高强度训练方案">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>训练类型</label>
+                                <select id="trainingType">
+                                    <option value="I类肌">I类肌</option>
+                                    <option value="II类肌">II类肌</option>
+                                    <option value="混合肌">混合肌</option>
+                                    <option value="促血流">促血流</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>方案分类</label>
+                                <select id="planCategory">
+                                    <option value="电刺激">电刺激</option>
+                                    <option value="凯格尔训练">凯格尔训练</option>
+                                    <option value="音乐放松">音乐放松</option>
+                                    <option value="游戏互动">游戏互动</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>总时长 (分钟)</label>
+                                <input type="number" id="totalDuration" value="10" min="1" max="60">
+                            </div>
+                            <div class="form-group">
+                                <label>难度等级</label>
+                                <select id="difficultyLevel">
+                                    <option value="初级">初级</option>
+                                    <option value="中级">中级</option>
+                                    <option value="高级" selected>高级</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>适应症</label>
+                            <textarea id="indications" rows="3">盆底肌力不足、尿失禁、盆底功能障碍</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 电刺激参数 -->
+                <div class="config-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-bolt"></i> 电刺激参数</h3>
+                        <button class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <!-- 循环周期设置 -->
+                        <div class="form-group">
+                            <label>循环周期设置</label>
+                            <select id="cycleType">
+                                <option value="10">10秒循环</option>
+                                <option value="20">20秒循环</option>
+                                <option value="custom">自定义循环</option>
+                                <option value="none">无循环</option>
+                            </select>
+                        </div>
+                        
+                        <!-- 周期内训练阶段分布 -->
+                        <div class="form-group" id="cycleDistributionGroup">
+                            <label>周期内训练阶段分布</label>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>阶段1休息 (秒)</label>
+                                    <input type="number" id="restPhase" value="6" min="1" max="15">
+                                </div>
+                                <div class="form-group">
+                                    <label>阶段2训练 (秒)</label>
+                                    <input type="number" id="workPhase" value="4" min="1" max="10">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 训练内容设置 -->
+                        <div class="form-group">
+                            <label>训练内容设置</label>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>电流模式</label>
+                                    <select id="currentMode">
+                                        <option value="constant">恒定电流</option>
+                                        <option value="variable">变化电流</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>调制模式</label>
+                                    <select id="modulationMode">
+                                        <option value="none">无调制</option>
+                                        <option value="amplitude">幅度调制</option>
+                                        <option value="frequency">频率调制</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 原有参数设置 -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>频率 (Hz)</label>
+                                <input type="number" id="frequency" value="50" min="1" max="100">
+                                <div class="param-slider">
+                                    <input type="range" id="frequencySlider" min="1" max="100" value="50" oninput="updateValue('frequency', this.value)">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>脉宽 (μs)</label>
+                                <input type="number" id="pulseWidth" value="250" min="50" max="500">
+                                <div class="param-slider">
+                                    <input type="range" id="pulseWidthSlider" min="50" max="500" value="250" oninput="updateValue('pulseWidth', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>强度范围 (mA)</label>
+                                <div class="range-input">
+                                    <input type="number" id="minIntensity" value="5" min="0" max="50" placeholder="最小">
+                                    <span>-</span>
+                                    <input type="number" id="maxIntensity" value="25" min="0" max="50" placeholder="最大">
+                                </div>
+                                <div class="form-check">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="userSetIntensity" checked>
+                                        <span class="checkmark"></span>
+                                        允许用户自行设置
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>波形类型</label>
+                                <select id="waveform">
+                                    <option value="方波">方波</option>
+                                    <option value="正弦波">正弦波</option>
+                                    <option value="三角波">三角波</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>工作时间 (秒)</label>
+                                <input type="number" id="workTime" value="4" min="1" max="10">
+                            </div>
+                            <div class="form-group">
+                                <label>休息时间 (秒)</label>
+                                <input type="number" id="restTime" value="6" min="1" max="15">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<!-- 删除训练阶段设置部分 -->
+                <!-- 安全设置 -->
+                <div class="config-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-shield-alt"></i> 安全设置</h3>
+                        <button class="section-toggle" onclick="toggleSection(this)">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="autoStop" checked>
+                                <span class="checkmark"></span>
+                                异常时自动停止
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="intensityLimit" checked>
+                                <span class="checkmark"></span>
+                                强度上限保护
+                            </label>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>最大强度 (mA)</label>
+                                <input type="number" id="maxSafeIntensity" value="30" min="1" max="50">
+                            </div>
+                            <div class="form-group">
+                                <label>超时保护 (分钟)</label>
+                                <input type="number" id="timeoutProtection" value="15" min="5" max="30">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧预览面板 -->
+            <div class="preview-panel">
+                <!-- 波形预览 -->
+                <div class="preview-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-chart-line"></i> 波形预览</h3>
+                    </div>
+                    <div class="waveform-container">
+                        <canvas id="waveformChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- 训练时间轴 -->
+                <div class="preview-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-timeline"></i> 训练时间轴</h3>
+                    </div>
+                    <div class="timeline-container">
+                        <div class="timeline" id="trainingTimeline">
+                            <!-- 时间轴将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 参数总览 -->
+                <div class="preview-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-list-ul"></i> 参数总览</h3>
+                    </div>
+                    <div class="params-overview" id="paramsOverview">
+                        <!-- 参数总览将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 预期效果 -->
+                <div class="preview-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-target"></i> 预期效果</h3>
+                    </div>
+                    <div class="effects-container">
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>肌力提升</h4>
+                                <p>预期提升盆底肌收缩力量15-25%</p>
+                            </div>
+                        </div>
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>血液循环</h4>
+                                <p>改善局部血液循环，促进组织修复</p>
+                            </div>
+                        </div>
+                        <div class="effect-item">
+                            <div class="effect-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <div class="effect-content">
+                                <h4>功能恢复</h4>
+                                <p>逐步恢复盆底肌正常功能</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预览模态框 -->
+    <div id="previewModal" class="modal" style="display: none;">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h4>训练方案预览</h4>
+                <button class="modal-close" onclick="closePreviewModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-tabs">
+                    <button class="tab-btn active" onclick="switchTab('simulation')">仿真运行</button>
+                    <button class="tab-btn" onclick="switchTab('timeline')">时间轴视图</button>
+                    <button class="tab-btn" onclick="switchTab('parameters')">参数详情</button>
+                </div>
+                <div class="tab-content" id="tabContent">
+                    <!-- 标签页内容将通过JavaScript动态生成 -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn cancel-btn" onclick="closePreviewModal()">关闭</button>
+                <button class="action-btn primary-btn" onclick="startSimulation()">开始仿真</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/training-plan-design.js"></script>
+</body>
+</html>
