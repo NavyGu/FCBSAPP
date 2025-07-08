@@ -262,6 +262,11 @@
     color: #1e40af;
 }
 
+.category-badge.cat-trigger {
+    background-color: rgba(236, 72, 153, 0.1);
+    color: #be185d;
+}
+
 .category-badge.cat-kegel {
     background-color: rgba(16, 185, 129, 0.1);
     color: #065f46;

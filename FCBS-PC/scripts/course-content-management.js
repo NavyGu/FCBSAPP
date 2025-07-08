@@ -135,6 +135,54 @@ class CourseContentManager {
                 version: 'v2.5.0',
                 updateTime: '2024-02-08 16:20',
                 updater: '马医生'
+            },
+            {
+                trainingType: '触发电刺激',
+                courseName: '触发电刺激训练',
+                category: '触发电刺激',
+                duration: '8分钟',
+                indications: '肌肉反应迟钝、神经传导障碍',
+                overview: '通过触发式电刺激增强肌肉反应能力和神经传导',
+                detailDesign: '基于生物反馈的触发式电刺激，根据肌肉收缩强度自动调节刺激参数',
+                version: 'v1.2.0',
+                updateTime: '2024-02-10 11:15',
+                updater: '陈医生'
+            },
+            {
+                trainingType: '凯格尔训练',
+                courseName: '基础凯格尔训练',
+                category: '凯格尔训练',
+                duration: '12分钟',
+                indications: '盆底肌力不足、产后康复',
+                overview: '系统性凯格尔训练，逐步提高盆底肌力和控制能力',
+                detailDesign: '分阶段训练：热身-基础收缩-强化训练-放松恢复',
+                version: 'v2.0.0',
+                updateTime: '2024-02-12 14:30',
+                updater: '李医生'
+            },
+            {
+                trainingType: '音乐放松',
+                courseName: '深度放松音乐疗法',
+                category: '音乐放松',
+                duration: '15分钟',
+                indications: '焦虑、紧张、失眠、压力过大',
+                overview: '结合专业音乐治疗和呼吸引导，达到深度放松效果',
+                detailDesign: '三阶段音乐疗法：舒缓导入-深度放松-恢复清醒',
+                version: 'v1.5.0',
+                updateTime: '2024-02-14 16:45',
+                updater: '王医生'
+            },
+            {
+                trainingType: '游戏互动',
+                courseName: '平衡球游戏',
+                category: '游戏互动',
+                duration: '8分钟',
+                indications: '协调性训练、儿童康复',
+                overview: '通过平衡控制游戏提高盆底肌协调性和控制精度',
+                detailDesign: '实时反馈的平衡控制游戏，难度自适应调节',
+                version: 'v1.8.0',
+                updateTime: '2024-02-16 10:20',
+                updater: '赵医生'
             }
         ];
         
@@ -241,8 +289,7 @@ class CourseContentManager {
                     <span class="duration-badge">${item.duration}</span>
                 </td>
                 <td title="${item.indications}">${this.truncateText(item.indications, 20)}</td>
-                <td title="${item.overview}">${this.truncateText(item.overview, 25)}</td>
-                <td title="${item.detailDesign}">${this.truncateText(item.detailDesign, 30)}</td>
+                <td title="${item.overview}">${this.truncateText(item.overview, 30)}</td>
                 <td>
                     <span class="version-badge">${item.version}</span>
                 </td>
@@ -344,6 +391,7 @@ class CourseContentManager {
     getCategoryBadgeClass(category) {
         const categoryMap = {
             '电刺激': 'cat-electrical',
+            '触发电刺激': 'cat-trigger',
             '凯格尔训练': 'cat-kegel',
             '音乐放松': 'cat-music',
             '游戏互动': 'cat-game'
@@ -360,7 +408,7 @@ class CourseContentManager {
     
     viewCourse(index) {
         const course = this.filteredData[index];
-        alert(`查看课程详情：\n\n训练类型：${course.trainingType}\n课程名称：${course.courseName}\n方案分类：${course.category}\n训练时长：${course.duration}\n适应症：${course.indications}\n训练方案概述：${course.overview}\n详细设计：${course.detailDesign}\n版本号：${course.version}\n更新时间：${course.updateTime}\n更新人：${course.updater}`);
+        alert(`查看课程详情：\n\n训练类型：${course.trainingType}\n课程名称：${course.courseName}\n方案分类：${course.category}\n训练时长：${course.duration}\n适应症：${course.indications}\n方案描述：${course.overview}\n版本号：${course.version}\n更新时间：${course.updateTime}\n更新人：${course.updater}`);
     }
     
     editCourse(index) {
@@ -374,7 +422,6 @@ class CourseContentManager {
         document.getElementById('duration').value = course.duration;
         document.getElementById('indications').value = course.indications;
         document.getElementById('overview').value = course.overview;
-        document.getElementById('detailDesign').value = course.detailDesign;
         document.getElementById('version').value = course.version;
         document.getElementById('updater').value = course.updater;
         
@@ -407,12 +454,28 @@ class CourseContentManager {
             version: course.version
         });
         
-        // 判断是否为第二个列表数据（索引为1），如果是则跳转到详细设计页面
-        if (index === 1) {
-            window.location.href = `training-plan-detail-design.html?${params.toString()}`;
-        } else {
-            // 其他情况跳转到训练方案设计页面
-            window.location.href = `training-plan-design.html?${params.toString()}`;
+        // 根据训练类型跳转到不同的配置页面
+        switch (course.category) {
+            case '电刺激':
+                window.location.href = `electrical-stimulation-config.html?${params.toString()}`;
+                break;
+            case '触发电刺激':
+                // 暂时跳转到通用设计页面，后续添加专门的配置页面
+                window.location.href = `training-plan-design.html?${params.toString()}`;
+                break;
+            case '凯格尔训练':
+                window.location.href = `kegel-training-config.html?${params.toString()}`;
+                break;
+            case '游戏互动':
+                // 暂时跳转到通用设计页面，后续添加专门的配置页面
+                window.location.href = `training-plan-design.html?${params.toString()}`;
+                break;
+            case '音乐放松':
+                // 暂时跳转到通用设计页面，后续添加专门的配置页面
+                window.location.href = `training-plan-design.html?${params.toString()}`;
+                break;
+            default:
+                window.location.href = `training-plan-design.html?${params.toString()}`;
         }
     }
 
@@ -445,7 +508,6 @@ function saveCourse() {
         duration: document.getElementById('duration').value,
         indications: document.getElementById('indications').value,
         overview: document.getElementById('overview').value,
-        detailDesign: document.getElementById('detailDesign').value,
         version: document.getElementById('version').value,
         updateTime: new Date().toLocaleString('zh-CN'),
         updater: document.getElementById('updater').value
