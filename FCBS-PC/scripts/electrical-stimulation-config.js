@@ -171,10 +171,10 @@ class ElectricalStimulationConfig {
                     y: {
                         title: {
                             display: true,
-                            text: '刺激强度 (%)'
+                            text: '电流强度 (mA)'
                         },
                         min: 0,
-                        max: 100,
+                        max: 5,
                         grid: {
                             color: 'rgba(0, 0, 0, 0.1)'
                         }
@@ -215,19 +215,20 @@ class ElectricalStimulationConfig {
             labels.push(currentTime.toFixed(1));
             
             let intensity = 0;
+            const currentMax = parseFloat(document.getElementById('currentMax').value) || 3;
             
             if (cyclePosition <= workTime) {
                 // 工作阶段
                 if (cyclePosition <= riseTime) {
                     // 上升阶段
-                    intensity = (cyclePosition / riseTime) * 100;
+                    intensity = (cyclePosition / riseTime) * currentMax;
                 } else if (cyclePosition >= workTime - fallTime) {
                     // 下降阶段
                     const fallProgress = (cyclePosition - (workTime - fallTime)) / fallTime;
-                    intensity = (1 - fallProgress) * 100;
+                    intensity = (1 - fallProgress) * currentMax;
                 } else {
                     // 平台阶段
-                    intensity = 100;
+                    intensity = currentMax;
                     
                     // 如果启用变频，添加频率变化效果
                     if (isVariableFreq) {
@@ -235,7 +236,7 @@ class ElectricalStimulationConfig {
                         const freq2 = parseInt(document.getElementById('freq2').value) || 80;
                         
                         // 简单的频率变化模拟
-                        const freqVariation = Math.sin(cyclePosition * 2) * 10;
+                        const freqVariation = Math.sin(cyclePosition * 2) * 0.3; // 调整变化幅度为mA单位
                         intensity += freqVariation;
                     }
                 }
@@ -244,7 +245,7 @@ class ElectricalStimulationConfig {
                 intensity = 0;
             }
             
-            data.push(Math.max(0, Math.min(100, intensity)));
+            data.push(Math.max(0, Math.min(5, intensity)));
         }
         
         // 更新图表数据
@@ -426,8 +427,9 @@ class ElectricalStimulationConfig {
             },
             parameters: {
                 totalDuration: parseInt(document.getElementById('totalDuration').value),
-                voltageMin: parseInt(document.getElementById('voltageMin').value),
-                voltageMax: parseInt(document.getElementById('voltageMax').value),
+                currentMin: parseFloat(document.getElementById('currentMin').value),
+                currentMax: parseFloat(document.getElementById('currentMax').value),
+                userAdjustableCurrent: document.getElementById('userAdjustableCurrent').checked,
                 cycleTime: parseInt(document.getElementById('cycleTime').value),
                 frequency: parseInt(document.getElementById('frequency').value),
                 pulseWidth: parseInt(document.getElementById('pulseWidth').value),

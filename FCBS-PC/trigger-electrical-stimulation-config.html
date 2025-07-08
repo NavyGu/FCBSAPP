@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>电刺激配置 - FCBS医疗设备管理后台</title>
+    <title>触发电刺激配置 - FCBS医疗设备管理后台</title>
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- 自定义样式 -->
     <link rel="stylesheet" href="styles/admin.css">
-    <link rel="stylesheet" href="styles/electrical-stimulation-config.css">
+    <link rel="stylesheet" href="styles/trigger-electrical-stimulation-config.css">
 </head>
 <body>
     <div class="config-container">
@@ -23,7 +23,7 @@
                     <i class="fas fa-arrow-left"></i>
                 </button>
                 <div class="header-info">
-                    <h1 class="page-title">电刺激配置</h1>
+                    <h1 class="page-title">触发电刺激配置</h1>
                     <p class="course-info" id="courseInfo">加载中...</p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>训练类型</label>
-                            <input type="text" id="trainingType" placeholder="请输入训练类型">
+                            <input type="text" id="trainingType" placeholder="请输入训练类型" value="触发电刺激">
                         </div>
                         <div class="form-group">
                             <label>课程名称</label>
@@ -60,8 +60,8 @@
                         <div class="form-group">
                             <label>方案分类</label>
                             <select id="category">
+                                <option value="触发电刺激" selected>触发电刺激</option>
                                 <option value="电刺激">电刺激</option>
-                                <option value="触发电刺激">触发电刺激</option>
                                 <option value="凯格尔训练">凯格尔训练</option>
                                 <option value="游戏互动">游戏互动</option>
                                 <option value="音乐放松">音乐放松</option>
@@ -103,6 +103,9 @@
                     <div class="config-tabs">
                         <button class="tab-btn active" onclick="switchTab('basic')">
                             <i class="fas fa-sliders-h"></i> 基础参数
+                        </button>
+                        <button class="tab-btn" onclick="switchTab('trigger')">
+                            <i class="fas fa-bolt"></i> 触发参数
                         </button>
                         <button class="tab-btn" onclick="switchTab('advanced')">
                             <i class="fas fa-wave-square"></i> 高级参数
@@ -188,6 +191,93 @@
                         </div>
                     </div>
                     
+                    <!-- 触发参数 -->
+                    <div class="tab-content" id="triggerTab">
+                        <div class="trigger-info-card">
+                            <div class="info-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="info-content">
+                                <h4>触发电刺激说明</h4>
+                                <p>触发电刺激是在设定的工作时间内，只有当检测到的信号达到设定的触发阈值时，才会进行电刺激治疗。这种模式更加智能化，能够根据实际需要进行精准刺激。</p>
+                            </div>
+                        </div>
+                        <div class="param-grid">
+                            <div class="param-group">
+                                <label>触发方式</label>
+                                <select id="triggerMode" onchange="toggleTriggerMode()">
+                                    <option value="manual">手动设置</option>
+                                    <option value="auto">自动设置</option>
+                                </select>
+                                <small class="param-hint">选择触发阈值的设置方式</small>
+                            </div>
+                            <div class="param-group" id="triggerConditionGroup">
+                                <label>触发条件</label>
+                                <select id="triggerCondition">
+                                    <option value="above">高于阈值触发</option>
+                                    <option value="below">低于阈值触发</option>
+                                </select>
+                                <small class="param-hint">选择肌电信号触发的条件</small>
+                            </div>
+                            <div class="param-group" id="manualThresholdGroup">
+                                <label>肌电触发阈值 (μV)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="triggerThreshold" min="1" max="1000" value="50">
+                                    <span class="unit">μV</span>
+                                </div>
+                                <small class="param-hint">当肌电信号达到此阈值时触发电刺激</small>
+                            </div>
+                            <div class="param-group" id="autoThresholdGroup" style="display: none;">
+                                <label>自动阈值设置</label>
+                                <div class="auto-threshold-info">
+                                    <span class="auto-value">系统自动计算: <span id="autoThresholdValue">45</span> μV</span>
+                                </div>
+                                <small class="param-hint">系统根据用户肌电基线自动设置阈值</small>
+                            </div>
+                            <div class="param-group">
+                                <label>触发延迟 (毫秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="triggerDelay" min="0" max="1000" value="100">
+                                    <span class="unit">ms</span>
+                                </div>
+                                <small class="param-hint">达到阈值后延迟多久开始电刺激</small>
+                            </div>
+                            <div class="param-group">
+                                <label>最小触发间隔 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="minTriggerInterval" min="0.1" max="10" step="0.1" value="1">
+                                    <span class="unit">秒</span>
+                                </div>
+                                <small class="param-hint">两次触发之间的最小时间间隔</small>
+                            </div>
+                            <div class="param-group">
+                                <label>触发持续时间 (秒)</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="triggerDuration" min="0.1" max="5" step="0.1" value="2">
+                                    <span class="unit">秒</span>
+                                </div>
+                                <small class="param-hint">每次触发电刺激的持续时间</small>
+                            </div>
+                            <div class="param-group">
+                                <label>触发敏感度</label>
+                                <select id="triggerSensitivity">
+                                    <option value="low">低敏感度</option>
+                                    <option value="medium" selected>中等敏感度</option>
+                                    <option value="high">高敏感度</option>
+                                </select>
+                                <small class="param-hint">调节触发检测的敏感程度</small>
+                            </div>
+                            <div class="param-group">
+                                <label>最大触发次数</label>
+                                <div class="input-with-unit">
+                                    <input type="number" id="maxTriggerCount" min="1" max="100" value="20">
+                                    <span class="unit">次</span>
+                                </div>
+                                <small class="param-hint">单个工作周期内的最大触发次数</small>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- 高级参数 -->
                     <div class="tab-content" id="advancedTab">
                         <div class="param-grid">
@@ -228,17 +318,41 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="param-group full-width">
+                                <label class="switch-label">
+                                    <input type="checkbox" id="adaptiveTrigger" onchange="toggleAdaptiveTrigger()">
+                                    <span class="switch-slider"></span>
+                                    自适应触发
+                                </label>
+                                <small class="param-hint">根据用户反应自动调整触发阈值</small>
+                            </div>
+                            <div class="adaptive-trigger-params" id="adaptiveTriggerParams" style="display: none;">
+                                <div class="param-group">
+                                    <label>学习周期 (次)</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="learningCycles" min="5" max="50" value="10">
+                                        <span class="unit">次</span>
+                                    </div>
+                                </div>
+                                <div class="param-group">
+                                    <label>调整幅度 (%)</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" id="adjustmentRange" min="1" max="20" value="5">
+                                        <span class="unit">%</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 脉冲波形图预览 -->
+            <!-- 触发波形图预览 -->
             <div class="config-section">
                 <div class="section-header">
                     <h2 class="section-title">
                         <i class="fas fa-chart-line"></i>
-                        脉冲波形图预览
+                        触发波形图预览
                     </h2>
                     <button class="refresh-btn" onclick="updateWaveform()">
                         <i class="fas fa-sync-alt"></i> 刷新波形
@@ -254,12 +368,28 @@
                             <span class="info-value" id="totalCycles">60</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">活动区域:</span>
-                            <span class="info-value active-zone">电刺激工作期</span>
+                            <span class="info-label">工作区域:</span>
+                            <span class="info-value work-zone">触发检测期</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">触发区域:</span>
+                            <span class="info-value trigger-zone">电刺激触发期</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">休息区域:</span>
                             <span class="info-value rest-zone">肌肉放松期</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">当前状态:</span>
+                            <span class="info-value" id="emgStatus">等待肌电信号输入</span>
+                        </div>
+                    </div>
+                    <div class="emg-demo-controls">
+                        <h4>肌电信号演示控制</h4>
+                        <p class="demo-hint">在实际应用中，肌电信号将从硬件设备实时获取。以下按钮用于演示触发功能：</p>
+                        <div class="demo-buttons">
+                            <button class="demo-btn" onclick="simulateEMGTrigger()">模拟肌电信号触发</button>
+                            <button class="demo-btn reset-btn" onclick="resetEMGDemo()">重置演示</button>
                         </div>
                     </div>
                 </div>
@@ -310,6 +440,7 @@
                         <option value="encouragement">鼓励提示</option>
                         <option value="warning">注意提示</option>
                         <option value="countdown">倒计时提示</option>
+                        <option value="trigger">触发提示</option>
                     </select>
                 </div>
             </div>
@@ -320,6 +451,6 @@
         </div>
     </div>
 
-    <script src="scripts/electrical-stimulation-config.js"></script>
+    <script src="scripts/trigger-electrical-stimulation-config.js"></script>
 </body>
 </html>

@@ -443,6 +443,7 @@ class CourseContentManager {
             }
         }
     }
+    
     designCourse(index) {
         const course = this.filteredData[index];
         // 将课程信息作为URL参数传递到设计页面
@@ -460,8 +461,8 @@ class CourseContentManager {
                 window.location.href = `electrical-stimulation-config.html?${params.toString()}`;
                 break;
             case '触发电刺激':
-                // 暂时跳转到通用设计页面，后续添加专门的配置页面
-                window.location.href = `training-plan-design.html?${params.toString()}`;
+                // 跳转到触发电刺激配置页面
+                window.location.href = `trigger-electrical-stimulation-config.html?${params.toString()}`;
                 break;
             case '凯格尔训练':
                 window.location.href = `kegel-training-config.html?${params.toString()}`;
