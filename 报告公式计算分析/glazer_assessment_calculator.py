@@ -8,6 +8,7 @@ Glazer评估计算器
 
 import math
 import os
+from glazer_test_data_loader import GlazerTestDataLoader
 
 class GlazerAssessmentCalculator:
     def __init__(self):
@@ -116,7 +117,7 @@ class GlazerAssessmentCalculator:
         计算前静息阶段得分
         :param avg_value: 平均值(μV)
         :param variability: 变异性
-        :return: 阶段得分
+        :return: (阶段得分, 单项得分详情)
         """
         # 平均值评分 - 曲线计算 (越小越好：满分0μV，及格4μV)
         avg_score = self.calculate_score_curve_smaller_better(avg_value, 4, 0)
@@ -125,8 +126,16 @@ class GlazerAssessmentCalculator:
         var_score = self.calculate_score_curve_smaller_better(variability, 0.2, 0)
         
         # 阶段总分 - 使用权重
-        return (self.pre_baseline_weights['avg_value'] * avg_score + 
-                self.pre_baseline_weights['variability'] * var_score)
+        stage_score = (self.pre_baseline_weights['avg_value'] * avg_score + 
+                       self.pre_baseline_weights['variability'] * var_score)
+        
+        # 返回阶段得分和单项得分详情
+        details = {
+            'avg_score': avg_score,
+            'var_score': var_score
+        }
+        
+        return stage_score, details
     
     def calculate_fast_twitch_score(self, max_value, rise_time, recovery_time):
         """
@@ -134,7 +143,7 @@ class GlazerAssessmentCalculator:
         :param max_value: 最大值(μV)
         :param rise_time: 上升时间(s)
         :param recovery_time: 恢复时间(s)
-        :return: 阶段得分
+        :return: (阶段得分, 单项得分详情)
         """
         # 最大值评分 - 曲线计算 (越大越好：及格40μV，满分60μV)
         max_score = self.calculate_score_curve_larger_better(max_value, 40, 60)
@@ -146,9 +155,18 @@ class GlazerAssessmentCalculator:
         recovery_score = self.calculate_score_curve_smaller_better(recovery_time, 0.5, 0.1)
         
         # 阶段总分 - 使用权重
-        return (self.fast_twitch_weights['max_value'] * max_score + 
-                self.fast_twitch_weights['rise_time'] * rise_score + 
-                self.fast_twitch_weights['recovery_time'] * recovery_score)
+        stage_score = (self.fast_twitch_weights['max_value'] * max_score + 
+                       self.fast_twitch_weights['rise_time'] * rise_score + 
+                       self.fast_twitch_weights['recovery_time'] * recovery_score)
+        
+        # 返回阶段得分和单项得分详情
+        details = {
+            'max_score': max_score,
+            'rise_score': rise_score,
+            'recovery_score': recovery_score
+        }
+        
+        return stage_score, details
     
     def calculate_tonic_score(self, avg_value, rise_time, recovery_time, variability):
         """
@@ -157,7 +175,7 @@ class GlazerAssessmentCalculator:
         :param rise_time: 上升时间(s)
         :param recovery_time: 恢复时间(s)
         :param variability: 变异性
-        :return: 阶段得分
+        :return: (阶段得分, 单项得分详情)
         """
         # 平均值评分 - 曲线计算 (越大越好：及格35μV，满分50μV)
         avg_score = self.calculate_score_curve_larger_better(avg_value, 35, 45)
@@ -172,10 +190,20 @@ class GlazerAssessmentCalculator:
         var_score = self.calculate_score_curve_smaller_better(variability, 0.2, 0)
         
         # 阶段总分 - 使用权重
-        return (self.tonic_weights['avg_value'] * avg_score + 
-                self.tonic_weights['rise_time'] * rise_score + 
-                self.tonic_weights['recovery_time'] * recovery_score + 
-                self.tonic_weights['variability'] * var_score)
+        stage_score = (self.tonic_weights['avg_value'] * avg_score + 
+                       self.tonic_weights['rise_time'] * rise_score + 
+                       self.tonic_weights['recovery_time'] * recovery_score + 
+                       self.tonic_weights['variability'] * var_score)
+        
+        # 返回阶段得分和单项得分详情
+        details = {
+            'avg_score': avg_score,
+            'rise_score': rise_score,
+            'recovery_score': recovery_score,
+            'var_score': var_score
+        }
+        
+        return stage_score, details
     
     def calculate_endurance_score(self, avg_value, variability, fatigue_index):
         """
@@ -183,7 +211,7 @@ class GlazerAssessmentCalculator:
         :param avg_value: 平均值(μV)
         :param variability: 变异性
         :param fatigue_index: 疲劳指数（后10秒比值）
-        :return: 阶段得分
+        :return: (阶段得分, 单项得分详情)
         """
         # 平均值评分 - 曲线计算 (越大越好：及格30μV，满分40μV)
         avg_score = self.calculate_score_curve_larger_better(avg_value, 30, 40)
@@ -196,16 +224,25 @@ class GlazerAssessmentCalculator:
         fatigue_score = self.calculate_score_gaussian(fatigue_index, 1.0, 0.8)
         
         # 阶段总分 - 使用权重
-        return (self.endurance_weights['avg_value'] * avg_score + 
-                self.endurance_weights['variability'] * var_score + 
-                self.endurance_weights['fatigue_index'] * fatigue_score)
+        stage_score = (self.endurance_weights['avg_value'] * avg_score + 
+                       self.endurance_weights['variability'] * var_score + 
+                       self.endurance_weights['fatigue_index'] * fatigue_score)
+        
+        # 返回阶段得分和单项得分详情
+        details = {
+            'avg_score': avg_score,
+            'var_score': var_score,
+            'fatigue_score': fatigue_score
+        }
+        
+        return stage_score, details
     
     def calculate_post_baseline_score(self, avg_value, variability):
         """
         计算后静息阶段得分
         :param avg_value: 平均值(μV)
         :param variability: 变异性
-        :return: 阶段得分
+        :return: (阶段得分, 单项得分详情)
         """
         # 平均值评分 - 曲线计算 (越小越好：满分0μV，及格4μV)
         avg_score = self.calculate_score_curve_smaller_better(avg_value, 4, 0)
@@ -214,12 +251,20 @@ class GlazerAssessmentCalculator:
         var_score = self.calculate_score_curve_smaller_better(variability, 0.2, 0)
         
         # 阶段总分 - 使用权重
-        return (self.post_baseline_weights['avg_value'] * avg_score + 
-                self.post_baseline_weights['variability'] * var_score)
+        stage_score = (self.post_baseline_weights['avg_value'] * avg_score + 
+                       self.post_baseline_weights['variability'] * var_score)
+        
+        # 返回阶段得分和单项得分详情
+        details = {
+            'avg_score': avg_score,
+            'var_score': var_score
+        }
+        
+        return stage_score, details
     
     def calculate_total_score(self, pre_baseline_score, fast_twitch_score, tonic_score, endurance_score, post_baseline_score):
         """
-        计算总评分
+        计算总评分（平均分）
         :param pre_baseline_score: 前静息阶段得分
         :param fast_twitch_score: 快肌纤维阶段得分
         :param tonic_score: 慢肌纤维阶段得分
@@ -227,72 +272,10 @@ class GlazerAssessmentCalculator:
         :param post_baseline_score: 后静息阶段得分
         :return: 总评分
         """
-        return (self.weights['pre_baseline'] * pre_baseline_score +
-                self.weights['fast_twitch'] * fast_twitch_score +
-                self.weights['tonic'] * tonic_score +
-                self.weights['endurance'] * endurance_score +
-                self.weights['post_baseline'] * post_baseline_score)
+        return (pre_baseline_score + fast_twitch_score + tonic_score + endurance_score + post_baseline_score) / 5
     
-    def load_test_data(self, file_path):
-        """
-        从文件加载测试数据
-        :param file_path: 数据文件路径
-        :return: 测试数据列表
-        """
-        test_data = []
-        
-        try:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                lines = file.readlines()
-                
-                # 解析数据，跳过第一行（如果是标题行）
-                data_dict = {}
-                for line in lines:
-                    line = line.strip()
-                    if line:
-                        parts = line.split('\t')
-                        if len(parts) >= 6:  # 确保有足够的列
-                            indicator_name = parts[0]
-                            # 提取数值列（跳过指标名称）
-                            values = []
-                            for i in range(1, len(parts)):
-                                try:
-                                    values.append(float(parts[i]))
-                                except ValueError:
-                                    continue
-                            data_dict[indicator_name] = values
-                
-                # 确定有多少组测试数据
-                if data_dict:
-                    num_tests = len(list(data_dict.values())[0])
-                    
-                    # 为每组测试数据创建字典
-                    for i in range(num_tests):
-                        test_case = {
-                            'case_id': f'测试案例{i+1}',
-                            'pre_baseline_avg': data_dict.get('前静息平均值(μV)', [0])[i] if i < len(data_dict.get('前静息平均值(μV)', [0])) else 0,
-                            'pre_baseline_var': data_dict.get('前静息变异性', [0])[i] if i < len(data_dict.get('前静息变异性', [0])) else 0,
-                            'fast_twitch_max': data_dict.get('快肌纤维最大值(μV)', [0])[i] if i < len(data_dict.get('快肌纤维最大值(μV)', [0])) else 0,
-                            'fast_twitch_rise': data_dict.get('快肌纤维上升时间(s)', [0])[i] if i < len(data_dict.get('快肌纤维上升时间(s)', [0])) else 0,
-                            'fast_twitch_recovery': data_dict.get('快肌纤维恢复时间(s)', [0])[i] if i < len(data_dict.get('快肌纤维恢复时间(s)', [0])) else 0,
-                            'tonic_avg': data_dict.get('慢肌纤维平均值(μV)', [0])[i] if i < len(data_dict.get('慢肌纤维平均值(μV)', [0])) else 0,
-                            'tonic_rise': data_dict.get('慢肌纤维上升时间(s)', [0])[i] if i < len(data_dict.get('慢肌纤维上升时间(s)', [0])) else 0,
-                            'tonic_recovery': data_dict.get('慢肌纤维恢复时间(s)', [0])[i] if i < len(data_dict.get('慢肌纤维恢复时间(s)', [0])) else 0,
-                            'tonic_var': data_dict.get('慢肌纤维变异性', [0])[i] if i < len(data_dict.get('慢肌纤维变异性', [0])) else 0,
-                            'endurance_avg': data_dict.get('耐力测试平均值(μV)', [0])[i] if i < len(data_dict.get('耐力测试平均值(μV)', [0])) else 0,
-                            'endurance_var': data_dict.get('耐力测试变异性', [0])[i] if i < len(data_dict.get('耐力测试变异性', [0])) else 0,
-                            'endurance_fatigue': data_dict.get('耐力测试后10秒比值', [0])[i] if i < len(data_dict.get('耐力测试后10秒比值', [0])) else 0,
-                            'post_baseline_avg': data_dict.get('后静息平均值(μV)', [0])[i] if i < len(data_dict.get('后静息平均值(μV)', [0])) else 0,
-                            'post_baseline_var': data_dict.get('后静息变异性', [0])[i] if i < len(data_dict.get('后静息变异性', [0])) else 0
-                        }
-                        test_data.append(test_case)
-                        
-        except FileNotFoundError:
-            print(f"错误：找不到文件 {file_path}")
-        except Exception as e:
-            print(f"读取文件时发生错误：{e}")
-            
-        return test_data
+    # 注意：数据加载功能已移至 GlazerTestDataLoader 类
+    # 请使用 GlazerTestDataLoader().load_test_data() 来加载测试数据
     
     def batch_calculate(self, test_data):
         """
@@ -303,24 +286,24 @@ class GlazerAssessmentCalculator:
         results = []
         
         for data in test_data:
-            # 计算各阶段得分
-            pre_baseline_score = self.calculate_pre_baseline_score(
+            # 计算各阶段得分（包含单项指标得分）
+            pre_baseline_score, pre_baseline_details = self.calculate_pre_baseline_score(
                 data['pre_baseline_avg'], data['pre_baseline_var']
             )
             
-            fast_twitch_score = self.calculate_fast_twitch_score(
+            fast_twitch_score, fast_twitch_details = self.calculate_fast_twitch_score(
                 data['fast_twitch_max'], data['fast_twitch_rise'], data['fast_twitch_recovery']
             )
             
-            tonic_score = self.calculate_tonic_score(
+            tonic_score, tonic_details = self.calculate_tonic_score(
                 data['tonic_avg'], data['tonic_rise'], data['tonic_recovery'], data['tonic_var']
             )
             
-            endurance_score = self.calculate_endurance_score(
+            endurance_score, endurance_details = self.calculate_endurance_score(
                 data['endurance_avg'], data['endurance_var'], data['endurance_fatigue']
             )
             
-            post_baseline_score = self.calculate_post_baseline_score(
+            post_baseline_score, post_baseline_details = self.calculate_post_baseline_score(
                 data['post_baseline_avg'], data['post_baseline_var']
             )
             
@@ -330,14 +313,19 @@ class GlazerAssessmentCalculator:
                 endurance_score, post_baseline_score
             )
             
-            # 保存结果
+            # 保存结果（使用各阶段计算方法返回的详细得分）
             result = {
                 'case_id': data['case_id'],
                 'pre_baseline_score': pre_baseline_score,
+                'pre_baseline_details': pre_baseline_details,
                 'fast_twitch_score': fast_twitch_score,
+                'fast_twitch_details': fast_twitch_details,
                 'tonic_score': tonic_score,
+                'tonic_details': tonic_details,
                 'endurance_score': endurance_score,
+                'endurance_details': endurance_details,
                 'post_baseline_score': post_baseline_score,
+                'post_baseline_details': post_baseline_details,
                 'total_score': total_score,
                 'input_data': data
             }
@@ -349,20 +337,19 @@ class GlazerAssessmentCalculator:
 
 def main():
     calculator = GlazerAssessmentCalculator()
-    
-    # 数据文件路径
-    data_file_path = '/Users/gunavy/Project/TRAE/FCBSAPP/报告公式计算分析/Glazer打分模型基础数据.txt'
+    data_loader = GlazerTestDataLoader()
     
     print("===== Glazer评估批量计算器 =====\n")
     
-    # 检查文件是否存在
-    if not os.path.exists(data_file_path):
-        print(f"错误：找不到数据文件 {data_file_path}")
+    # 验证数据文件
+    is_valid, message = data_loader.validate_data_file()
+    if not is_valid:
+        print(f"数据文件验证失败: {message}")
         return
     
     # 加载测试数据
     print("正在加载测试数据...")
-    test_data = calculator.load_test_data(data_file_path)
+    test_data = data_loader.load_test_data()
     
     if not test_data:
         print("错误：未能加载到有效的测试数据")
@@ -407,10 +394,29 @@ def main():
         
         print("计算结果:")
         print(f"  前静息阶段得分: {result['pre_baseline_score']:.2f}")
+        print(f"    - 平均值得分: {result['pre_baseline_details']['avg_score']:.2f}")
+        print(f"    - 变异系数得分: {result['pre_baseline_details']['var_score']:.2f}")
+        
         print(f"  快肌纤维阶段得分: {result['fast_twitch_score']:.2f}")
+        print(f"    - 最大值得分: {result['fast_twitch_details']['max_score']:.2f}")
+        print(f"    - 上升时间得分: {result['fast_twitch_details']['rise_score']:.2f}")
+        print(f"    - 恢复时间得分: {result['fast_twitch_details']['recovery_score']:.2f}")
+        
         print(f"  慢肌纤维阶段得分: {result['tonic_score']:.2f}")
+        print(f"    - 平均值得分: {result['tonic_details']['avg_score']:.2f}")
+        print(f"    - 上升时间得分: {result['tonic_details']['rise_score']:.2f}")
+        print(f"    - 恢复时间得分: {result['tonic_details']['recovery_score']:.2f}")
+        print(f"    - 变异系数得分: {result['tonic_details']['var_score']:.2f}")
+        
         print(f"  耐力测试阶段得分: {result['endurance_score']:.2f}")
+        print(f"    - 平均值得分: {result['endurance_details']['avg_score']:.2f}")
+        print(f"    - 变异系数得分: {result['endurance_details']['var_score']:.2f}")
+        print(f"    - 疲劳指数得分: {result['endurance_details']['fatigue_score']:.2f}")
+        
         print(f"  后静息阶段得分: {result['post_baseline_score']:.2f}")
+        print(f"    - 平均值得分: {result['post_baseline_details']['avg_score']:.2f}")
+        print(f"    - 变异系数得分: {result['post_baseline_details']['var_score']:.2f}")
+        
         print(f"  总评分: {result['total_score']:.2f}")
     
     # 统计信息
