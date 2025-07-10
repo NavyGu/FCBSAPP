@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import sys
+import os
+
+# 添加训练方案目录到路径
+sys.path.append('/Users/gunavy/Project/TRAE/FCBSAPP/训练方案')
+
 from glazer_assessment_calculator import GlazerAssessmentCalculator
 from glazer_recommendation_system_weighted import GlazerRecommendationSystemWeighted
 from glazer_test_data_loader import GlazerTestDataLoader
+from course_matcher import get_course_recommendations_from_assessment
 
 def test_basic_data():
     """测试基础数据文件中的评估案例"""
@@ -43,8 +50,9 @@ def test_basic_data():
     }
     
     for i, case in enumerate(test_cases, 1):
-        print(f"\n【{case['case_id']}】")
-        print("-" * 40)
+        print(f"\n\n{'='*60}")
+        print(f"【{case['case_id']}】评估报告")
+        print(f"{'='*60}")
         
         try:
             # 2. 使用评估计算器获得评估打分明细
@@ -125,29 +133,120 @@ def test_basic_data():
             comprehensive_report = recommender.generate_comprehensive_analysis(comprehensive_assessment_data)
             
             # 4. 输出案例的所有打分明细和总分信息并输出推荐建议
-            print(f"总分: {total_score:.1f}分")
+            print("\n=== Glazer肌电评估报告（基于权重优化版本）===\n")
             
-            print("\n各阶段得分明细:")
+            # 总体得分
+            print(f"📊 **总体评估**")
+            print(f"- 综合得分：{total_score:.1f}分\n")
+            
+            # 各阶段详细分析
+            print("📋 **各阶段详细分析**")
             for stage, score in comprehensive_assessment_data['stage_scores'].items():
                 weight_category = recommender.get_stage_weight_category(stage)
                 level = recommender.get_score_level_by_weight(score, weight_category)
                 level_name = recommender.get_level_name_chinese(level)
-                print(f"  {stage_names.get(stage, stage)}: {score:.1f}分 ({level_name})")
+                stage_name = stage_names.get(stage, stage)
+                
+                # 获取阶段权重
+                stage_weight = recommender.stage_importance[stage]
+                weight_info = f"（权重：{stage_weight:.1f}，{weight_category}）"
+                print(f"\n**{stage_name}阶段** {weight_info}")
+                print(f"- 平均得分：{score:.1f}分 ({level_name})")
+                
+                # 输出各指标详细得分
+                stage_details = comprehensive_assessment_data['stage_indicator_scores'][stage]
+                if stage == 'pre_baseline':
+                    avg_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['avg_score'], weight_category))
+                    var_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['var_score'], weight_category))
+                    print(f"  - 平均值：{stage_details['avg_score']:.1f}分 ({avg_level})")
+                    print(f"  - 变异性：{stage_details['var_score']:.1f}分 ({var_level})")
+                elif stage == 'fast_twitch':
+                    max_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['max_score'], weight_category))
+                    rise_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['rise_time_score'], weight_category))
+                    recovery_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['recovery_time_score'], weight_category))
+                    print(f"  - 最大收缩力：{stage_details['max_score']:.1f}分 ({max_level})")
+                    print(f"  - 上升时间：{stage_details['rise_time_score']:.1f}分 ({rise_level})")
+                    print(f"  - 恢复时间：{stage_details['recovery_time_score']:.1f}分 ({recovery_level})")
+                elif stage == 'tonic':
+                    avg_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['avg_score'], weight_category))
+                    rise_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['rise_score'], weight_category))
+                    recovery_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['recovery_score'], weight_category))
+                    var_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['var_score'], weight_category))
+                    print(f"  - 平均值：{stage_details['avg_score']:.1f}分 ({avg_level})")
+                    print(f"  - 上升时间：{stage_details['rise_score']:.1f}分 ({rise_level})")
+                    print(f"  - 恢复时间：{stage_details['recovery_score']:.1f}分 ({recovery_level})")
+                    print(f"  - 变异性：{stage_details['var_score']:.1f}分 ({var_level})")
+                elif stage == 'endurance':
+                    avg_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['avg_score'], weight_category))
+                    var_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['var_score'], weight_category))
+                    fatigue_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['fatigue_score'], weight_category))
+                    print(f"  - 平均值：{stage_details['avg_score']:.1f}分 ({avg_level})")
+                    print(f"  - 变异性：{stage_details['var_score']:.1f}分 ({var_level})")
+                    print(f"  - 疲劳指数：{stage_details['fatigue_score']:.1f}分 ({fatigue_level})")
+                elif stage == 'post_baseline':
+                    avg_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['avg_score'], weight_category))
+                    var_level = recommender.get_level_name_chinese(recommender.get_score_level_by_weight(stage_details['var_score'], weight_category))
+                    print(f"  - 平均值：{stage_details['avg_score']:.1f}分 ({avg_level})")
+                    print(f"  - 变异性：{stage_details['var_score']:.1f}分 ({var_level})")
             
             # 输出优势区域
             if comprehensive_report['strengths_summary']:
-                print("\n=== 优势区域 ===")
-                for strength in comprehensive_report['strengths_summary'][:3]:  # 显示前3个优势
-                    print(f"- {strength}")
+                print("\n✅ **优势区域**")
+                for strength in comprehensive_report['strengths_summary'][:5]:  # 显示前5个优势
+                    print(f"- {strength['evaluation']} ({strength['level']})")
             
             # 输出改进建议（按优先级排序）
             if comprehensive_report['priority_improvements']:
-                print("\n=== 优先改进建议（按重要性排序）===")
-                for idx, improvement in enumerate(comprehensive_report['priority_improvements'][:5], 1):
+                print("\n⚠️ **优先改进建议**（按重要性排序）")
+                for i, improvement in enumerate(comprehensive_report['priority_improvements'][:3], 1):
                     stage_name = stage_names.get(improvement['stage'], improvement['stage'])
-                    print(f"{idx}. {stage_name} - {improvement['evaluation']}")
+                    print(f"\n{i}. **{stage_name}** (权重: {improvement['stage_weight']:.1f})")
+                    print(f"   问题：{improvement['evaluation']}")
                     if improvement['recommendations']:
-                        print(f"   建议: {'; '.join(improvement['recommendations'][:2])}")
+                        print(f"   建议：{', '.join(improvement['recommendations'][:2])}")
+            
+            # 使用新的智能课程推荐系统
+            # 构建用户基本信息（可以根据实际情况调整）
+            user_basic_info = {
+                'age': 30,  # 可以根据案例调整
+                'gender': '女性',
+                'height': 165.0,
+                'weight': 60.0,
+                'birth_history': '产后',
+                'surgery_history': '无',
+                'menopause_status': '未绝经',
+                'main_symptoms': '盆底功能障碍'  # 可以根据评估结果推断
+            }
+            
+            # 获取智能课程推荐
+            try:
+                recommended_courses = get_course_recommendations_from_assessment(
+                    comprehensive_assessment_data, user_basic_info
+                )
+                
+                if recommended_courses:
+                    print("\n🎯 **智能课程推荐**（基于Glazer权重匹配）")
+                    for course in recommended_courses[:3]:
+                        print(f"- **{course['name']}** ({course['priority']}优先级)")
+                        print(f"  {course['description']}")
+                        print(f"  建议：{course['duration']}，{course['frequency']}")
+                        if course['match_reasons']:
+                            print(f"  匹配原因：{', '.join(course['match_reasons'])}")
+                        print()
+                else:
+                    print("\n🎯 **智能课程推荐**")
+                    print("暂无合适的课程推荐，建议咨询专业医师制定个性化方案。")
+            except Exception as e:
+                print(f"\n⚠️ 课程推荐系统暂时不可用: {e}")
+                # 回退到原有推荐系统
+                if comprehensive_report['course_recommendations']['recommended_courses']:
+                    print("\n🎯 **推荐课程**（备用推荐）")
+                    for course in comprehensive_report['course_recommendations']['recommended_courses'][:3]:
+                        print(f"- **{course['name']}** ({course['priority']}优先级)")
+                        print(f"  {course['description']}")
+                        print(f"  建议：{course['duration']}，{course['frequency']}\n")
+            
+
             
 
             

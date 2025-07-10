@@ -320,11 +320,11 @@ class GlazerRecommendationSystemWeighted:
         # 提取评估数据
         stage_indicator_scores = assessment_data['stage_indicator_scores']
         stage_scores = assessment_data.get('stage_scores', {})
-        total_score_provided = assessment_data.get('total_score', 0)
+        total_score = assessment_data.get('total_score', 0)
         input_data = assessment_data.get('input_data', {})
         
         comprehensive_report = {
-            'overall_score': 0,
+            'overall_score': total_score,  # 直接使用传入的总分
             'stage_analyses': {},
             'priority_improvements': [],
             'strengths_summary': [],
@@ -335,23 +335,18 @@ class GlazerRecommendationSystemWeighted:
                 'frequency': '',
                 'focus_areas': []
             },
-            # 新增字段：保存完整的评估数据
             'stage_scores': stage_scores,
-            'total_score_provided': total_score_provided,
             'input_data': input_data
         }
         
-        total_score = 0
-        total_indicators = 0
-        
         # 分析各阶段
         for stage, indicator_scores in stage_indicator_scores.items():
+            # 获取该阶段的总分
+            stage_score = stage_scores.get(stage, 0)
+            
+            # 分析该阶段
             stage_analysis = self.analyze_stage_comprehensive(stage, indicator_scores)
             comprehensive_report['stage_analyses'][stage] = stage_analysis
-            
-            # 计算总分
-            total_score += stage_analysis['average_score']
-            total_indicators += 1
             
             # 获取阶段权重用于优先级计算
             stage_weight = self.stage_importance.get(stage, 0)
@@ -369,16 +364,8 @@ class GlazerRecommendationSystemWeighted:
                         'indicator': weakness['indicator'],
                         'evaluation': weakness['evaluation'],
                         'recommendations': weakness['recommendations'],
-                        'priority_score': stage_weight * (100 - stage_analysis['average_score'])  # 权重 * 改进空间
+                        'priority_score': stage_weight * (100 - stage_score)  # 使用阶段总分计算优先级
                     })
-        
-        # 计算最终得分
-        if total_score_provided > 0:
-            # 如果提供了总分，优先使用提供的总分
-            comprehensive_report['overall_score'] = total_score_provided
-        else:
-            # 否则使用计算得出的平均分
-            comprehensive_report['overall_score'] = total_score / total_indicators if total_indicators > 0 else 0
         
         # 按优先级排序改进建议
         comprehensive_report['priority_improvements'].sort(key=lambda x: x['priority_score'], reverse=True)
@@ -386,8 +373,6 @@ class GlazerRecommendationSystemWeighted:
         # 生成课程推荐
         comprehensive_report['course_recommendations'] = self.generate_course_matching_data(comprehensive_report)
         
-        # 生成训练建议
-        comprehensive_report['training_suggestions'] = self.generate_training_suggestions(comprehensive_report)
         
         return comprehensive_report
     
@@ -448,49 +433,6 @@ class GlazerRecommendationSystemWeighted:
         
         return course_data
     
-    def generate_training_suggestions(self, comprehensive_report: Dict) -> Dict:
-        """生成训练建议"""
-        overall_score = comprehensive_report['overall_score']
-        
-        suggestions = {
-            'intensity': '',
-            'duration': '',
-            'frequency': '',
-            'focus_areas': []
-        }
-        
-        # 根据总得分确定训练强度
-        if overall_score >= 80:
-            suggestions['intensity'] = '高强度'
-            suggestions['duration'] = '45-60分钟'
-            suggestions['frequency'] = '每周4-5次'
-        elif overall_score >= 65:
-            suggestions['intensity'] = '中高强度'
-            suggestions['duration'] = '30-45分钟'
-            suggestions['frequency'] = '每周3-4次'
-        elif overall_score >= 50:
-            suggestions['intensity'] = '中等强度'
-            suggestions['duration'] = '20-30分钟'
-            suggestions['frequency'] = '每周2-3次'
-        else:
-            suggestions['intensity'] = '低强度'
-            suggestions['duration'] = '15-20分钟'
-            suggestions['frequency'] = '每周2次'
-        
-        # 确定重点训练区域
-        top_priorities = comprehensive_report['priority_improvements'][:2]
-        for priority in top_priorities:
-            stage = priority['stage']
-            if stage == 'fast_twitch':
-                suggestions['focus_areas'].append('快肌纤维爆发力训练')
-            elif stage == 'tonic':
-                suggestions['focus_areas'].append('慢肌纤维耐力训练')
-            elif stage == 'endurance':
-                suggestions['focus_areas'].append('整体耐力提升')
-            else:
-                suggestions['focus_areas'].append('基础放松训练')
-        
-        return suggestions
     
     def format_report_text(self, comprehensive_report: Dict) -> str:
         """将报告格式化为可读文本"""
@@ -558,14 +500,7 @@ class GlazerRecommendationSystemWeighted:
                 text += f"  {course['description']}\n"
                 text += f"  建议：{course['duration']}，{course['frequency']}\n\n"
         
-        # 训练建议
-        suggestions = comprehensive_report['training_suggestions']
-        text += "💪 **训练建议**\n"
-        text += f"- 训练强度：{suggestions['intensity']}\n"
-        text += f"- 训练时长：{suggestions['duration']}\n"
-        text += f"- 训练频率：{suggestions['frequency']}\n"
-        if suggestions['focus_areas']:
-            text += f"- 重点区域：{', '.join(suggestions['focus_areas'])}\n"
+        
         
         return text
 
@@ -598,8 +533,22 @@ if __name__ == "__main__":
         }
     }
     
+    # 构造完整的评估数据结构
+    comprehensive_assessment_data = {
+        'stage_indicator_scores': stage_indicator_scores,
+        'stage_scores': {
+            'pre_baseline': 71.5,  # (75.0 + 68.0) / 2
+            'fast_twitch': 51.7,   # (45.0 + 52.0 + 58.0) / 3
+            'tonic': 79.0,         # (82.0 + 76.0) / 2
+            'endurance': 51.5,     # (55.0 + 48.0) / 2
+            'post_baseline': 72.0  # 72.0
+        },
+        'total_score': 65.1,  # 平均分
+        'input_data': {}  # 原始数据（可选）
+    }
+    
     # 生成综合分析报告
-    comprehensive_report = recommendation_system.generate_comprehensive_analysis(stage_indicator_scores)
+    comprehensive_report = recommendation_system.generate_comprehensive_analysis(comprehensive_assessment_data)
     
     # 输出格式化报告
     formatted_report = recommendation_system.format_report_text(comprehensive_report)
